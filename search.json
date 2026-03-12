@@ -1,0 +1,23 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "My Awesome Paper Title",
+    "section": "",
+    "text": "This is a single-file Quarto website."
+  },
+  {
+    "objectID": "index.html#abstract",
+    "href": "index.html#abstract",
+    "title": "My Awesome Paper Title",
+    "section": "",
+    "text": "This is a single-file Quarto website."
+  },
+  {
+    "objectID": "index.html#methodology",
+    "href": "index.html#methodology",
+    "title": "My Awesome Paper Title",
+    "section": "Methodology",
+    "text": "Methodology\nYou can include math like \\(E = mc^2\\) and even your Babylon.js code here."
+  }
+]
