@@ -4,20 +4,20 @@
     "href": "index.html",
     "title": "My Awesome Paper Title",
     "section": "",
-    "text": "This is a single-file Quarto website hosted on GitHub Pages. It combines Markdown text, LaTeX math, and interactive 3D elements.\n#| echo: false #| label: fig-sine #| fig-cap: “A simple sine wave generated with Python.”\nimport matplotlib.pyplot as plt import numpy as np\nx = np.linspace(0, 10, 100) plt.plot(x, np.sin(x)) plt.grid(True) plt.show()"
+    "text": "This is a single-file Quarto website hosted on GitHub Pages. It combines Markdown text, LaTeX math, and interactive 3D elements.\n\nimport numpy as np\nimport matplotlib.pyplot as plt\n\nr = np.arange(0, 2, 0.01)\ntheta = 2 * np.pi * r\nfig, ax = plt.subplots(\n  subplot_kw = {'projection': 'polar'} \n)\nax.plot(theta, r)\nax.set_rticks([0.5, 1, 1.5, 2])\nax.grid(True)\nplt.show()\n\n\n\n\n\n\n\nFigure 1: A line plot on a polar axis"
   },
   {
     "objectID": "index.html#abstract",
     "href": "index.html#abstract",
     "title": "My Awesome Paper Title",
     "section": "",
-    "text": "This is a single-file Quarto website hosted on GitHub Pages. It combines Markdown text, LaTeX math, and interactive 3D elements.\n#| echo: false #| label: fig-sine #| fig-cap: “A simple sine wave generated with Python.”\nimport matplotlib.pyplot as plt import numpy as np\nx = np.linspace(0, 10, 100) plt.plot(x, np.sin(x)) plt.grid(True) plt.show()"
+    "text": "This is a single-file Quarto website hosted on GitHub Pages. It combines Markdown text, LaTeX math, and interactive 3D elements.\n\nimport numpy as np\nimport matplotlib.pyplot as plt\n\nr = np.arange(0, 2, 0.01)\ntheta = 2 * np.pi * r\nfig, ax = plt.subplots(\n  subplot_kw = {'projection': 'polar'} \n)\nax.plot(theta, r)\nax.set_rticks([0.5, 1, 1.5, 2])\nax.grid(True)\nplt.show()\n\n\n\n\n\n\n\nFigure 1: A line plot on a polar axis"
   },
   {
     "objectID": "index.html#methodology",
     "href": "index.html#methodology",
     "title": "My Awesome Paper Title",
     "section": "Methodology",
-    "text": "Methodology\nYou can include complex math like \\[E = mc^2\\] and immediately follow it with an interactive 3D figure to visualize your results.\n\n\n&lt;canvas id=\"renderCanvas\" style=\"width: 100%; height: 100%; touch-action: none; border: 1px solid #ddd; display: block; border-radius: 8px;\"&gt;&lt;/canvas&gt;"
+    "text": "Methodology\nYou can include complex math like \\[E = mc^2\\] and immediately follow it with an interactive 3D figure to visualize your results.\n&lt;script src=\"[https://cdn.babylonjs.com/babylon.js](https://cdn.babylonjs.com/babylon.js)\"&gt;&lt;/script&gt;\n\n&lt;div style=\"width: 100%; height: 400px; position: relative; margin: 20px 0;\"&gt;\n    &lt;canvas id=\"renderCanvas\" style=\"width: 100%; height: 100%; touch-action: none; border: 1px solid #ddd; display: block; border-radius: 8px;\"&gt;&lt;/canvas&gt;\n&lt;/div&gt;\n\n&lt;script&gt;\n    window.addEventListener('DOMContentLoaded', function() {\n        const canvas = document.getElementById(\"renderCanvas\");\n        if (!canvas) return;\n\n        const engine = new BABYLON.Engine(canvas, true);\n\n        const createScene = function () {\n            const scene = new BABYLON.Scene(engine);\n            scene.clearColor = new BABYLON.Color3(0.95, 0.95, 0.95);\n\n            const camera = new BABYLON.ArcRotateCamera(\"camera\", -Math.PI/4, Math.PI/3, 5, BABYLON.Vector3.Zero(), scene);\n            camera.attachControl(canvas, true);\n\n            const light = new BABYLON.HemisphericLight(\"light\", new BABYLON.Vector3(0, 1, 0), scene);\n            \n            const box = BABYLON.MeshBuilder.CreateBox(\"box\", {size: 1.5}, scene);\n            const material = new BABYLON.StandardMaterial(\"mat\", scene);\n            material.diffuseColor = new BABYLON.Color3(0.1, 0.4, 0.8);\n            box.material = material;\n\n            scene.registerBeforeRender(function () {\n                box.rotation.y += 0.01;\n                box.rotation.x += 0.005;\n            });\n\n            return scene;\n        };\n\n        const scene = createScene();\n        engine.runRenderLoop(() =&gt; scene.render());\n        window.addEventListener(\"resize\", () =&gt; engine.resize());\n    });\n&lt;/script&gt;"
   }
 ]
