@@ -4,20 +4,20 @@
     "href": "index.html",
     "title": "My Awesome Paper Title",
     "section": "",
-    "text": "This is a single-file Quarto website hosted on GitHub Pages. It combines Markdown text, LaTeX math, and interactive 3D elements.\n#| echo: false # The {python} tells Quarto to EXECUTE this import matplotlib.pyplot as plt import numpy as np\nx = np.linspace(0, 10, 100) plt.plot(x, np.sin(x)) plt.show()"
+    "text": "This is a single-file Quarto website hosted on GitHub Pages. It combines Markdown text, LaTeX math, and interactive 3D elements.\n#| echo: false #| label: fig-sine #| fig-cap: “A simple sine wave generated with Python.”\nimport matplotlib.pyplot as plt import numpy as np\nx = np.linspace(0, 10, 100) plt.plot(x, np.sin(x)) plt.grid(True) plt.show()"
   },
   {
     "objectID": "index.html#abstract",
     "href": "index.html#abstract",
     "title": "My Awesome Paper Title",
     "section": "",
-    "text": "This is a single-file Quarto website hosted on GitHub Pages. It combines Markdown text, LaTeX math, and interactive 3D elements.\n#| echo: false # The {python} tells Quarto to EXECUTE this import matplotlib.pyplot as plt import numpy as np\nx = np.linspace(0, 10, 100) plt.plot(x, np.sin(x)) plt.show()"
+    "text": "This is a single-file Quarto website hosted on GitHub Pages. It combines Markdown text, LaTeX math, and interactive 3D elements.\n#| echo: false #| label: fig-sine #| fig-cap: “A simple sine wave generated with Python.”\nimport matplotlib.pyplot as plt import numpy as np\nx = np.linspace(0, 10, 100) plt.plot(x, np.sin(x)) plt.grid(True) plt.show()"
   },
   {
     "objectID": "index.html#methodology",
     "href": "index.html#methodology",
     "title": "My Awesome Paper Title",
     "section": "Methodology",
-    "text": "Methodology\nYou can include complex math like \\[E = mc^2\\] and immediately follow it with an interactive 3D figure to visualize your results.\n\n\n&lt;canvas id=\"renderCanvas\" style=\"width: 100%; height: 100%; touch-action: none; border: 1px solid #ddd; display: block;\"&gt;&lt;/canvas&gt;"
+    "text": "Methodology\nYou can include complex math like \\[E = mc^2\\] and immediately follow it with an interactive 3D figure to visualize your results.\n\n\n&lt;canvas id=\"renderCanvas\" style=\"width: 100%; height: 100%; touch-action: none; border: 1px solid #ddd; display: block; border-radius: 8px;\"&gt;&lt;/canvas&gt;"
   }
 ]
