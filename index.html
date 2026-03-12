@@ -148,13 +148,13 @@ window.Quarto = {
 
 <section id="abstract" class="level2">
 <h2 class="anchored" data-anchor-id="abstract">Abstract</h2>
-<p>This is a single-file Quarto website.</p>
+<p>This is a single-file Quarto website hosted on GitHub Pages. It combines Markdown text, LaTeX math, and interactive 3D elements.</p>
 </section>
 <section id="methodology" class="level2">
 <h2 class="anchored" data-anchor-id="methodology">Methodology</h2>
-<p>You can include math like <span class="math inline">\(E = mc^2\)</span> and even your Babylon.js code here.</p>
+<p>You can include complex math like <span class="math display">\[E = mc^2\]</span> and immediately follow it with an interactive 3D figure to visualize your results.</p>
 <script src="[https://cdn.babylonjs.com/babylon.js](https://cdn.babylonjs.com/babylon.js)"></script>
-<canvas id="renderCanvas" style="width: 100%; height: 400px; touch-action: none; border: 1px solid #ddd; background: #f0f0f0;">
+<canvas id="renderCanvas" style="width: 100%; height: 400px; touch-action: none; border-radius: 8px; border: 1px solid #eee;">
 </canvas>
 <script>
     const canvas = document.getElementById("renderCanvas");
@@ -162,21 +162,28 @@ window.Quarto = {
 
     const createScene = function () {
         const scene = new BABYLON.Scene(engine);
-        
-        // Setup Camera
-        const camera = new BABYLON.ArcRotateCamera("camera", Math.PI / 2, Math.PI / 4, 4, BABYLON.Vector3.Zero(), scene);
+        scene.clearColor = new BABYLON.Color4(0.95, 0.95, 0.95, 1); // Light grey background
+
+        // Camera: Allows user to rotate around the cube
+        const camera = new BABYLON.ArcRotateCamera("camera", -Math.PI / 2, Math.PI / 2.5, 3, new BABYLON.Vector3(0, 0, 0), scene);
         camera.attachControl(canvas, true);
-        
-        // Setup Light
-        const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(1, 1, 0), scene);
-        
-        // Add a Box
+
+        // Light: Hemispheric light provides soft ambient lighting
+        const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
+        light.intensity = 0.7;
+
+        // The Cube
         const box = BABYLON.MeshBuilder.CreateBox("box", {size: 1}, scene);
         
-        // Simple Animation
+        // Add some color to the cube
+        const material = new BABYLON.StandardMaterial("mat", scene);
+        material.diffuseColor = new BABYLON.Color3(0.2, 0.5, 0.8); // Nice blue
+        box.material = material;
+
+        // Animation: Spin the cube
         scene.registerBeforeRender(function () {
             box.rotation.y += 0.01;
-            box.rotation.x += 0.01;
+            box.rotation.x += 0.005;
         });
 
         return scene;
@@ -184,10 +191,12 @@ window.Quarto = {
 
     const scene = createScene();
 
+    // Start the engine
     engine.runRenderLoop(function () {
         scene.render();
     });
 
+    // Handle window resizing
     window.addEventListener("resize", function () {
         engine.resize();
     });
