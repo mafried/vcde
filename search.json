@@ -18,6 +18,6 @@
     "href": "index.html#methodology",
     "title": "My Awesome Paper Title",
     "section": "Methodology",
-    "text": "Methodology\nYou can include complex math like \\[E = mc^2\\] and immediately follow it with an interactive 3D figure to visualize your results."
+    "text": "Methodology\nYou can include complex math like \\[E = mc^2\\] and immediately follow it with an interactive 3D figure to visualize your results.\n\n\n&lt;canvas id=\"renderCanvas\" style=\"width: 100%; height: 100%; touch-action: none; border: 1px solid #ddd; display: block;\"&gt;&lt;/canvas&gt;"
   }
 ]
