@@ -1,2 +1,15 @@
 project:
   type: website
+  output-dir: _output
+
+website:
+  title: "Graphdatenvisualisierung"
+  navbar:
+    left:
+      - href: index.qmd
+        text: Home
+
+format:
+  html:
+    theme: cosmo
+    css: styles.css
