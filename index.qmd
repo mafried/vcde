@@ -1,6 +1,6 @@
 ---
-title: "My Awesome Paper Title"
-author: "Your Name"
+title: "Graphdatenvisualisierung"
+author: "Sara, Silvia, Adam"
 format:
   html:
     theme: cosmo
@@ -8,31 +8,15 @@ jupyter: python3
 bibliography: references.bib
 ---
 
-## Abstract
-Nach @knuth1984 ist TeX...
-This is a single-file Quarto website hosted on GitHub Pages. It combines Markdown text, LaTeX math, and interactive 3D elements.
+## 1. Intro (Warum Soziale Netzwerke schwer zu zeichnen sind)
+Soziale Netzwerke bestehen aus Menschen und ihren Beziehungen. 
+Aber wie zeigt man so etwas im Web so, dass man noch wirklich etwas erkennt?
 
-```{python}
-#| label: fig-polar
-#| fig-cap: "A line plot on a polar axis"
 
-import numpy as np
-import matplotlib.pyplot as plt
+## 2. Problemstellung (Wann wird ein Graph unlesbar?)
+Eine Graphvisualisierung ist nicht automatisch gut, nur weil alle Knoten und Kanten sichtbar sind. Mit wachsender Größe ändern sich Lesbarkeit, Interaktion und die geeignete Web-Technologie grundlegend.
 
-r = np.arange(0, 2, 0.01)
-theta = 2 * np.pi * r
-fig, ax = plt.subplots(
-  subplot_kw = {'projection': 'polar'} 
-)
-ax.plot(theta, r)
-ax.set_rticks([0.5, 1, 1.5, 2])
-ax.grid(True)
-plt.show()
-```
-
-## Methodology
-You can include complex math like $$E = mc^2$$ and immediately follow it with an interactive 3D figure to visualize your results.
-
+Das folgende ist nur zur Vorschau:
 ```{=html}
 
 <script src="https://cdn.babylonjs.com/babylon.js"></script>
@@ -76,3 +60,62 @@ You can include complex math like $$E = mc^2$$ and immediately follow it with an
     });
 </script>
 ```
+## 3a. Kleiner Datensatz (Max und seine 347 Freunde)
+Das ist Max. Max hat rund 350 Facebook-Freunde. Wie kann man diesen Freundeskreis so darstellen, dass Gruppen, Nachbarschaften und Verbindungen verständlich bleiben?
+
+### Warum gut?
+Kleine Netzwerke sind noch direkt lesbar, man kann einzelne Knoten identifizieren und Interaktionen wie Hover, Highlighting oder Nachbarschaftsansichten gut einsetzen. Ego-Netzwerke sind dafür besonders passend, weil lokale soziale Struktur sichtbar wird.
+
+### Was ist das Problem?
+Selbst bei wenigen hundert Knoten kann ein ungeeignetes Layout schnell chaotisch wirken. Viele Kanten erzeugen visuelle Überlagerung, und ohne gute Positionierung sieht man kaum Communities oder zentrale Personen.
+
+### Layout + GraphAlg
+Hier könnt ihr einen force-directed Ansatz als Hauptbeispiel nehmen und daneben z. B. radial oder community-basiert vergleichen. Für diese Größenordnung ist SVG gut geeignet, weil DOM-basierte Interaktion und feine Gestaltung noch praktikabel sind.
+
+[Hier folgt weiterer Inhalt]
+
+## 3b. Mittlerer Datensatz (Wenn Freundeskreise kollidieren)
+Jetzt betrachten wir nicht mehr nur Max, sondern viele überlagerte Freundeskreise gleichzeitig.
+
+### Warum gut?
+Jetzt werden größere Muster sichtbar: dichte Bereiche, Überlappungen von Kreisen und eine deutlich reichere Gesamtstruktur. Man sieht besser, dass soziale Netzwerke nicht nur aus isolierten Gruppen bestehen, sondern stark verflochten sein können.
+
+### Was ist das Problem?
+Die Visualisierung wird dichter, Labels werden unlesbar, Kanten überdecken sich und Interaktion auf SVG-Basis wird schwerfälliger. Der Datensatz ist groß genug, dass die reine Detaildarstellung an Grenzen stößt.
+
+### Layout + GraphAlg
+Hier könnt ihr erklären, warum man stärker aggregieren, filtern oder Communities hervorheben muss. Technisch könnt ihr den Übergang zu Canvas motivieren, weil Rendering und Interaktion bei mehreren tausend Knoten anders gelöst werden müssen als im kleinen Ego-Netz.
+
+[Hier folgt weiterer Inhalt]
+
+## 3c. Großer Datensatz (Vom Freundesnetz zum Follow-Graph)
+Beim Twitter-Netz wird aus einem lesbaren sozialen Bild schnell ein massives Strukturobjekt.
+
+### Warum gut?
+Dieses Netzwerk zeigt sehr deutlich, wie sich Maßstab und Bedeutung gleichzeitig verändern. Ihr könnt hier nicht nur Größe thematisieren, sondern auch den Unterschied zwischen Freundschaft und Follow-Beziehung.
+
+### Was ist das Problem?
+Einzelne Knoten sind kaum noch direkt lesbar, Pfeile oder Richtungen lassen sich nicht mehr für jede Kante sinnvoll zeigen, und klassische Browser-Darstellung kommt an Performance-Grenzen. Die Herausforderung ist jetzt nicht mehr nur Zeichnen, sondern sinnvolle Reduktion.
+
+### Layout + GraphAlg
+Hier passt die Argumentation für WebGL/GPU sehr gut. Inhaltlich könnt ihr zusätzlich auf In-Degree/Out-Degree, Hubs, Communities, Filterung und Abstraktion eingehen, weil bei dieser Größenordnung nicht mehr jede Einzelkante der eigentliche Erkenntnisträger ist.
+
+[Hier folgt weiterer Inhalt]
+
+## 4. How to handle (Rezeptbuch)
+Wenn der Graph klein und explorativ ist, sind Detail, Labels und SVG sinnvoll. Wenn er mittelgroß und dicht ist, braucht man effizienteres Rendering und stärkere visuelle Reduktion. Wenn er sehr groß oder gerichtet ist, werden WebGL, Filterung und Abstraktion zentral.
+
+[Hier folgt weiterer Inhalt]
+
+## 5. Add-on: Suchspiel (Kannst du den richtigen Knoten finden?)
+1. Finde einen Hub
+2. Finde eine Brücke zwischen zwei Gruppen
+3. Finde einen Knoten mit vielen eingehenden Verbindungen
+
+[Hier könnte man die Interaktion einbauen für das Suchspiel]
+
+## 6. Fazit (Welche Visualisierung ist wann sinnvoll?)
+Es gibt nicht die eine beste Graphvisualisierung. Was sinnvoll ist, hängt von Größe, Dichte, Richtung der Kanten, gewünschter Interaktion und der Rendering-Technologie im Web ab.
+
+[Hier folgt weiterer Inhalt]
+
