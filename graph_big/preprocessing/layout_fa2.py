@@ -21,6 +21,7 @@ target_df = pd.read_csv(TARGET_CSV)
 
 G = nx.from_pandas_edgelist(edges_df, source="id_1", target="id_2")
 label_map = dict(zip(target_df["id"], target_df["page_type"]))
+name_map = dict(zip(target_df["id"], target_df["page_name"]))
 nx.set_node_attributes(G, label_map, name="category")
 
 print(f"  Knoten: {G.number_of_nodes()}, Kanten: {G.number_of_edges()}")
@@ -40,9 +41,9 @@ forceatlas2 = ForceAtlas2(
     jitterTolerance=1.0,
     barnesHutOptimize=True,
     barnesHutTheta=1.2,
-    scalingRatio=2.0,
+    scalingRatio=10,  
     strongGravityMode=False,
-    gravity=1.0,
+    gravity=0.5,
     verbose=True,
 )
 
@@ -54,6 +55,7 @@ print("  Layout fertig.")
 print("Exportiere graph.json ...")
 
 nodes = []
+
 for node_id, (x, y) in positions.items():
     nodes.append({
         "id":        node_id,
@@ -61,6 +63,7 @@ for node_id, (x, y) in positions.items():
         "y":         y,
         "community": community_map.get(node_id, -1),
         "category":  G.nodes[node_id].get("category", "unknown"),
+        "name":      name_map.get(node_id, str(node_id)),
     })
 
 edges = [

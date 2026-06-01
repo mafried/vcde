@@ -2,8 +2,11 @@ import json
 import matplotlib.pyplot as plt
 import matplotlib.cm as cm
 import numpy as np
+import os
+script_dir = os.path.dirname(__file__)
 
-with open("graph.json") as f:
+
+with open(os.path.join(script_dir, "graph.json")) as f:
     data = json.load(f)
 
 nodes = data["nodes"]
