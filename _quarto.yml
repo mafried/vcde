@@ -1,6 +1,9 @@
 project:
   type: website
   output-dir: _output
+  resources:
+    - fa2_graphbig.html
+    - fa2_biggraph.json
 
 website:
   title: "Graphdatenvisualisierung"

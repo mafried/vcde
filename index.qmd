@@ -89,7 +89,19 @@ Hier könnt ihr erklären, warum man stärker aggregieren, filtern oder Communit
 [Hier folgt weiterer Inhalt]
 
 ## 3c. Großer Datensatz (Vom Freundesnetz zum Follow-Graph)
-Beim Twitter-Netz wird aus einem lesbaren sozialen Bild schnell ein massives Strukturobjekt.
+Beim Facebook-Netz wird aus einem lesbaren sozialen Bild schnell ein massives Strukturobjekt.
+### Problem und Optimierungsziel?
+
+### Warum FA2 -> State of the art?
+```{=html}
+<iframe
+  src="fa2_graphbig.html"
+  width="100%"
+  height="600px"
+  style="border: 1px solid #ddd; border-radius: 8px;"
+  loading="lazy">
+</iframe>
+```
 
 ### Warum gut?
 Dieses Netzwerk zeigt sehr deutlich, wie sich Maßstab und Bedeutung gleichzeitig verändern. Ihr könnt hier nicht nur Größe thematisieren, sondern auch den Unterschied zwischen Freundschaft und Follow-Beziehung.
