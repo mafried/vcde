@@ -1,0 +1,406 @@
+/*-- scss:defaults --*/
+
+// GI Lernwelt – freundliches "Spielwelt"-Theme.
+// Farben sind bewusst weich und kontrastreich, passend zu den
+// bestehenden Babylon-Demo-Karten in den Level-Seiten.
+
+$primary:        #4f46e5;   // Indigo – Hauptfarbe / Navbar
+$secondary:      #0ea5e9;   // Himmelblau – Akzente
+$success:        #16a34a;   // Abgeschlossen
+$warning:        #f59e0b;   // Offen / Hinweis
+$light:          #f4f7fb;
+$dark:           #111827;
+
+$body-bg:        #f6f8fc;
+$body-color:     #1f2937;
+$link-color:     $primary;
+
+$font-family-sans-serif: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+$headings-font-weight: 700;
+$border-radius: 12px;
+
+/*-- scss:rules --*/
+
+// ---- Globale Spielwelt-Variablen -------------------------------------------
+:root {
+  --vcde-ink: #111827;
+  --vcde-muted: #4b5563;
+  --vcde-line: #d1d5db;
+  --vcde-primary: #4f46e5;
+  --vcde-secondary: #0ea5e9;
+  --vcde-success: #16a34a;
+  --vcde-warning: #f59e0b;
+  --vcde-locked: #9ca3af;
+  --vcde-card-shadow: 0 10px 30px rgba(30, 41, 59, 0.10);
+}
+
+body {
+  background:
+    radial-gradient(1200px 600px at 110% -10%, rgba(14, 165, 233, 0.10), transparent 60%),
+    radial-gradient(900px 500px at -10% 10%, rgba(79, 70, 229, 0.10), transparent 55%),
+    $body-bg;
+}
+
+// ---- Maskottchen-Sprechblase ----------------------------------------------
+.vcde-mascot {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+  margin: 1.25rem 0 1.75rem;
+  padding: 1rem 1.1rem;
+  border: 1px solid var(--vcde-line);
+  border-radius: 16px;
+  background: linear-gradient(180deg, #ffffff, #f3f6ff);
+  box-shadow: var(--vcde-card-shadow);
+}
+
+.vcde-mascot__avatar {
+  flex: 0 0 auto;
+  width: 84px;
+  height: 84px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: radial-gradient(circle at 30% 30%, #c7d2fe, #6366f1);
+  border: 3px solid #ffffff;
+  box-shadow: 0 6px 16px rgba(79, 70, 229, 0.30);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  color: #ffffff;
+  overflow: hidden;
+}
+
+.vcde-mascot__avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.vcde-mascot__body {
+  position: relative;
+  background: #ffffff;
+  border: 1px solid var(--vcde-line);
+  border-radius: 14px;
+  padding: 0.75rem 0.95rem;
+  flex: 1 1 auto;
+}
+
+// kleines Sprechblasen-Dreieck Richtung Maskottchen
+.vcde-mascot__body::before {
+  content: "";
+  position: absolute;
+  left: -9px;
+  top: 22px;
+  width: 16px;
+  height: 16px;
+  background: #ffffff;
+  border-left: 1px solid var(--vcde-line);
+  border-bottom: 1px solid var(--vcde-line);
+  transform: rotate(45deg);
+}
+
+.vcde-mascot__name {
+  font-weight: 700;
+  color: var(--vcde-primary);
+  margin: 0 0 0.2rem;
+  font-size: 0.95rem;
+}
+
+.vcde-mascot__text {
+  margin: 0;
+  color: var(--vcde-ink);
+  line-height: 1.45;
+}
+
+.vcde-mascot__text p:last-child { margin-bottom: 0; }
+
+@media (max-width: 620px) {
+  .vcde-mascot { flex-direction: column; align-items: stretch; }
+  .vcde-mascot__body::before { display: none; }
+}
+
+// ---- Landkarte / Level-Karten ---------------------------------------------
+.vcde-map {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1.1rem;
+  margin: 1.5rem 0 2rem;
+}
+
+.vcde-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--vcde-line);
+  border-radius: 16px;
+  background: #ffffff;
+  box-shadow: var(--vcde-card-shadow);
+  overflow: hidden;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  text-decoration: none;
+  color: inherit;
+}
+
+a.vcde-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 38px rgba(30, 41, 59, 0.16);
+  color: inherit;
+}
+
+.vcde-card__top {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 1rem 1.1rem 0.6rem;
+}
+
+.vcde-card__icon {
+  flex: 0 0 auto;
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  background: linear-gradient(160deg, #e0e7ff, #c7d2fe);
+}
+
+.vcde-card__num {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--vcde-muted);
+}
+
+.vcde-card__title {
+  margin: 0;
+  font-size: 1.08rem;
+  line-height: 1.25;
+}
+
+.vcde-card__desc {
+  padding: 0 1.1rem;
+  margin: 0 0 0.9rem;
+  color: var(--vcde-muted);
+  font-size: 0.92rem;
+  line-height: 1.4;
+  flex: 1 1 auto;
+}
+
+.vcde-card__foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.7rem 1.1rem;
+  border-top: 1px solid #eef1f6;
+  background: #fafbfe;
+}
+
+.vcde-badge {
+  font-size: 0.76rem;
+  font-weight: 700;
+  padding: 0.22rem 0.6rem;
+  border-radius: 999px;
+  border: 1px solid transparent;
+}
+
+.vcde-badge--locked    { background: #f3f4f6; color: #6b7280; border-color: #e5e7eb; }
+.vcde-badge--open      { background: #fff7ed; color: #b45309; border-color: #fed7aa; }
+.vcde-badge--completed { background: #ecfdf5; color: #15803d; border-color: #bbf7d0; }
+
+.vcde-card__cta {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--vcde-primary);
+}
+
+// Statuszustände der Karten
+.vcde-card--locked {
+  cursor: not-allowed;
+  opacity: 0.72;
+  filter: saturate(0.7);
+}
+
+.vcde-card--locked .vcde-card__icon { background: #eef0f3; }
+
+.vcde-card--completed { border-color: #bbf7d0; }
+.vcde-card--completed .vcde-card__icon {
+  background: linear-gradient(160deg, #d1fae5, #a7f3d0);
+}
+
+.vcde-card--open { border-color: #fcd9a8; }
+
+.vcde-card__lock {
+  position: absolute;
+  top: 0.7rem;
+  right: 0.8rem;
+  font-size: 1.1rem;
+  opacity: 0.8;
+}
+
+// ---- Fortschrittsleiste ----------------------------------------------------
+.vcde-progress {
+  margin: 1.25rem 0 0.25rem;
+}
+
+.vcde-progress__bar {
+  height: 12px;
+  border-radius: 999px;
+  background: #e5e7eb;
+  overflow: hidden;
+}
+
+.vcde-progress__fill {
+  height: 100%;
+  width: 0;
+  background: linear-gradient(90deg, var(--vcde-primary), var(--vcde-secondary));
+  transition: width 0.4s ease;
+}
+
+.vcde-progress__label {
+  margin-top: 0.4rem;
+  font-size: 0.85rem;
+  color: var(--vcde-muted);
+}
+
+.vcde-reset {
+  border: 1px solid var(--vcde-line);
+  background: #ffffff;
+  color: var(--vcde-muted);
+  border-radius: 999px;
+  padding: 0.28rem 0.7rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+.vcde-reset:hover { background: #f3f4f6; }
+
+// ---- Quiz-Widget -----------------------------------------------------------
+.vcde-quiz {
+  margin: 1.5rem 0 2rem;
+  padding: 1.1rem 1.2rem 1.25rem;
+  border: 1px solid var(--vcde-line);
+  border-radius: 16px;
+  background: linear-gradient(180deg, #ffffff, #f5f8ff);
+  box-shadow: var(--vcde-card-shadow);
+}
+
+.vcde-quiz__title {
+  margin: 0 0 0.3rem;
+  font-size: 1.15rem;
+}
+
+.vcde-quiz__intro {
+  margin: 0 0 1rem;
+  color: var(--vcde-muted);
+  font-size: 0.92rem;
+}
+
+.vcde-quiz__q {
+  margin: 0 0 1rem;
+  padding: 0.9rem 1rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  background: #ffffff;
+}
+
+.vcde-quiz__q-text {
+  font-weight: 700;
+  margin: 0 0 0.6rem;
+}
+
+.vcde-quiz__opt {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.55rem;
+  padding: 0.5rem 0.65rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  margin-bottom: 0.45rem;
+  cursor: pointer;
+  transition: background 0.12s ease, border-color 0.12s ease;
+}
+
+.vcde-quiz__opt:hover { background: #f5f7ff; }
+.vcde-quiz__opt input { margin-top: 0.18rem; }
+
+.vcde-quiz__opt--correct {
+  border-color: #86efac;
+  background: #ecfdf5;
+}
+.vcde-quiz__opt--wrong {
+  border-color: #fca5a5;
+  background: #fef2f2;
+}
+
+.vcde-quiz__explain {
+  margin: 0.4rem 0 0;
+  font-size: 0.86rem;
+  color: var(--vcde-muted);
+  display: none;
+}
+.vcde-quiz__q--checked .vcde-quiz__explain { display: block; }
+
+.vcde-btn {
+  border: 1px solid var(--vcde-primary);
+  background: var(--vcde-primary);
+  color: #ffffff;
+  border-radius: 999px;
+  padding: 0.5rem 1.1rem;
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: filter 0.12s ease;
+}
+.vcde-btn:hover { filter: brightness(1.07); }
+.vcde-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.vcde-btn--ghost {
+  background: #ffffff;
+  color: var(--vcde-primary);
+}
+
+.vcde-quiz__actions {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.vcde-quiz__result {
+  margin-top: 1rem;
+  padding: 0.9rem 1rem;
+  border-radius: 12px;
+  font-weight: 600;
+  display: none;
+}
+.vcde-quiz__result--show { display: block; }
+.vcde-quiz__result--pass { background: #ecfdf5; border: 1px solid #bbf7d0; color: #15803d; }
+.vcde-quiz__result--fail { background: #fef2f2; border: 1px solid #fecaca; color: #b91c1c; }
+
+.vcde-quiz__next {
+  display: inline-block;
+  margin-top: 0.6rem;
+  font-weight: 700;
+}
+
+// ---- Level-Status-Banner (oben auf Level-Seiten) ---------------------------
+.vcde-levelbar {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  margin: 0.25rem 0 1.25rem;
+  padding: 0.6rem 0.9rem;
+  border: 1px solid var(--vcde-line);
+  border-radius: 999px;
+  background: #ffffff;
+  box-shadow: var(--vcde-card-shadow);
+  font-size: 0.88rem;
+}
+
+.vcde-levelbar__home { font-weight: 700; color: var(--vcde-primary); text-decoration: none; }
+.vcde-levelbar__sep { color: var(--vcde-muted); }

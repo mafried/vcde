@@ -1,16 +1,190 @@
 ---
 title: "Global Illumination: Die Physik des Lichts"
+subtitle: "Eine spielerische Lernwelt rund um die Rendering-Gleichung"
 author: "Laura Barrionuevo, Nermine Bouchaala, Nikolai Straßmair"
-format:
-  html:
-    theme: cosmo
-jupyter: python3
 bibliography: references.bib
+toc: false
 ---
-# Einführung:
 
-## Videospiele: Früher vs. Heute
-Dieser kleine Vergleich zeigt, wie stark sich Echtzeitgrafik verändert hat: links ein stark vereinfachter Retro-Look, rechts eine modernere Darstellung mit PBR-Material, Schatten und weicherem Licht.
+::: {data-vcde-mascot="true" data-name="Lumi"}
+Hi, ich bin **Lumi**, dein kleiner Lichtstrahl-Guide! ✨ Gemeinsam reisen wir
+durch die Welt der **Global Illumination**. Auf der Landkarte unten warten
+mehrere Level auf dich. Jedes Level erklärt einen Baustein der berühmten
+**Rendering-Gleichung** – und am Ende schaltest du mit einem Mini-Quiz das
+nächste Level frei. Fang einfach bei **Level 1** an!
+:::
+
+```{=html}
+<style>
+  .lumi3d {
+    --lumi-frame: #fcd9a8;
+    margin: 0.25rem 0 1.75rem;
+    border: 1px solid var(--lumi-frame, #fcd9a8);
+    border-radius: 16px;
+    overflow: hidden;
+    background:
+      radial-gradient(120% 90% at 50% 0%, #fff7ed 0%, #fef3c7 45%, #fde9c8 100%);
+    box-shadow: 0 10px 30px rgba(245, 158, 11, 0.18);
+  }
+  .lumi3d__stage { position: relative; }
+  .lumi3d__canvas {
+    width: 100%;
+    height: 340px;
+    display: block;
+    touch-action: none;
+    outline: none;
+    cursor: grab;
+  }
+  .lumi3d__canvas:active { cursor: grabbing; }
+  .lumi3d__hint {
+    position: absolute;
+    right: 12px;
+    bottom: 10px;
+    z-index: 2;
+    padding: 0.28rem 0.6rem;
+    border-radius: 999px;
+    border: 1px solid rgba(180, 83, 9, 0.25);
+    background: rgba(255, 255, 255, 0.82);
+    color: #b45309;
+    font-size: 0.74rem;
+    font-weight: 700;
+    backdrop-filter: blur(2px);
+    pointer-events: none;
+  }
+  .lumi3d__fallback {
+    display: none;
+    padding: 1.25rem;
+    text-align: center;
+    color: #92400e;
+  }
+  .lumi3d__fallback img {
+    max-width: 220px;
+    width: 60%;
+    height: auto;
+  }
+  .lumi3d--fallback .lumi3d__canvas,
+  .lumi3d--fallback .lumi3d__hint { display: none; }
+  .lumi3d--fallback .lumi3d__fallback { display: block; }
+  @media (max-width: 620px) {
+    .lumi3d__canvas { height: 280px; }
+  }
+</style>
+
+<figure class="lumi3d" id="lumiViewer">
+  <div class="lumi3d__stage">
+    <span class="lumi3d__hint" aria-hidden="true">🖱️ Ziehen zum Drehen</span>
+    <canvas class="lumi3d__canvas" id="lumiCanvas" aria-label="3D-Modell des Maskottchens Lumi"></canvas>
+  </div>
+  <div class="lumi3d__fallback">
+    <img src="" alt="Lumi, das Lichtstrahl-Maskottchen" data-mascot-fallback />
+    <p>Dein Browser konnte das 3D-Modell nicht laden – hier ist Lumi als Bild. ✨</p>
+  </div>
+</figure>
+
+<script>
+(function () {
+  // GLB-Pfad relativ zum Seitenstamm auflösen (funktioniert auf der Startseite,
+  // unter /levels/ und auf einem GitHub-Pages-Unterpfad) – gleiches Prinzip wie
+  // assets/after-body.html / assets/site.js.
+  function siteOffset() {
+    var meta = document.querySelector('meta[name="quarto:offset"]');
+    var off = (meta && meta.getAttribute('content')) || '';
+    if (off && off.charAt(off.length - 1) !== '/') off += '/';
+    return off;
+  }
+
+  function showFallback(fig) {
+    if (!fig) return;
+    fig.classList.add('lumi3d--fallback');
+    var img = fig.querySelector('[data-mascot-fallback]');
+    if (img && !img.getAttribute('src')) img.src = siteOffset() + 'assets/mascot/guide.png';
+  }
+
+  function init() {
+    var fig = document.getElementById('lumiViewer');
+    var canvas = document.getElementById('lumiCanvas');
+    if (!fig || !canvas) return;
+
+    // Graceful degrade, falls Babylon / glTF-Loader fehlen.
+    if (!window.BABYLON || !BABYLON.Engine || !BABYLON.SceneLoader) {
+      showFallback(fig);
+      return;
+    }
+
+    var engine;
+    try {
+      engine = new BABYLON.Engine(canvas, true, { preserveDrawingBuffer: true, stencil: true });
+    } catch (e) {
+      showFallback(fig);
+      return;
+    }
+
+    var scene = new BABYLON.Scene(engine);
+    scene.clearColor = new BABYLON.Color4(0, 0, 0, 0); // transparent -> CSS-Verlauf scheint durch
+
+    var camera = new BABYLON.ArcRotateCamera('lumiCam', Math.PI / 2, Math.PI / 2.35, 5.6,
+      new BABYLON.Vector3(0, 0, 0), scene);
+    camera.attachControl(canvas, true);
+    camera.lowerRadiusLimit = 3.2;
+    camera.upperRadiusLimit = 9;
+    camera.wheelPrecision = 40;
+    camera.pinchPrecision = 80;
+    camera.lowerBetaLimit = 0.35;
+    camera.upperBetaLimit = Math.PI - 0.35;
+    camera.useAutoRotationBehavior = true;            // sanftes Auto-Rotieren …
+    camera.autoRotationBehavior.idleRotationSpeed = 0.35;
+    camera.autoRotationBehavior.idleRotationWaitTime = 1500; // … pausiert nach Interaktion
+
+    var hemi = new BABYLON.HemisphericLight('lumiHemi', new BABYLON.Vector3(0, 1, 0), scene);
+    hemi.intensity = 0.95;
+    hemi.groundColor = new BABYLON.Color3(0.95, 0.86, 0.7);
+    var dir = new BABYLON.DirectionalLight('lumiDir', new BABYLON.Vector3(-0.5, -1, -0.6), scene);
+    dir.intensity = 0.85;
+    dir.position = new BABYLON.Vector3(4, 6, 4);
+
+    var off = siteOffset();
+    BABYLON.SceneLoader.ImportMesh('', off + 'assets/mascot/', 'lumi.glb', scene,
+      function (meshes) {
+        // Modell ist bereits zentriert (~2 Einheiten hoch). Kamera passend rahmen.
+        camera.radius = 5.6;
+        engine.runRenderLoop(function () { scene.render(); });
+      },
+      null,
+      function () { engine.dispose(); showFallback(fig); }
+    );
+
+    window.addEventListener('resize', function () { engine.resize(); });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+</script>
+```
+
+## Deine Lernreise {.unnumbered}
+
+Arbeite dich von Level zu Level. Abgeschlossene Level bleiben in deinem Browser
+gespeichert, gesperrte Level öffnen sich, sobald du den jeweiligen Vorgänger
+geschafft hast.
+
+::: {data-vcde-progress="true"}
+:::
+
+::: {data-vcde-map="true"}
+Lade Landkarte … (aktiviere JavaScript, um deinen Fortschritt zu sehen)
+:::
+
+## Warum überhaupt „realistisches“ Licht? {.unnumbered}
+
+Bevor wir in die Theorie eintauchen, ein kurzer Blick darauf, worum es geht.
+Der folgende Vergleich zeigt, wie stark sich Echtzeitgrafik verändert hat:
+links ein stark vereinfachter Retro-Look (nur **lokale** Beleuchtung), rechts
+eine modernere Darstellung mit PBR-Material, Schatten und weicherem Licht – ein
+erster Vorgeschmack darauf, was **globale** Beleuchtung ausmacht.
 
 ```{=html}
 <style>
@@ -229,94 +403,9 @@ Dieser kleine Vergleich zeigt, wie stark sich Echtzeitgrafik verändert hat: lin
 </script>
 ```
 
-## Renderinggleichung
-Die Renderinggleichung beschreibt die Lichtverteilung an einem Punkt unter Berücksichtigung von Emission und indirekter Beleuchtung.
-
-$$
-L(x, x', \lambda)
-= g(x, x', \lambda) \cdot \left(
-L_e(x, x', \lambda)
-+ \int_S b(x, x', x'', \lambda) \cdot L(x', x'', \lambda) \, d x''
-\right)
-$$
-
-- $L(x, x', \lambda)$: Licht zwischen zwei Punkten
-- $g(x, x', \lambda)$: Geometrie- und Sichtbarkeitsfaktor
-- $L_e(x, x', \lambda)$: emittiertes Licht
-- $b(x, x', x'', \lambda)$: Reflexions- bzw. Streufunktion
-- $\int_S \dots d x''$: indirektes Licht über die Oberfläche $S$
-
-(Hier noch paar Bilder einfügen, um die Komponenten zu visualisieren)
-
-## Phong-Shading:
-Wenn Licht aus allen Richtungen kommen kann, wie kann man das überhaupt schnell berechnen? -> Pocoyo sagt das und dann geht in nächster Station
-
-## Ray- Tracing VS. Path-Tracing:
-
-
-## mit VS. ohne global illumination:
-
-
-```{python}
-#| label: fig-polar
-#| fig-cap: "A line plot on a polar axis"
-
-import numpy as np
-import matplotlib.pyplot as plt
-
-r = np.arange(0, 2, 0.01)
-theta = 2 * np.pi * r
-fig, ax = plt.subplots(
-  subplot_kw = {'projection': 'polar'} 
-)
-ax.plot(theta, r)
-ax.set_rticks([0.5, 1, 1.5, 2])
-ax.grid(True)
-plt.show()
-```
-
-```{=html}
-
-<script src="https://cdn.babylonjs.com/babylon.js"></script>
-
-<div style="width: 100%; height: 400px; position: relative; margin: 20px 0;">
-    <canvas id="renderCanvas" style="width: 100%; height: 100%; touch-action: none; border: 1px solid #ddd; display: block; border-radius: 8px;"></canvas>
-</div>
-
-<script>
-    window.addEventListener('DOMContentLoaded', function() {
-        const canvas = document.getElementById("renderCanvas");
-        if (!canvas) return;
-
-        const engine = new BABYLON.Engine(canvas, true);
-
-        const createScene = function () {
-            const scene = new BABYLON.Scene(engine);
-            scene.clearColor = new BABYLON.Color3(0.95, 0.95, 0.95);
-
-            const camera = new BABYLON.ArcRotateCamera("camera", -Math.PI/4, Math.PI/3, 5, BABYLON.Vector3.Zero(), scene);
-            camera.attachControl(canvas, true);
-
-            const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
-            
-            const box = BABYLON.MeshBuilder.CreateBox("box", {size: 1.5}, scene);
-            const material = new BABYLON.StandardMaterial("mat", scene);
-            material.diffuseColor = new BABYLON.Color3(0.1, 0.4, 0.8);
-            box.material = material;
-
-            scene.registerBeforeRender(function () {
-                box.rotation.y += 0.01;
-                box.rotation.x += 0.005;
-            });
-
-            return scene;
-        };
-
-        const scene = createScene();
-        engine.runRenderLoop(() => scene.render());
-        window.addEventListener("resize", () => engine.resize());
-    });
-</script>
-```
-
-
+::: {.callout-tip collapse="false"}
+## Bereit?
+Klick oben in der Landkarte auf **Level 1 – Lokal vs. Global**. Dort lernst du
+die Rendering-Gleichung kennen – das Herzstück, das alle weiteren Level
+verbindet.
+:::

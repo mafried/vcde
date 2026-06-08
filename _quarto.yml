@@ -1,2 +1,43 @@
 project:
   type: website
+  output-dir: _site
+  resources:
+    - assets/site.js
+    - assets/mascot/
+    - assets/mascot/lumi.glb
+
+website:
+  title: "GI Lernwelt"
+  description: "Eine spielerische Lernwelt rund um Global Illumination und die Rendering-Gleichung."
+  navbar:
+    background: primary
+    left:
+      - text: "Start"
+        href: index.qmd
+      - text: "Lokal vs. Global"
+        href: levels/local-vs-global.qmd
+      - text: "Ray Tracing"
+        href: levels/ray-tracing.qmd
+      - text: "Path Tracing"
+        href: levels/path-tracing.qmd
+    right:
+      - icon: github
+        href: https://github.com/
+        aria-label: GitHub
+
+format:
+  html:
+    theme:
+      - cosmo
+      - assets/theme.scss
+    toc: true
+    toc-title: "Auf dieser Seite"
+    page-layout: full
+    include-in-header:
+      - text: |
+          <script src="https://cdn.babylonjs.com/babylon.js"></script>
+          <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
+    include-after-body:
+      - assets/after-body.html
+
+bibliography: references.bib

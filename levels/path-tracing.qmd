@@ -1,3 +1,18 @@
+---
+title: "Level 3 – Path Tracing"
+subtitle: "Monte-Carlo-Pfade und Konvergenz"
+bibliography: ../references.bib
+---
+
+::: {data-vcde-levelbar="path-tracing"}
+:::
+
+::: {data-vcde-mascot="true" data-name="Lumi"}
+Letztes Level! 🌌 Path Tracing löst das Integral der Rendering-Gleichung
+**statistisch**: viele zufällige Pfade werden gemittelt. Spiel mit den Samples
+und beobachte, wie das Rauschen abnimmt.
+:::
+
 ## Path Tracing (Erklaerung auf Deutsch)
 
 1. Ein Pfad startet an der Kamera und wird zufaellig durch die Szene verfolgt.
@@ -542,3 +557,14 @@ window.addEventListener('DOMContentLoaded', function () {
 });
 </script>
 ```
+
+## Geschafft? {#abschluss}
+
+::: {data-vcde-mascot="true" data-name="Lumi"}
+Wow, du hast die ganze Lernreise durchgespielt – von der Rendering-Gleichung bis
+zum Path Tracing! 🎉 Markiere das letzte Level als abgeschlossen und sieh dir
+deinen vollständigen Fortschritt auf der Landkarte an.
+:::
+
+::: {data-vcde-complete="path-tracing"}
+:::

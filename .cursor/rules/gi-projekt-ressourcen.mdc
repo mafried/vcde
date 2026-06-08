@@ -1,0 +1,110 @@
+---
+description: Ressourcen, Tools und MCP-Server für die GI-Lernwelt (Visual Computing Vertiefung)
+alwaysApply: true
+---
+
+# GI-Lernwelt – Ressourcen & Werkzeuge
+
+Projekt: spielerische Quarto-Webseite zu **Global Illumination** (Thema 5, Visual Computing).
+Zielgruppe: Mitstudierende im gleichen Semester. Inhaltlich an `vc_syn_lighting.pdf` (Vorlesungsarchiv) verankern.
+
+## Kern-Stack (bereits im Projekt)
+
+| Tool | Zweck |
+|------|-------|
+| **Quarto** | Website, LaTeX-Formeln, Python-Zellen, Deployment via GitHub Pages |
+| **Babylon.js** | Interaktive 3D-Demos (Ray/Path Tracing, lokal vs. global, PBR) |
+| **Python** (jupyter, matplotlib, numpy) | Plots, BRDF-Visualisierungen, berechnete Abbildungen |
+| **assets/site.js** | Fortschritt (localStorage), Quiz-Widget, Maskottchen „Lumi“ |
+| **references.bib** | Quellenangaben (Prof-Anforderung) |
+
+## MCP-Server (in Cursor nutzbar)
+
+### 1. Babylon.js MCP — offiziell (`@babylonjs/mcp-servers`)
+
+**Paket:** https://www.npmjs.com/package/@babylonjs/mcp-servers
+
+**Wofür bei uns:**
+- PBR-Materialien per Node Material Editor erstellen (roughness, metallic, Fresnel)
+- Material-JSON exportieren und in Babylon.js-Demos einbinden
+- Live-Session mit dem Babylon-Editor (Session-URL generieren lassen)
+- Weitere Server im Paket: `nrge` (Render Graph), `npe` (Particles), `gui`
+
+**Konfiguration:** `.cursor/mcp.json` → `babylonjs` mit Dispatcher `nme` (Node Material Editor)
+
+**Typische Prompts:**
+- „Erstelle ein PBR-Material mit roughness 0.3 und metallic 0.8, exportiere als JSON“
+- „Baue ein Node-Material für eine spiegelnde Kugel und speichere es für unsere Babylon-Demo“
+
+### 2. Blender MCP — empfohlen für Referenzbilder & 3D-Assets
+
+**Repo:** https://github.com/ahujasid/blender-mcp
+
+**Wofür bei uns:**
+- Referenz-Render mit **Cycles** (path tracing) vs. **Eevee** (Echtzeit) für Vergleichsbilder
+- Cornell-Box, einfache GI-Szenen (Farbbounce, weiche Schatten)
+- Export als **GLB/PNG** für die Webseite
+- Material- und Licht-Setups zum Nachbauen in Babylon.js
+
+**Setup (Windows):**
+1. `uv` installieren: https://docs.astral.sh/uv/
+2. Blender ≥ 3.0 + Addon `addon.py` aus dem Repo (Edit → Preferences → Add-ons)
+3. In Blender: Sidebar (N) → „BlenderMCP“ → „Connect to Claude“
+4. Projekt-Konfiguration liegt in `.cursor/mcp.json` (Cursor neu starten)
+5. Nur **eine** MCP-Instanz gleichzeitig (Cursor *oder* Claude Desktop)
+
+**Typische Prompts:**
+- „Erstelle eine Cornell-Box in Blender mit Cycles, rendere 512 Samples, exportiere PNG“
+- „Vergleiche dieselbe Szene in Eevee und Cycles, erkläre den Unterschied für Studierende“
+
+### 3. Cursor IDE Browser — bereits eingebaut
+
+**Wofür bei uns:**
+- `quarto preview` starten und Seiten im Browser prüfen
+- Quiz-Freischaltung, Landkarten-Status, Babylon-Canvas testen
+- Layout auf Mobilbreite checken
+
+**Typische Prompts:**
+- „Öffne die lokale Preview und prüfe, ob Level 1 korrekt freigeschaltet wird“
+- „Screenshot vom Ray-Tracing-Demo-Canvas“
+
+### 4. Weitere Babylon-MCP-Server (optional, gleiches Paket)
+
+Im Dispatcher `@babylonjs/mcp-servers` verfügbar — bei Bedarf als zusätzliche Einträge in `mcp.json`:
+
+| Dispatcher | Zweck |
+|------------|-------|
+| `nrge` | Node Render Graph (Render-Pipeline, GI-relevant) |
+| `npe` | Partikeleffekte (Lichtstrahlen, Funken) |
+| `gui` | Babylon GUI-Elemente für Quiz/Overlays |
+
+## Externe Referenzen (Inhalt & Theorie)
+
+| Ressource | Link | Nutzen |
+|-----------|------|--------|
+| Vorlesung Beleuchtung | `Archiv/D1/D1/vc_syn_lighting.pdf` | Rendering-Gleichung, lokal vs. global, Phong-Blinn |
+| PBRT (kostenlos online) | https://pbr-book.org/ | Path Tracing, Monte Carlo, GI-Grundlagen |
+| Rendering Equation (Kajiya) | Kajiya 1986, in references.bib ergänzen | Historischer Ursprung |
+| LearnOpenGL – PBR | https://learnopengl.com/PBR/Theory | BRDF, Fresnel, energieerhaltend (gut für Studierende) |
+| Babylon.js Docs | https://doc.babylonjs.com/ | PBRMaterial, ShadowGenerator, WebGL |
+| Quarto Websites | https://quarto.org/docs/websites/ | Navbar, Theme, Deployment |
+| Mitsuba 3 Renderer | https://mitsuba.readthedocs.io/ | Optional: wissenschaftliche Referenz-Render |
+
+## Wann welches Tool?
+
+| Aufgabe | Tool |
+|---------|------|
+| Text, Formeln, Navigation, Quiz | Quarto + site.js |
+| Interaktive Web-Demos | Babylon.js in `{=html}`-Blöcken |
+| 2D-Plots (BRDF, Kurven) | Python/matplotlib in `{python}`-Zellen |
+| Fotorealistische Referenzbilder | Blender (Cycles) via MCP |
+| 3D-Modelle für die Seite | Blender → Export GLB → Babylon |
+| Live-Test der Website | Browser MCP + `quarto preview` |
+| Quellen & Zitate | references.bib |
+
+## Konventionen
+
+- UI-Texte auf **Deutsch**
+- Maskottchen: **Lumi** (`assets/mascot/guide.png`)
+- Neue Level nach Muster `levels/local-vs-global.qmd` (Intro → Theorie → Demo → Quiz)
+- Babylon.js global in `_quarto.yml` laden, nicht pro Seite einzeln

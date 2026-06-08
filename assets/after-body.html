@@ -1,0 +1,18 @@
+<script>
+// site.js relativ zum Seitenstamm laden. Quarto rewritet Pfade in
+// include-after-body nicht, liefert aber auf jeder Seite den korrekten
+// Offset zum Projektstamm über <meta name="quarto:offset">. So funktioniert
+// der Pfad sowohl auf der Startseite als auch in /levels/ und unter einem
+// GitHub-Pages-Unterpfad.
+(function () {
+  var offset = "";
+  var meta = document.querySelector('meta[name="quarto:offset"]');
+  if (meta && meta.getAttribute("content")) {
+    offset = meta.getAttribute("content");
+    if (offset.charAt(offset.length - 1) !== "/") offset += "/";
+  }
+  var s = document.createElement("script");
+  s.src = offset + "assets/site.js";
+  document.body.appendChild(s);
+})();
+</script>

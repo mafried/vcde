@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "babylonjs": {
+      "command": "npx",
+      "args": ["-y", "@babylonjs/mcp-servers", "nme"]
+    },
+    "blender": {
+      "command": "cmd",
+      "args": ["/c", "uvx", "blender-mcp"]
+    }
+  }
+}
