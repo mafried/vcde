@@ -221,13 +221,145 @@ ul.task-list li input[type="checkbox"] {
 <p>[Hier folgt weiterer Inhalt]</p>
 </section>
 </section>
-<section id="c.-großer-datensatz-vom-freundesnetz-zum-follow-graph" class="level2">
-<h2 class="anchored" data-anchor-id="c.-großer-datensatz-vom-freundesnetz-zum-follow-graph">3c. Großer Datensatz (Vom Freundesnetz zum Follow-Graph)</h2>
-<p>Beim Facebook-Netz wird aus einem lesbaren sozialen Bild schnell ein massives Strukturobjekt. ### Problem und Optimierungsziel?</p>
+<section id="großer-datensatz" class="level2">
+<h2 class="anchored" data-anchor-id="großer-datensatz">3. Großer Datensatz</h2>
+<p>Stell dir vor, du öffnest Facebook im November 2017 und kannst nicht einzelne Nutzer sehen. Nur offizielle, verifizierte Seiten: Regierungen, Politiker, TV-Sender, Konzerne. Welche Seiten mögen sich gegenseitig? Wer ist mit wem vernetzt?</p>
+<p>Genau das ist dieser Datensatz. Das <strong>Facebook Large Page-Page Network</strong> ist ein Schnappschuss eines sozialen Graphen, der nicht aus Freundschaften besteht, sondern aus gegenseitigen Likes zwischen verifizierten Facebook-Seiten.</p>
+<section id="was-bedeutet-eine-kante-hier-konkret" class="level3">
+<h3 class="anchored" data-anchor-id="was-bedeutet-eine-kante-hier-konkret">Was bedeutet eine Kante hier konkret?</h3>
+<p>Wenn Seite A Seite B liked und Seite B Seite A liked, entsteht eine ungerichtete Kante. Kein einseitiges Folgen, sondern ein echtes wechselseitiges Signal: “Wir kennen uns, wir stehen füreinander.” Das ist semantisch dichter als ein einfacher Follow-Graph. Und genau deshalb lohnt es sich, dieses Netzwerk zu visualisieren: Hinter jeder Kante steckt eine bewusste, beidseitige Entscheidung.</p>
+<p>Das Netzwerk umfasst vier Kategorien, die Facebook selbst definiert hat: Politiker, Regierungsorganisationen, TV-Sender und Unternehmen. Keine Überschneidungen, klare Zuordnung. Das macht den Datensatz besonders nützlich für Visualisierung, denn wir können jederzeit fragen: Verbinden sich Seiten eher innerhalb ihrer Kategorie oder quer durch alle Bereiche?</p>
+<div style="margin: 2rem 0;">
+
+  <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 2rem;">
+
+    <div style="flex: 1; min-width: 130px; border: 0.5px solid #d3d1c7; border-radius: 10px; padding: 1rem 1.25rem;">
+      <p style="font-size: 12px; color: #888780; margin: 0 0 4px 0; text-transform: uppercase; letter-spacing: 0.05em;">Knoten</p>
+      <p style="font-size: 28px; font-weight: 500; margin: 0; color: #2C2C2A;">22.470</p>
+      <p style="font-size: 12px; color: #888780; margin: 4px 0 0 0;">verifizierte Seiten</p>
+    </div>
+
+    <div style="flex: 1; min-width: 130px; border: 0.5px solid #d3d1c7; border-radius: 10px; padding: 1rem 1.25rem;">
+      <p style="font-size: 12px; color: #888780; margin: 0 0 4px 0; text-transform: uppercase; letter-spacing: 0.05em;">Kanten</p>
+      <p style="font-size: 28px; font-weight: 500; margin: 0; color: #2C2C2A;">171.002</p>
+      <p style="font-size: 12px; color: #888780; margin: 4px 0 0 0;">gegenseitige Likes</p>
+    </div>
+
+    <div style="flex: 1; min-width: 130px; border: 0.5px solid #d3d1c7; border-radius: 10px; padding: 1rem 1.25rem;">
+      <p style="font-size: 12px; color: #888780; margin: 0 0 4px 0; text-transform: uppercase; letter-spacing: 0.05em;">Dichte</p>
+      <p style="font-size: 28px; font-weight: 500; margin: 0; color: #2C2C2A;">0,001</p>
+      <p style="font-size: 12px; color: #888780; margin: 4px 0 0 0;">0,1 % aller möglichen Kanten</p>
+    </div>
+
+    <div style="flex: 1; min-width: 130px; border: 0.5px solid #d3d1c7; border-radius: 10px; padding: 1rem 1.25rem;">
+      <p style="font-size: 12px; color: #888780; margin: 0 0 4px 0; text-transform: uppercase; letter-spacing: 0.05em;">Transitivität</p>
+      <p style="font-size: 28px; font-weight: 500; margin: 0; color: #2C2C2A;">0,232</p>
+      <p style="font-size: 12px; color: #888780; margin: 4px 0 0 0;">Clustering-Koeffizient</p>
+    </div>
+
+  </div>
+
+  <p style="font-size: 13px; color: #888780; margin: 0 0 10px 0;">Knotenverteilung nach Kategorie</p>
+  <div id="ds-legend" style="display:flex; flex-wrap:wrap; gap:14px; margin-bottom:10px; font-size:13px; color:#5F5E5A;"></div>
+  <div style="position:relative; width:100%; height:210px;">
+    <canvas id="ds-chart" role="img" aria-label="Balkendiagramm der Knotenverteilung: Government 6880, Company 6495, Politician 5768, TV Show 3327">Government 6880, Company 6495, Politician 5768, TV Show 3327.</canvas>
+  </div>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+(function() {
+  var cats = ['Government', 'Company', 'Politician', 'TV show'];
+  var counts = [6880, 6495, 5768, 3327];
+  var total = 22470;
+  var palette = ['#185FA5', '#0F6E56', '#534AB7', '#993C1D'];
+  var leg = document.getElementById('ds-legend');
+  cats.forEach(function(c, i) {
+    var pct = ((counts[i] / total) * 100).toFixed(1);
+    leg.innerHTML += '<span style="display:flex;align-items:center;gap:5px;"><span style="width:10px;height:10px;border-radius:2px;background:' + palette[i] + ';display:inline-block;"></span>' + c + ' ' + counts[i].toLocaleString('de-DE') + ' (' + pct + ' %)</span>';
+  });
+  new Chart(document.getElementById('ds-chart'), {
+    type: 'bar',
+    data: {
+      labels: cats,
+      datasets: [{ data: counts, backgroundColor: palette, borderRadius: 4, borderSkipped: false }]
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: function(ctx) {
+          return ' ' + ctx.raw.toLocaleString('de-DE') + ' Knoten (' + ((ctx.raw / total) * 100).toFixed(1) + ' %)';
+        }}}
+      },
+      scales: {
+        x: {
+          grid: { color: 'rgba(0,0,0,0.06)' },
+          ticks: { color: '#5F5E5A', font: { size: 12 }, callback: function(v) { return v.toLocaleString('de-DE'); } }
+        },
+        y: { grid: { display: false }, ticks: { color: '#444441', font: { size: 13 } } }
+      }
+    }
+  });
+})();
+</script>
+</section>
+<section id="was-sagen-diese-zahlen" class="level3">
+<h3 class="anchored" data-anchor-id="was-sagen-diese-zahlen">Was sagen diese Zahlen?</h3>
+<p>Eine Dichte von 0,001 bedeutet: Von allen theoretisch möglichen Verbindungen zwischen 22.470 Seiten existieren nur 0,1 %. Das ist kein Mangel, sondern das typische Verhalten realer sozialer Netzwerke. Verbindungen entstehen nicht gleichmäßig verteilt, sie ballen sich zusammen. Wo viele Kanten zusammenlaufen, entstehen Cluster.</p>
+<p>Der Clustering-Koeffizient von 0,232 zeigt: In 23 % aller möglichen Dreiecke ist die dritte Kante tatsächlich vorhanden. Wenn Seite A und Seite B beide Seite C liken, liken sich A und B mit 23 % Wahrscheinlichkeit auch gegenseitig. Ein Zufallsgraph gleicher Größe hätte hier einen Wert nahe null. Das Netzwerk ist also nicht zufällig strukturiert. Es gibt echte Gemeinschaften. Und die wollen wir sichtbar machen.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Warum ist dieser Datensatz gut für diese Skala?</strong></p>
+<p>Mit 22.470 Knoten und 171.002 Kanten ist er groß genug, um echte Skalierungsprobleme zu erzeugen: Overplotting, Performance, Lesbarkeit. Gleichzeitig sind die vier Kategorien klar definiert und semantisch verständlich. Das erlaubt eine direkte Frage an jede Visualisierung: Kann man im Layout erkennen, was inhaltlich zusammengehört?</p>
+</div>
+</div>
+</section>
+</section>
+<section id="das-problem-wenn-größe-zur-grenze-wird" class="level2">
+<h2 class="anchored" data-anchor-id="das-problem-wenn-größe-zur-grenze-wird">Das Problem: Wenn Größe zur Grenze wird</h2>
+<p>Bei hundert Knoten reicht ein einfaches Layout. Bei tausend braucht man einen guten Algorithmus. Bei 22.000 Knoten und 171.000 Kanten sieht es ohne einen so aus:</p>
+<iframe src="graph_big/visuals/hairball.html" width="100%" height="400px" style="border: none; border-radius: 8px;">
+</iframe>
+
+<p style="text-align:center; font-size:12px; color:#888; margin:8px 0 0;">
+  22.470 Knoten · 171.002 Kanten · 0 erkennbare Struktur
+</p>
+<section id="was-hier-schiefläuft" class="level3">
+<h3 class="anchored" data-anchor-id="was-hier-schiefläuft">Was hier schiefläuft</h3>
+<p>Dieses Bild hat einen Namen: <strong>Hairball</strong>. Die Knoten sind ohne jede Ordnung platziert, die Kanten überlagern sich zu einem unlesbaren Geflecht.</p>
+<p>Das Problem heißt <strong>Overplotting</strong>: Knoten und Kanten überlagern sich so dicht, dass keine Struktur mehr erkennbar ist. Gruppen verschwinden im Rauschen. Zusammenhänge werden unsichtbar.</p>
+<p style="text-align:center; font-size:1.3rem; font-weight:600; margin:3rem 0 1rem; color:#2C2C2A;">
+  Wie macht man Struktur in einem 22.000-Knoten-Graphen sichtbar?
+</p>
+
+<p style="text-align:center; font-size:0.95rem; color:#888; margin:0 0 2rem;">
+  Die Antwort liegt nicht in einem einzelnen Algorithmus
+  sondern in einer Kombination aus Layout, Clustering und Datenvereinfachung.
+</p>
+</section>
+<section id="der-forcedirected2-algo" class="level3">
+<h3 class="anchored" data-anchor-id="der-forcedirected2-algo">Der ForceDirected2 Algo?</h3>
+<iframe src="graph_big/visuals/fa2_greygraph.html" width="100%" height="600px" style="border: 1px solid #ddd; border-radius: 8px;" loading="lazy">
+</iframe>
+<iframe src="graph_big/visuals/fa2_categorygraph.html" width="100%" height="400px" style="border: 1px solid #ddd; border-radius: 8px;" loading="lazy">
+</iframe>
+<iframe src="graph_big/visuals/fa2_graphbig.html" width="100%" height="600px" style="border: 1px solid #ddd; border-radius: 8px;" loading="lazy">
+</iframe>
+</section>
 <section id="warum-fa2---state-of-the-art" class="level3">
 <h3 class="anchored" data-anchor-id="warum-fa2---state-of-the-art">Warum FA2 -&gt; State of the art?</h3>
-<iframe src="fa2_graphbig.html" width="100%" height="600px" style="border: 1px solid #ddd; border-radius: 8px;" loading="lazy">
-</iframe>
 </section>
 <section id="warum-gut-2" class="level3">
 <h3 class="anchored" data-anchor-id="warum-gut-2">Warum gut?</h3>

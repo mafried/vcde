@@ -2,8 +2,12 @@ project:
   type: website
   output-dir: _output
   resources:
-    - fa2_graphbig.html
-    - fa2_biggraph.json
+    - graph_big/visuals/fa2_graphbig.html
+    - graph_big/visuals/fa2_categorygraph.html
+    - graph_big/visuals/fa2_greygraph.html
+    - graph_big/visuals/fa2_biggraph.json
+    - graph_big/visuals/hairball.html
+    - graph_big/visuals/hairball.json
 
 website:
   title: "Graphdatenvisualisierung"
