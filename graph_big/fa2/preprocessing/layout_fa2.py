@@ -6,7 +6,7 @@ import os
 
 # ── 1. Pfade ──────────────────────────────────────────────────────────────────
 BASE_DIR   = os.path.dirname(os.path.abspath(__file__))         
-DATA_DIR   = os.path.join(BASE_DIR, "../data_facebook_large")
+DATA_DIR   = os.path.join(BASE_DIR, "../../data_facebook_large")
 GRAPH_DIR  = os.path.join(BASE_DIR, "..")                        
 
 EDGES_CSV      = os.path.join(DATA_DIR, "musae_facebook_edges.csv")

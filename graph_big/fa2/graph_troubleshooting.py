@@ -15,8 +15,8 @@ xs    = [n["x"] for n in nodes]
 ys    = [n["y"] for n in nodes]
 comms = [n["community"] for n in nodes]
 
-# 54 verschiedene Farben
-#colors = cm.tab20(np.array(comms) % 20)
+
+
 
 #pro kategorie eine farbe 
 cat_colors = {"tvshow": "red", "government": "blue", 

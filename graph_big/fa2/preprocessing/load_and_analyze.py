@@ -5,7 +5,7 @@ from pathlib import Path
 
 
 
-BASE = Path(__file__).parent.parent / "data_facebook_large"
+BASE = Path(__file__).parent.parent.parent / "data_facebook_large"
 
 # ── 1. Daten laden ──────────────────────────────────────────────
 print("=== Lade Daten... ===\n")
