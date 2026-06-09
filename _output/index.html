@@ -349,14 +349,133 @@ Note
   sondern in einer Kombination aus Layout, Clustering und Datenvereinfachung.
 </p>
 </section>
-<section id="der-forcedirected2-algo" class="level3">
-<h3 class="anchored" data-anchor-id="der-forcedirected2-algo">Der ForceDirected2 Algo?</h3>
-<iframe src="graph_big/visuals/fa2_greygraph.html" width="100%" height="600px" style="border: 1px solid #ddd; border-radius: 8px;" loading="lazy">
+</section>
+<section id="die-lösung-drei-schritte-zur-lesbarkeit" class="level2">
+<h2 class="anchored" data-anchor-id="die-lösung-drei-schritte-zur-lesbarkeit">Die Lösung: Drei Schritte zur Lesbarkeit</h2>
+<p>Ein einzelner Algorithmus löst das Hairball-Problem nicht. Was hilft, ist ein Erkenntnisweg: Zuerst Ordnung ins Chaos bringen, dann Bedeutung sichtbar machen, dann Struktur entdecken, die niemand von Hand eingetragen hat.</p>
+<section id="schritt-1-ordnung-durch-layout" class="level3">
+<h3 class="anchored" data-anchor-id="schritt-1-ordnung-durch-layout">Schritt 1: Ordnung durch Layout</h3>
+<iframe src="graph_big/visuals/fa2_greygraph.html" width="100%" height="600px" style="border: 0.5px solid #d3d1c7; border-radius: 8px;" loading="lazy">
 </iframe>
-<iframe src="graph_big/visuals/fa2_categorygraph.html" width="100%" height="400px" style="border: 1px solid #ddd; border-radius: 8px;" loading="lazy">
+<p style="text-align:center; font-size:12px; color:#888; margin:8px 0 0;">
+  22.470 Knoten · ForceAtlas2 · alle Knoten grau
+</p>
+<p>Derselbe Graph — aber diesmal hat ein Algorithmus die Knoten angeordnet. Aus dem Hairball wird eine Form: ein dichter Kern, Arme die nach außen ziehen, einzelne Ausreißer am Rand. Noch sieht man keine Kategorien, keine Gruppen — aber man sieht, dass es sie gibt.</p>
+<details style="margin: 1.5rem 0; padding: 1rem 1.25rem; border: 0.5px solid #d3d1c7; border-radius: 8px; background: #fafaf8;">
+<summary style="cursor: pointer; font-weight: 500; font-size: 0.95rem; color: #2C2C2A; list-style: none; display: flex; align-items: center; gap: 8px;">
+  <span style="font-size: 1rem;">↳</span> Wie funktioniert ForceAtlas2?
+</summary>
+
+<div style="margin-top: 1rem; font-size: 0.9rem; line-height: 1.7; color: #444441;">
+
+<p>ForceAtlas2 (FA2) ist ein kräftebasierter Layoutalgorithmus. Jeder Knoten wird wie ein geladenes Teilchen behandelt: Knoten ohne Kante stoßen sich ab, Knoten mit Kante ziehen sich an. Nach vielen Iterationen findet das System ein Gleichgewicht — und dieses Gleichgewicht spiegelt die Graphstruktur wider.</p>
+
+<p><strong>Das Problem bei naiver Implementierung:</strong> Für jeden Knoten müsste man die Abstoßungskraft zu jedem anderen Knoten berechnen. Bei 22.470 Knoten sind das über 250 Millionen Paare pro Iteration — viel zu langsam.</p>
+
+<p><strong>Die Lösung: Barnes-Hut-Approximation.</strong> Der Raum wird rekursiv in einen Quadtree aufgeteilt. Weit entfernte Knotengruppen werden als einzelner Schwerpunkt behandelt — ihre genaue Position spielt für die Kraft keine Rolle. Das reduziert die Komplexität von <code>O(n²)</code> auf <code>O(n log n)</code>.</p>
+
+<p style="margin: 0; padding: 0.75rem 1rem; background: #f1efe8; border-radius: 6px; font-size: 0.875rem;">
+  <strong>Ergebnis:</strong> 1000 Iterationen auf 22.470 Knoten dauern statt Stunden nur wenige Minuten.
+  Der Graph wird einmal in Python berechnet, als <code>graph.json</code> exportiert und dann im Browser nur noch gerendert.
+</p>
+
+</div>
+</details>
+<hr>
+</section>
+<section id="schritt-2-bedeutung-durch-farbe" class="level3">
+<h3 class="anchored" data-anchor-id="schritt-2-bedeutung-durch-farbe">Schritt 2: Bedeutung durch Farbe</h3>
+<iframe src="graph_big/visuals/fa2_categorygraph.html" width="100%" height="600px" style="border: 0.5px solid #d3d1c7; border-radius: 8px;" loading="lazy">
 </iframe>
-<iframe src="graph_big/visuals/fa2_graphbig.html" width="100%" height="600px" style="border: 1px solid #ddd; border-radius: 8px;" loading="lazy">
+<p style="text-align:center; font-size:12px; color:#888; margin:8px 0 0;">
+  22.470 Knoten · ForceAtlas2 · eingefärbt nach Kategorie (Politiker, Regierung, TV, Unternehmen)
+</p>
+<p>Jetzt werden die Kategorien sichtbar. Politiker und Regierungsseiten häufen sich in bestimmten Regionen, TV-Sender in einer anderen. Aber die Grenzen bleiben unscharf — Farben mischen sich, klare Blöcke fehlen. Das liegt nicht am Layout, sondern daran, was FA2 überhaupt sehen kann.</p>
+<details style="margin: 1.5rem 0; padding: 1rem 1.25rem; border: 0.5px solid #d3d1c7; border-radius: 8px; background: #fafaf8;">
+<summary style="cursor: pointer; font-weight: 500; font-size: 0.95rem; color: #2C2C2A; list-style: none; display: flex; align-items: center; gap: 8px;">
+  <span style="font-size: 1rem;">↳</span> Warum trennt FA2 die Kategorien nicht scharf?
+</summary>
+
+<div style="margin-top: 1rem; font-size: 0.9rem; line-height: 1.7; color: #444441;">
+
+<p>FA2 arbeitet ausschließlich mit der Graphstruktur: Knoten und Kanten. Es kennt keine Attribute — weder Kategorie, noch Name, noch irgendein inhaltliches Merkmal.</p>
+
+<p>Das bedeutet: FA2 positioniert zwei Knoten nah beieinander, wenn sie durch viele Kanten verbunden sind — unabhängig davon, ob sie zur gleichen Kategorie gehören. Ein Politiker, der viele TV-Sender liked, landet im Layout näher an TV-Sendern als an anderen Politikern.</p>
+
+<p>Die Farbgebung in Schritt 2 ist also keine Information <em>für</em> den Algorithmus — sie ist eine nachträgliche Beschriftung. Das Layout kommt von FA2, die Farbe kommt von uns. Deshalb sieht man Tendenzen, aber keine scharfen Trennlinien.</p>
+
+<p style="margin: 0; padding: 0.75rem 1rem; background: #f1efe8; border-radius: 6px; font-size: 0.875rem;">
+  <strong>Wichtige Erkenntnis:</strong> Wenn Kategorie-Cluster trotzdem räumlich sichtbar werden,
+  bedeutet das: Facebook-Seiten derselben Kategorie verlinken sich tatsächlich häufiger gegenseitig.
+  Das Layout <em>entdeckt</em> eine reale Struktur — ohne sie zu kennen.
+</p>
+
+</div>
+</details>
+<hr>
+</section>
+<section id="schritt-3-struktur-durch-community-detection" class="level3">
+<h3 class="anchored" data-anchor-id="schritt-3-struktur-durch-community-detection">Schritt 3: Struktur durch Community Detection</h3>
+<iframe src="graph_big/visuals/fa2_graphbig.html" width="100%" height="600px" style="border: 0.5px solid #d3d1c7; border-radius: 8px;" loading="lazy">
 </iframe>
+<p style="text-align:center; font-size:12px; color:#888; margin:8px 0 0;">
+  22.470 Knoten · 171.002 Kanten · ForceAtlas2 + Louvain Community Detection ·
+  54 Communities · Modularität Q ≈ 0.8 · Zoom, Hover und Toggle verfügbar
+</p>
+<p>Jetzt werden Strukturen sichtbar, die niemand von Hand eingetragen hat. 54 Communities — eingefärbt nach dem Louvain-Algorithmus, der nur die Kantenstruktur kennt, nichts sonst. Und trotzdem stimmen viele dieser Communities auffällig gut mit inhaltlichen Gruppen überein.</p>
+<p>Zoomen Sie in die Cluster: Hover zeigt Seitenname und Kategorie. Mit dem Toggle lässt sich zwischen Kategorie- und Community-Färbung wechseln — und der Unterschied zwischen menschlich definierten Klassen und algorithmisch entdeckten Gemeinschaften wird direkt sichtbar.</p>
+<details style="margin: 1.5rem 0; padding: 1rem 1.25rem; border: 0.5px solid #d3d1c7; border-radius: 8px; background: #fafaf8;">
+<summary style="cursor: pointer; font-weight: 500; font-size: 0.95rem; color: #2C2C2A; list-style: none; display: flex; align-items: center; gap: 8px;">
+  <span style="font-size: 1rem;">↳</span> Wie funktioniert der Louvain-Algorithmus?
+</summary>
+
+<div style="margin-top: 1rem; font-size: 0.9rem; line-height: 1.7; color: #444441;">
+
+<p>Louvain sucht Communities — Gruppen von Knoten, die untereinander stark verbunden sind und nach außen wenige Verbindungen haben. Das Ziel ist die Maximierung der <strong>Modularität Q</strong>.</p>
+
+<p><strong>Was ist Modularität Q?</strong> Ein Wert zwischen −1 und 1, der misst, wie viel dichter die Verbindungen innerhalb von Communities sind im Vergleich zu einem zufälligen Netzwerk gleicher Größe. Ein Zufallsgraph hat Q ≈ 0. Gute Community-Strukturen liegen bei Q &gt; 0.3, sehr gute bei Q &gt; 0.6.</p>
+
+<p><strong>Wie geht Louvain vor?</strong> In Phase 1 prüft jeder Knoten: Erhöht es Q, wenn ich mich einer Nachbar-Community anschließe? Wenn ja, wechselt er. Das wiederholt sich, bis keine Verbesserung mehr möglich ist. In Phase 2 werden die gefundenen Communities zu einzelnen Superknoten zusammengefasst — und Phase 1 beginnt erneut auf dem verkleinerten Graphen. Das läuft so lange, bis sich nichts mehr verbessert.</p>
+
+<p style="margin: 0; padding: 0.75rem 1rem; background: #f1efe8; border-radius: 6px; font-size: 0.875rem;">
+  <strong>Unser Ergebnis:</strong> Q ≈ 0.8 bei 54 Communities.
+  Ein außergewöhnlich hoher Wert — er zeigt, dass das Facebook-Netzwerk
+  keine zufällige Verknüpfungsstruktur hat, sondern echte inhaltliche Gemeinschaften besitzt.
+  Louvain und FA2 entdecken diese Struktur unabhängig voneinander — und kommen zum selben Ergebnis.
+</p>
+
+</div>
+</details>
+<hr>
+</section>
+<section id="vom-datensatz-zur-visualisierung-die-pipeline" class="level3">
+<h3 class="anchored" data-anchor-id="vom-datensatz-zur-visualisierung-die-pipeline">Vom Datensatz zur Visualisierung: Die Pipeline</h3>
+<p>Alle drei Graphen folgen demselben Prinzip: das Rechenintensive passiert einmal in Python, das Ergebnis wird als JSON exportiert und im Browser nur noch gerendert.</p>
+<div style="display: flex; align-items: center; gap: 0; margin: 1.5rem 0; flex-wrap: wrap;">
+
+  <div style="flex: 1; min-width: 120px; padding: 0.875rem 1rem; border: 0.5px solid #d3d1c7; border-radius: 8px; text-align: center;">
+    <p style="font-size: 11px; color: #888780; margin: 0 0 4px; text-transform: uppercase; letter-spacing: 0.05em;">Schritt 1</p>
+    <p style="font-size: 14px; font-weight: 500; margin: 0; color: #2C2C2A;">Python</p>
+    <p style="font-size: 12px; color: #888780; margin: 4px 0 0;">NetworkX · FA2 · Louvain</p>
+  </div>
+
+  <div style="padding: 0 8px; color: #b4b2a9; font-size: 18px;">→</div>
+
+  <div style="flex: 1; min-width: 120px; padding: 0.875rem 1rem; border: 0.5px solid #d3d1c7; border-radius: 8px; text-align: center;">
+    <p style="font-size: 11px; color: #888780; margin: 0 0 4px; text-transform: uppercase; letter-spacing: 0.05em;">Schritt 2</p>
+    <p style="font-size: 14px; font-weight: 500; margin: 0; color: #2C2C2A;">graph.json</p>
+    <p style="font-size: 12px; color: #888780; margin: 4px 0 0;">id · x · y · community · category</p>
+  </div>
+
+  <div style="padding: 0 8px; color: #b4b2a9; font-size: 18px;">→</div>
+
+  <div style="flex: 1; min-width: 120px; padding: 0.875rem 1rem; border: 0.5px solid #d3d1c7; border-radius: 8px; text-align: center;">
+    <p style="font-size: 11px; color: #888780; margin: 0 0 4px; text-transform: uppercase; letter-spacing: 0.05em;">Schritt 3</p>
+    <p style="font-size: 14px; font-weight: 500; margin: 0; color: #2C2C2A;">Sigma.js</p>
+    <p style="font-size: 12px; color: #888780; margin: 4px 0 0;">Render · Zoom · Hover · Toggle</p>
+  </div>
+
+</div>
 </section>
 <section id="warum-fa2---state-of-the-art" class="level3">
 <h3 class="anchored" data-anchor-id="warum-fa2---state-of-the-art">Warum FA2 -&gt; State of the art?</h3>
