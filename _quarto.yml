@@ -7,6 +7,10 @@ project:
     - graph_big/visuals/fa2_greygraph.html
     - graph_big/visuals/fa2_biggraph.json
     - graph_big/visuals/hairball.html
+    - graph_big/visuals/umap_graph.html
+    - graph_big/visuals/sfdp_graph.html
+    - graph_big/visuals/graph_sfdp.json
+    - graph_big/visuals/graph_umap.json
     - graph_big/visuals/hairball.json
 
 website:

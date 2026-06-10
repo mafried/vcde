@@ -424,6 +424,28 @@ Note
 
 </div>
 </details>
+
+<details class="acc">
+<summary><span class="acc-toggle"></span><span class="acc-title">Verwendete FA2-Parameter</span><span class="acc-tag tag-impl">Implementierung</span></summary>
+<div class="acc-body">
+
+<pre><code>forceatlas2 = ForceAtlas2(
+    outboundAttractionDistribution=True,  # Anziehung proportional zum Degree
+    edgeWeightInfluence=1.0,              # Kantengewichte fließen linear ein
+    jitterTolerance=1.0,                  # Konvergenzschwelle
+    barnesHutOptimize=True,               # O(n log n) statt O(n²)
+    barnesHutTheta=1.2,                   # Approximationsgranularität
+    scalingRatio=10,                      # Abstoßungsstärke
+    strongGravityMode=False,
+    gravity=0.5,                          # Zieht Knoten zur Mitte
+)
+
+positions = forceatlas2.forceatlas2_networkx_layout(G, pos=None, iterations=800)</code></pre>
+
+<p>Barnes-Hut reduziert die Komplexität von O(n²) auf O(n log n), indem weit entfernte Knotengruppen als einzelner Schwerpunkt behandelt werden. Bei 22.470 Knoten macht das den Unterschied zwischen Minuten und Stunden. <code>outboundAttractionDistribution</code> verteilt die Anziehungskraft proportional zum Knotengrad, was verhindert, dass Hubs das gesamte Layout dominieren.</p>
+
+</div>
+</details>
 <hr>
 </section>
 <section id="kategorien-was-facebook-sagt" class="level3">
@@ -540,9 +562,78 @@ Note
 
 </div>
 </details>
-<section id="warum-fa2---state-of-the-art" class="level3">
-<h3 class="anchored" data-anchor-id="warum-fa2---state-of-the-art">Warum FA2 -&gt; State of the art?</h3>
 </section>
+<section id="was-wäre-wenn-man-es-anders-gemacht-hätte" class="level2">
+<h2 class="anchored" data-anchor-id="was-wäre-wenn-man-es-anders-gemacht-hätte">Was wäre, wenn man es anders gemacht hätte?</h2>
+<p>FA2 und Louvain sind nicht die einzigen Antworten auf dieses Problem. Zwei andere Algorithmen werden für große Graphen regelmäßig vorgeschlagen. Beide haben echte Stärken. Beide scheitern auf ihre eigene Art.</p>
+<hr>
+<section id="sfdp-scalable-force-directed-placement" class="level3">
+<h3 class="anchored" data-anchor-id="sfdp-scalable-force-directed-placement">SFDP: Scalable Force-Directed Placement</h3>
+<iframe src="graph_big/visuals/sfdp_graph.html" width="100%" height="600px" style="border: 1px solid #e5e4e0;" loading="lazy">
+</iframe>
+<p>Gleichmäßig verteilt. Rund. Lesbar. Und trotzdem nutzlos für unsere Frage.</p>
+<details class="acc">
+<summary><span class="acc-toggle"></span><span class="acc-title">Was SFDP technisch macht</span><span class="acc-tag tag-algo">Algorithmus</span></summary>
+<div class="acc-body">
+<p>SFDP steht für Scalable Force-Directed Placement. Klassische kräftebasierte Layouts berechnen pro Iteration alle Knotenpaare: O(n²). Bei 22.470 Knoten nicht praktikabel.</p>
+<p>SFDP löst das mit Multilevel Coarsening: Der Graph wird schrittweise vergröbert, ähnliche Knoten zu Superknoten zusammengefasst. Das Layout wird auf dem kleinen Graphen berechnet und dann schrittweise auf den Originalgraphen zurückübertragen. Schnell, stabil, günstig.</p>
+</div>
+</details>
+
+<details class="acc">
+<summary><span class="acc-toggle"></span><span class="acc-title">Warum das hier nicht funktioniert</span><span class="acc-tag tag-konzept">Konzept</span></summary>
+<div class="acc-body">
+<p>SFDP optimiert auf globale Übersichtlichkeit, nicht auf Community-Auflösung. Dichteunterschiede werden geglättet, Cluster verschmieren. Ein Graph mit Q ≈ 0,8, also ausgeprägten Communities, sieht im SFDP-Layout aus wie ein Zufallsgraph.</p>
+<p>Das Layout ist nicht falsch. Es beantwortet nur eine andere Frage: Wie verteile ich Knoten gleichmäßig im Raum? Nicht: Welche Knoten gehören zusammen?</p>
+</div>
+</details>
+<hr>
+</section>
+<section id="umap-uniform-manifold-approximation-and-projection" class="level3">
+<h3 class="anchored" data-anchor-id="umap-uniform-manifold-approximation-and-projection">UMAP: Uniform Manifold Approximation and Projection</h3>
+<iframe src="graph_big/visuals/umap_graph.html" width="100%" height="600px" style="border: 1px solid #e5e4e0;" loading="lazy">
+</iframe>
+<p>Scharfe Cluster. Klare Trennung. Auf den ersten Blick das überzeugendste Bild. Aber UMAP beantwortet eine andere Frage als die, die wir stellen.</p>
+<details class="acc">
+<summary><span class="acc-toggle"></span><span class="acc-title">Was UMAP technisch macht</span><span class="acc-tag tag-algo">Algorithmus</span></summary>
+<div class="acc-body">
+<p>UMAP (Uniform Manifold Approximation and Projection) ist kein Graphlayout-Algorithmus. Es ist ein Dimensionsreduktionsverfahren aus dem maschinellen Lernen. Es baut einen gewichteten k-nächste-Nachbarn-Graphen im hochdimensionalen Raum und optimiert dann eine 2D-Einbettung, die lokale Nachbarschaftsstruktur erhält.</p>
+<p>Für Graphdaten heißt das: UMAP projiziert entweder die Adjazenzmatrix oder Knotenfeatures als Zahlenvektoren. Die 171.002 Kanten des Facebook-Datensatzes werden nicht als Verbindungen behandelt, sondern als Merkmalsdaten umgerechnet.</p>
+</div>
+</details>
+
+
+
+<details class="acc">
+<summary><span class="acc-toggle"></span><span class="acc-title">Wo die Grenze liegt</span><span class="acc-tag tag-konzept">Konzept</span></summary>
+<div class="acc-body">
+<p>Was UMAP als "Cluster" zeigt, ist Ähnlichkeit in den Seitenbeschreibungen oder der Adjazenzstruktur als Feature-Vektor, kein Verbindungsmuster. Die Frage "welche Seiten liken sich gegenseitig, und was entsteht dabei?" wird nicht beantwortet.</p>
+<p>UMAP hat sinnvolle Anwendungsfälle: wenn Knotenähnlichkeit die relevante Dimension ist, etwa für Klassifikationsaufgaben. Als Graphlayout, das Netzwerktopologie sichtbar macht, ist es das falsche Werkzeug.</p>
+</div>
+</details>
+
+<details class="acc">
+<summary><span class="acc-toggle"></span><span class="acc-title">Wann UMAP sinnvoll wäre</span><span class="acc-tag tag-konzept">Konzept</span></summary>
+<div class="acc-body">
+
+<p>UMAP hat klare Stärken, wenn die relevante Frage Ähnlichkeit ist, nicht Verbindung. Für den Facebook-Datensatz wäre das: Welche Seiten haben ähnliche Beschreibungstexte? Die <code>musae_facebook_features.json</code> enthält genau diese Knotenfeatures als hochdimensionale Vektoren. Eine UMAP-Projektion würde inhaltlich ähnliche Seiten zusammenführen, unabhängig davon ob sie sich gegenseitig liken.</p>
+
+<p>Für die primäre Task des Datensatzes, Multi-Class Node Classification, ist das ein legitimer Ansatz. Als Graphlayout, das Netzwerktopologie sichtbar macht, ist es das falsche Werkzeug: Die 171.002 Kanten werden nicht als Verbindungen behandelt, sondern als Merkmalsdaten umgerechnet. Was UMAP als Cluster zeigt, ist Feature-Ähnlichkeit, kein Verbindungsmuster.</p>
+
+</div>
+</details>
+<hr>
+</section>
+</section>
+<section id="fa2-state-of-the-art-für-diesen-use-case" class="level2">
+<h2 class="anchored" data-anchor-id="fa2-state-of-the-art-für-diesen-use-case">FA2: State of the Art für diesen Use Case</h2>
+<iframe src="graph_big/visuals/fa2_graphbig.html" width="100%" height="600px" style="border: 1px solid #e5e4e0;" loading="lazy">
+</iframe>
+<p style="text-align:center; font-size:12px; color:#888; margin:8px 0 20px;">
+  FA2 + Louvain · 22.470 Knoten · 171.002 Kanten · interaktiv
+</p>
+<p>Nicht der schnellste. Nicht die schärfsten Cluster. Aber der einzige Algorithmus, der gleichzeitig Verbindungsstruktur respektiert, Community-Muster sichtbar macht und in einem Browser interaktiv bleibt.</p>
+<p>Für Graphen, bei denen die Kanten die eigentliche Information sind, ist ForceAtlas2 der pragmatische Standard für interaktive Web-Visualisierungen.</p>
 </section>
 <section id="how-to-handle-rezeptbuch" class="level2">
 <h2 class="anchored" data-anchor-id="how-to-handle-rezeptbuch">4. How to handle (Rezeptbuch)</h2>
