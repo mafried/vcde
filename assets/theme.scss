@@ -404,3 +404,18 @@ a.vcde-card:hover {
 
 .vcde-levelbar__home { font-weight: 700; color: var(--vcde-primary); text-decoration: none; }
 .vcde-levelbar__sep { color: var(--vcde-muted); }
+
+// ---- Quarto TOC-Sidebar: keine Klick-Blockade bei eingeklapptem TOC ------
+// Quarto setzt pointer-events: none nur auf #TOC, nicht auf den Container.
+// Der leere #quarto-margin-sidebar liegt sonst über interaktiven Demos (Slider).
+#quarto-margin-sidebar {
+  pointer-events: none;
+}
+
+#quarto-margin-sidebar #TOC {
+  pointer-events: auto;
+}
+
+#quarto-margin-sidebar #TOC a {
+  pointer-events: auto;
+}

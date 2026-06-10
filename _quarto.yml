@@ -5,6 +5,7 @@ project:
     - assets/site.js
     - assets/mascot/
     - assets/mascot/lumi.glb
+    - assets/models/
 
 website:
   title: "GI Lernwelt"
