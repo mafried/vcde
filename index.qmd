@@ -104,30 +104,34 @@ Das Netzwerk umfasst vier Kategorien, die Facebook selbst definiert hat: Politik
 ```{=html}
 <div style="margin: 2rem 0;">
 
-  <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 2rem;">
+  <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; border-top: 1px solid #e5e4e0; border-bottom: 1px solid #e5e4e0; padding: 1.5rem 0; margin-bottom: 2rem;">
 
-    <div style="flex: 1; min-width: 130px; border: 0.5px solid #d3d1c7; border-radius: 10px; padding: 1rem 1.25rem;">
-      <p style="font-size: 12px; color: #888780; margin: 0 0 4px 0; text-transform: uppercase; letter-spacing: 0.05em;">Knoten</p>
-      <p style="font-size: 28px; font-weight: 500; margin: 0; color: #2C2C2A;">22.470</p>
-      <p style="font-size: 12px; color: #888780; margin: 4px 0 0 0;">verifizierte Seiten</p>
+    <div style="padding-right: 1.5rem;">
+      <div style="width: 24px; height: 3px; background: #3b82f6; border-radius: 2px; margin-bottom: 10px;"></div>
+      <p style="font-size: 11px; color: #aaa; margin: 0 0 6px; text-transform: uppercase; letter-spacing: 0.07em;">Knoten</p>
+      <p style="font-size: 28px; font-weight: 400; margin: 0; color: #1a1a18; letter-spacing: -0.02em;">22.470</p>
+      <p style="font-size: 12px; color: #aaa; margin: 4px 0 0;">verifizierte Seiten</p>
     </div>
 
-    <div style="flex: 1; min-width: 130px; border: 0.5px solid #d3d1c7; border-radius: 10px; padding: 1rem 1.25rem;">
-      <p style="font-size: 12px; color: #888780; margin: 0 0 4px 0; text-transform: uppercase; letter-spacing: 0.05em;">Kanten</p>
-      <p style="font-size: 28px; font-weight: 500; margin: 0; color: #2C2C2A;">171.002</p>
-      <p style="font-size: 12px; color: #888780; margin: 4px 0 0 0;">gegenseitige Likes</p>
+    <div style="padding-right: 1.5rem; border-left: 1px solid #e5e4e0; padding-left: 1.5rem;">
+      <div style="width: 24px; height: 3px; background: #ef4444; border-radius: 2px; margin-bottom: 10px;"></div>
+      <p style="font-size: 11px; color: #aaa; margin: 0 0 6px; text-transform: uppercase; letter-spacing: 0.07em;">Kanten</p>
+      <p style="font-size: 28px; font-weight: 400; margin: 0; color: #1a1a18; letter-spacing: -0.02em;">171.002</p>
+      <p style="font-size: 12px; color: #aaa; margin: 4px 0 0;">gegenseitige Likes</p>
     </div>
 
-    <div style="flex: 1; min-width: 130px; border: 0.5px solid #d3d1c7; border-radius: 10px; padding: 1rem 1.25rem;">
-      <p style="font-size: 12px; color: #888780; margin: 0 0 4px 0; text-transform: uppercase; letter-spacing: 0.05em;">Dichte</p>
-      <p style="font-size: 28px; font-weight: 500; margin: 0; color: #2C2C2A;">0,001</p>
-      <p style="font-size: 12px; color: #888780; margin: 4px 0 0 0;">0,1 % aller möglichen Kanten</p>
+    <div style="padding-right: 1.5rem; border-left: 1px solid #e5e4e0; padding-left: 1.5rem;">
+      <div style="width: 24px; height: 3px; background: #f59e0b; border-radius: 2px; margin-bottom: 10px;"></div>
+      <p style="font-size: 11px; color: #aaa; margin: 0 0 6px; text-transform: uppercase; letter-spacing: 0.07em;">Dichte</p>
+      <p style="font-size: 28px; font-weight: 400; margin: 0; color: #1a1a18; letter-spacing: -0.02em;">0,001</p>
+      <p style="font-size: 12px; color: #aaa; margin: 4px 0 0;">0,1 % aller möglichen Kanten</p>
     </div>
 
-    <div style="flex: 1; min-width: 130px; border: 0.5px solid #d3d1c7; border-radius: 10px; padding: 1rem 1.25rem;">
-      <p style="font-size: 12px; color: #888780; margin: 0 0 4px 0; text-transform: uppercase; letter-spacing: 0.05em;">Transitivität</p>
-      <p style="font-size: 28px; font-weight: 500; margin: 0; color: #2C2C2A;">0,232</p>
-      <p style="font-size: 12px; color: #888780; margin: 4px 0 0 0;">Clustering-Koeffizient</p>
+    <div style="border-left: 1px solid #e5e4e0; padding-left: 1.5rem;">
+      <div style="width: 24px; height: 3px; background: #22c55e; border-radius: 2px; margin-bottom: 10px;"></div>
+      <p style="font-size: 11px; color: #aaa; margin: 0 0 6px; text-transform: uppercase; letter-spacing: 0.07em;">Transitivität</p>
+      <p style="font-size: 28px; font-weight: 400; margin: 0; color: #1a1a18; letter-spacing: -0.02em;">0,232</p>
+      <p style="font-size: 12px; color: #aaa; margin: 4px 0 0;">Clustering-Koeffizient</p>
     </div>
 
   </div>
@@ -146,7 +150,7 @@ Das Netzwerk umfasst vier Kategorien, die Facebook selbst definiert hat: Politik
   var cats = ['Government', 'Company', 'Politician', 'TV show'];
   var counts = [6880, 6495, 5768, 3327];
   var total = 22470;
-  var palette = ['#185FA5', '#0F6E56', '#534AB7', '#993C1D'];
+  var palette = ['#3b82f6', '#eab308', '#ef4444', '#22c55e'];
   var leg = document.getElementById('ds-legend');
   cats.forEach(function(c, i) {
     var pct = ((counts[i] / total) * 100).toFixed(1);
@@ -232,52 +236,95 @@ Zusammenhänge werden unsichtbar.
 </p>
 ```
 
+# Mit ForceAtlas2, Louvain und Sampling
 
-## Die Lösung: Drei Schritte zur Lesbarkeit
+22.470 Knoten und 171.002 Kanten. Das sind die Zahlen, an denen jede naive Visualisierungsstrategie scheitert.
 
-Ein einzelner Algorithmus löst das Hairball-Problem nicht.
-Was hilft, ist ein Erkenntnisweg: Zuerst Ordnung ins Chaos bringen, dann Bedeutung sichtbar machen, dann Struktur entdecken, die niemand von Hand eingetragen hat.
+Der erste Instinkt, alle Knoten gleichmäßig verteilen und alle Kanten zeichnen, führt zu einem Hairball: ein dichter schwarzer Klumpen, aus dem keine Struktur ablesbar ist. Das ist kein Darstellungsproblem, sondern ein Informationsproblem. Die Frage lautet nicht „wie zeichne ich das?", sondern „welche Struktur ist überhaupt da, und wie mache ich sie sichtbar?"
 
+Die Antwort ist kein einzelner Schritt, sondern drei aufeinander aufbauende Entscheidungen.
 
+---
 
-### Schritt 1: Ordnung durch Layout
+### ForceAtlas2: Struktur sichtbar machen
+
+Knoten haben keine natürlichen Koordinaten. Eine Facebook-Seite ist kein Punkt im Raum. ForceAtlas2 löst das, indem es Positionen aus der Struktur des Graphen ableitet: verbundene Knoten ziehen sich an, alle anderen stoßen sich ab, das System konvergiert iterativ in ein Gleichgewicht. Es gehört zur Familie der kräftebasierten Layouts, ist aber speziell für große, skalenfreie Netzwerke entwickelt worden, also Graphen, in denen wenige Knoten sehr viele Verbindungen haben und die meisten sehr wenige.
+
+Nach 800 Iterationen hat sich dieses Gleichgewicht eingestellt.
 
 ```{=html}
 <iframe
   src="graph_big/visuals/fa2_greygraph.html"
   width="100%"
   height="600px"
-  style="border: 0.5px solid #d3d1c7; border-radius: 8px;"
+  style="border: 1px solid #e5e4e0;"
   loading="lazy">
 </iframe>
-<p style="text-align:center; font-size:12px; color:#888; margin:8px 0 0;">
-  22.470 Knoten · ForceAtlas2 · alle Knoten grau
+<p style="text-align:center; font-size:12px; color:#888; margin:8px 0 16px;">
+  22.470 Knoten · ForceAtlas2 · 800 Iterationen · Knotengröße = Degree (Anzahl direkter Verbindungen)
 </p>
 ```
 
-Derselbe Graph — aber diesmal hat ein Algorithmus die Knoten angeordnet.
-Aus dem Hairball wird eine Form: ein dichter Kern, Arme die nach außen ziehen,
-einzelne Ausreißer am Rand. Noch sieht man keine Kategorien, keine Gruppen —
-aber man sieht, dass es sie gibt.
+Ein dichter Kern stark vernetzter Seiten, dünn verbundene Knoten am Rand, weit außen liegende Ausreißer. Diese Ausreißer sind kein Layoutfehler. ForceAtlas2 trennt Seiten mit sehr wenigen Likes konsequent vom Hauptcluster. Das ist ein Befund über den Datensatz.
 
 ```{=html}
-<details style="margin: 1.5rem 0; padding: 1rem 1.25rem; border: 0.5px solid #d3d1c7; border-radius: 8px; background: #fafaf8;">
-<summary style="cursor: pointer; font-weight: 500; font-size: 0.95rem; color: #2C2C2A; list-style: none; display: flex; align-items: center; gap: 8px;">
-  <span style="font-size: 1rem;">↳</span> Wie funktioniert ForceAtlas2?
-</summary>
+<style>
+.acc{margin:.5rem 0;border:1px solid #e2e0da;border-radius:10px;overflow:hidden;background:#fff}
+.acc summary{cursor:pointer;padding:.8rem 1rem .8rem .875rem;display:flex;align-items:center;gap:.6rem;list-style:none;font-size:.875rem;font-weight:500;color:#2a2a28;user-select:none}
+.acc summary::-webkit-details-marker{display:none}
+.acc-toggle{width:20px;height:20px;border-radius:50%;border:1.5px solid #d0cdc7;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;color:#aaa;background:#fafaf8;font-size:14px;line-height:1;transition:all .15s}
+.acc-toggle::before{content:'+'}
+.acc[open] .acc-toggle{background:#eceae4;color:#555;border-color:#bbb}
+.acc[open] .acc-toggle::before{content:'−'}
+.acc-title{flex:1}
+.acc-tag{font-size:.68rem;font-weight:700;letter-spacing:.05em;padding:2px 9px;border-radius:20px;flex-shrink:0;text-transform:uppercase}
+.acc-body{padding:.75rem 1rem 1rem;font-size:.875rem;line-height:1.75;color:#555552;border-top:1px solid #e2e0da}
+.acc-note{margin-top:.75rem;padding-left:.875rem;border-left:2px solid #d3d1c7;font-size:.85rem;color:#666}
+.tag-konzept{background:#dbeafe;color:#1e40af}
+.tag-algo{background:#dcfce7;color:#166534}
+.tag-impl{background:#fef3c7;color:#92400e}
+.tag-ux{background:#ede9fe;color:#5b21b6}
+.tag-arch{background:#f0f9ff;color:#0369a1}
+</style>
+<details class="acc">
+<summary><span class="acc-toggle"></span><span class="acc-title">FA2 in der Algorithmenfamilie</span><span class="acc-tag tag-konzept">Konzept</span></summary>
+<div class="acc-body">
 
-<div style="margin-top: 1rem; font-size: 0.9rem; line-height: 1.7; color: #444441;">
+<p>Kräftebasierte Layouts haben eine lange Geschichte. Fruchterman und Reingold beschrieben 1991 das Grundprinzip: Federn zwischen verbundenen Knoten, Abstoßung zwischen allen anderen, iterative Simulation bis zum Gleichgewicht. Das Ergebnis ist ein Layout, das die Topologie des Graphen in räumliche Nähe übersetzt, ohne dass Koordinaten manuell vergeben werden müssen.</p>
 
-<p>ForceAtlas2 (FA2) ist ein kräftebasierter Layoutalgorithmus. Jeder Knoten wird wie ein geladenes Teilchen behandelt: Knoten ohne Kante stoßen sich ab, Knoten mit Kante ziehen sich an. Nach vielen Iterationen findet das System ein Gleichgewicht — und dieses Gleichgewicht spiegelt die Graphstruktur wider.</p>
+<p>FA2 ist keine Neuerfindung dieses Prinzips, sondern eine Spezialisierung. Fruchterman-Reingold behandelt alle Knoten gleich. Das funktioniert für kleine, gleichmäßige Graphen gut, aber nicht für skalenfreie Netzwerke, in denen Gradverteilungen stark ungleich sind. Das Facebook-Netzwerk ist genau so ein Fall: wenige Seiten mit tausenden Verbindungen, die meisten mit einer Handvoll. Ein generisches Layout würde diese Asymmetrie ignorieren oder verzerren. FA2 wurde dafür gebaut.</p>
 
-<p><strong>Das Problem bei naiver Implementierung:</strong> Für jeden Knoten müsste man die Abstoßungskraft zu jedem anderen Knoten berechnen. Bei 22.470 Knoten sind das über 250 Millionen Paare pro Iteration — viel zu langsam.</p>
+</div>
+</details>
+```
 
-<p><strong>Die Lösung: Barnes-Hut-Approximation.</strong> Der Raum wird rekursiv in einen Quadtree aufgeteilt. Weit entfernte Knotengruppen werden als einzelner Schwerpunkt behandelt — ihre genaue Position spielt für die Kraft keine Rolle. Das reduziert die Komplexität von <code>O(n²)</code> auf <code>O(n log n)</code>.</p>
+```{=html}
+<details class="acc">
+<summary><span class="acc-toggle"></span><span class="acc-title">Hub2 und LinLog: Anpassungen für ungleiche Graphen</span><span class="acc-tag tag-algo">Algorithmus</span></summary>
+<div class="acc-body">
 
-<p style="margin: 0; padding: 0.75rem 1rem; background: #f1efe8; border-radius: 6px; font-size: 0.875rem;">
-  <strong>Ergebnis:</strong> 1000 Iterationen auf 22.470 Knoten dauern statt Stunden nur wenige Minuten.
-  Der Graph wird einmal in Python berechnet, als <code>graph.json</code> exportiert und dann im Browser nur noch gerendert.
-</p>
+<p><strong>Hub-Repulsion (Hub2):</strong> In einem skalenfreien Netzwerk würden Hochgrad-Knoten ohne Gegenkraft das gesamte Layout gravitativ dominieren und alle anderen Knoten an sich ziehen. Hub2 gibt Hubs quadratisch stärkere Abstoßungskräfte, proportional zu ihrem Degree. Das hält sie sichtbar zentriert, ohne dass sie den gesamten Layoutraum beanspruchen. Die Knotengröße in dieser Visualisierung kodiert genau diesen Degree, was die Abstoßungslogik direkt widerspiegelt: große Knoten stoßen stärker ab.</p>
+
+<p><strong>LinLog-Modus:</strong> Er verändert, wie Anziehung mit Kantenanzahl skaliert. Im Standard-Modus wächst Anziehung linear mit der Kantenzahl, was dazu führt, dass Cluster verschmieren. LinLog skaliert logarithmisch, was Cluster intern dichter und Abstände zwischen ihnen größer macht. Das Ergebnis sind schärfere Gruppenstrukturen ohne manuelle Parameterjustierung.</p>
+
+</div>
+</details>
+```
+
+```{=html}
+<details class="acc">
+<summary><span class="acc-toggle"></span><span class="acc-title">Barnes-Hut, Iterationen und Reproduzierbarkeit</span><span class="acc-tag tag-impl">Implementierung</span></summary>
+<div class="acc-body">
+
+<p>Abstoßung wirkt bei FA2 zwischen allen Knotenpaaren, also O(n²) Berechnungen pro Iteration. Bei 22.470 Knoten sind das über 252 Millionen Paare, bei 800 Iterationen praktisch nicht durchführbar.</p>
+
+<p>Die Lösung ist Barnes-Hut-Approximation: Der Layoutraum wird in einen Quadtree unterteilt. Weit entfernte Knotengruppen werden als einzelner Schwerpunkt behandelt, was die Komplexität von O(n²) auf O(n log n) reduziert. Der Parameter θ steuert diese Granularität. Bei θ = 1.2 gilt eine Gruppe als ausreichend weit entfernt, wenn ihr Durchmesser kleiner ist als 1,2× ihre Entfernung zum aktuellen Knoten. Kleinere θ-Werte nähern sich dem exakten O(n²) an, größere beschleunigen auf Kosten der Präzision.</p>
+
+<p>500 Iterationen (getestet) führen zu schlechterer Clustertrennung, die Simulation ist noch nicht konvergiert. Bei 800 ist der Zugewinn den Rechenaufwand wert.</p>
+
+<div class="acc-note">
+  FA2 ist nicht-deterministisch. <code>np.random.seed(42)</code> sorgt dafür, dass jeder Durchlauf dasselbe Layout erzeugt.
+</div>
 
 </div>
 </details>
@@ -285,45 +332,35 @@ aber man sieht, dass es sie gibt.
 
 ---
 
-### Schritt 2: Bedeutung durch Farbe
+### Kategorien: was Facebook sagt
+
+Das Layout kodiert Verbindungsstruktur, aber keine Inhalte. Die vier Kategorien, Politiker, Regierung, TV-Sender und Unternehmen, hat Facebook selbst vergeben. ForceAtlas2 hat sie nie gesehen. Der Algorithmus kennt nur Kanten.
 
 ```{=html}
 <iframe
   src="graph_big/visuals/fa2_categorygraph.html"
   width="100%"
   height="600px"
-  style="border: 0.5px solid #d3d1c7; border-radius: 8px;"
+  style="border: 1px solid #e5e4e0;"
   loading="lazy">
 </iframe>
-<p style="text-align:center; font-size:12px; color:#888; margin:8px 0 0;">
-  22.470 Knoten · ForceAtlas2 · eingefärbt nach Kategorie (Politiker, Regierung, TV, Unternehmen)
+<p style="text-align:center; font-size:12px; color:#888; margin:8px 0 16px;">
+  Gleiche Positionen · Färbung nach Facebook-Kategorie
 </p>
 ```
 
-Jetzt werden die Kategorien sichtbar. Politiker und Regierungsseiten
-häufen sich in bestimmten Regionen, TV-Sender in einer anderen.
-Aber die Grenzen bleiben unscharf — Farben mischen sich, klare Blöcke fehlen.
-Das liegt nicht am Layout, sondern daran, was FA2 überhaupt sehen kann.
+Gleichfarbige Knoten stehen häufig beisammen, obwohl die Farbe das Layout nicht beeinflusst hat. Seiten derselben Kategorie verlinken sich offenbar häufiger gegenseitig, und FA2 hat diese Struktur allein aus den Kanten rekonstruiert.
+
+Die Farbgrenzen bleiben aber unscharf. Ein Politiker, der viele TV-Sender liked, landet näher an diesen Sendern als an anderen Politikern. Scharfe Grenzen würden bedeuten, dass Kategorie und Verbindungsstruktur perfekt übereinstimmen. Sie tun es nicht, und das ist interessant.
 
 ```{=html}
-<details style="margin: 1.5rem 0; padding: 1rem 1.25rem; border: 0.5px solid #d3d1c7; border-radius: 8px; background: #fafaf8;">
-<summary style="cursor: pointer; font-weight: 500; font-size: 0.95rem; color: #2C2C2A; list-style: none; display: flex; align-items: center; gap: 8px;">
-  <span style="font-size: 1rem;">↳</span> Warum trennt FA2 die Kategorien nicht scharf?
-</summary>
+<details class="acc">
+<summary><span class="acc-toggle"></span><span class="acc-title">Warum FA2 keine Kategorien erzwingen kann</span><span class="acc-tag tag-konzept">Konzept</span></summary>
+<div class="acc-body">
 
-<div style="margin-top: 1rem; font-size: 0.9rem; line-height: 1.7; color: #444441;">
+<p>ForceAtlas2 ist blind für Attribute. Kategorieähnlichkeit als Kraft ins Layout einzuspeisen würde bedeuten, die Kantenstruktur zu manipulieren, was die Visualisierung verfälschen würde. FA2 kann Kategoriecluster zeigen, wenn sie in der Verbindungsstruktur vorhanden sind. Es kann sie nicht erzwingen.</p>
 
-<p>FA2 arbeitet ausschließlich mit der Graphstruktur: Knoten und Kanten. Es kennt keine Attribute — weder Kategorie, noch Name, noch irgendein inhaltliches Merkmal.</p>
-
-<p>Das bedeutet: FA2 positioniert zwei Knoten nah beieinander, wenn sie durch viele Kanten verbunden sind — unabhängig davon, ob sie zur gleichen Kategorie gehören. Ein Politiker, der viele TV-Sender liked, landet im Layout näher an TV-Sendern als an anderen Politikern.</p>
-
-<p>Die Farbgebung in Schritt 2 ist also keine Information <em>für</em> den Algorithmus — sie ist eine nachträgliche Beschriftung. Das Layout kommt von FA2, die Farbe kommt von uns. Deshalb sieht man Tendenzen, aber keine scharfen Trennlinien.</p>
-
-<p style="margin: 0; padding: 0.75rem 1rem; background: #f1efe8; border-radius: 6px; font-size: 0.875rem;">
-  <strong>Wichtige Erkenntnis:</strong> Wenn Kategorie-Cluster trotzdem räumlich sichtbar werden,
-  bedeutet das: Facebook-Seiten derselben Kategorie verlinken sich tatsächlich häufiger gegenseitig.
-  Das Layout <em>entdeckt</em> eine reale Struktur — ohne sie zu kennen.
-</p>
+<p>Die Trennung von Layout und Attribut ist eine bewusste Entscheidung: erst die rohe Struktur sichtbar machen, dann Bedeutung einblenden. Beides gleichzeitig würde bedeuten, das Ergebnis vorwegzunehmen.</p>
 
 </div>
 </details>
@@ -331,52 +368,68 @@ Das liegt nicht am Layout, sondern daran, was FA2 überhaupt sehen kann.
 
 ---
 
-### Schritt 3: Struktur durch Community Detection
+### Louvain: was die Daten sagen
+
+Kategorien beantworten die Frage: *Was ist eine Seite?* Louvain Community Detection stellt eine andere Frage: *Mit wem ist sie verbunden, und was entsteht dabei?*
+
+Der Algorithmus sieht nur Kanten und maximiert Modularität Q: den Anteil der Kanten, der innerhalb gefundener Communities liegt, abzüglich des Anteils, den man in einem Zufallsgraphen mit denselben Gradverteilungen erwarten würde. Ein Q nahe 0 bedeutet keine erkennbare Struktur. Q ≈ 0.8 auf diesem Datensatz bedeutet das Gegenteil.
+
+Die Visualisierung unten kombiniert beide Perspektiven. Hover und Toggle folgen dabei dem Focus+Context-Prinzip: Übersicht zuerst, Detail auf Abruf, Kontextwechsel ohne Neuberechnung.
 
 ```{=html}
 <iframe
   src="graph_big/visuals/fa2_graphbig.html"
   width="100%"
   height="600px"
-  style="border: 0.5px solid #d3d1c7; border-radius: 8px;"
+  style="border: 1px solid #e5e4e0;"
   loading="lazy">
 </iframe>
-<p style="text-align:center; font-size:12px; color:#888; margin:8px 0 0;">
-  22.470 Knoten · 171.002 Kanten · ForceAtlas2 + Louvain Community Detection ·
-  54 Communities · Modularität Q ≈ 0.8 · Zoom, Hover und Toggle verfügbar
-</p>
+
+<div style="margin: 10px 0 20px; display: flex; flex-wrap: wrap; gap: 20px; font-size: 12px; color: #888;">
+  <div style="display: flex; align-items: center; gap: 10px;">
+    <svg width="72" height="16" style="overflow: visible; flex-shrink: 0;">
+      <circle cx="6"  cy="8" r="3"  fill="#aaa"/>
+      <circle cx="20" cy="8" r="5"  fill="#aaa"/>
+      <circle cx="38" cy="8" r="7"  fill="#aaa"/>
+      <circle cx="60" cy="8" r="10" fill="#aaa"/>
+    </svg>
+    <span>Knotengröße = Degree</span>
+  </div>
+  <div>Hover isoliert den Knoten und seine direkten Verbindungen</div>
+  <div>Toggle schaltet zwischen Kategorie- und Community-Färbung</div>
+  <div>54 Communities · Q ≈ 0.8</div>
+</div>
 ```
 
-Jetzt werden Strukturen sichtbar, die niemand von Hand eingetragen hat.
-54 Communities — eingefärbt nach dem Louvain-Algorithmus, der nur die
-Kantenstruktur kennt, nichts sonst. Und trotzdem stimmen viele dieser
-Communities auffällig gut mit inhaltlichen Gruppen überein.
-
-Zoomen Sie in die Cluster: Hover zeigt Seitenname und Kategorie.
-Mit dem Toggle lässt sich zwischen Kategorie- und Community-Färbung wechseln —
-und der Unterschied zwischen menschlich definierten Klassen
-und algorithmisch entdeckten Gemeinschaften wird direkt sichtbar.
+FA2 und Louvain haben völlig unabhängig voneinander gearbeitet: FA2 kennt keine Communities, Louvain kennt keine Koordinaten. Dass sie räumlich zu ähnlichen Clustern kommen, ist der stärkste Hinweis darauf, dass diese Struktur tatsächlich im Datensatz steckt.
 
 ```{=html}
-<details style="margin: 1.5rem 0; padding: 1rem 1.25rem; border: 0.5px solid #d3d1c7; border-radius: 8px; background: #fafaf8;">
-<summary style="cursor: pointer; font-weight: 500; font-size: 0.95rem; color: #2C2C2A; list-style: none; display: flex; align-items: center; gap: 8px;">
-  <span style="font-size: 1rem;">↳</span> Wie funktioniert der Louvain-Algorithmus?
-</summary>
+<details class="acc">
+<summary><span class="acc-toggle"></span><span class="acc-title">Wie Louvain Communities findet</span><span class="acc-tag tag-algo">Algorithmus</span></summary>
+<div class="acc-body">
 
-<div style="margin-top: 1rem; font-size: 0.9rem; line-height: 1.7; color: #444441;">
+<p><strong>Phase 1.</strong> Jeder Knoten startet als eigene Community. Er prüft für jeden Nachbarn: Steigt Q, wenn ich in dessen Community wechsle? Falls ja, wechselt er. Das wiederholt sich, bis kein Wechsel Q weiter erhöht.</p>
 
-<p>Louvain sucht Communities — Gruppen von Knoten, die untereinander stark verbunden sind und nach außen wenige Verbindungen haben. Das Ziel ist die Maximierung der <strong>Modularität Q</strong>.</p>
+<p><strong>Phase 2.</strong> Die gefundenen Communities werden zu Superknoten komprimiert, Verbindungen zwischen ihnen zu gewichteten Kanten. Auf diesem komprimierten Graphen beginnt Phase 1 erneut. Der Algorithmus arbeitet sich hierarchisch von fein nach grob vor, was ihn schnell genug für 22.470 Knoten macht.</p>
 
-<p><strong>Was ist Modularität Q?</strong> Ein Wert zwischen −1 und 1, der misst, wie viel dichter die Verbindungen innerhalb von Communities sind im Vergleich zu einem zufälligen Netzwerk gleicher Größe. Ein Zufallsgraph hat Q ≈ 0. Gute Community-Strukturen liegen bei Q > 0.3, sehr gute bei Q > 0.6.</p>
+<div class="acc-note">
+  Auch Louvain ist nicht-deterministisch. <code>random_state=42</code> sorgt für reproduzierbare Community-Zuordnungen.
+</div>
 
-<p><strong>Wie geht Louvain vor?</strong> In Phase 1 prüft jeder Knoten: Erhöht es Q, wenn ich mich einer Nachbar-Community anschließe? Wenn ja, wechselt er. Das wiederholt sich, bis keine Verbesserung mehr möglich ist. In Phase 2 werden die gefundenen Communities zu einzelnen Superknoten zusammengefasst — und Phase 1 beginnt erneut auf dem verkleinerten Graphen. Das läuft so lange, bis sich nichts mehr verbessert.</p>
+</div>
+</details>
+```
 
-<p style="margin: 0; padding: 0.75rem 1rem; background: #f1efe8; border-radius: 6px; font-size: 0.875rem;">
-  <strong>Unser Ergebnis:</strong> Q ≈ 0.8 bei 54 Communities.
-  Ein außergewöhnlich hoher Wert — er zeigt, dass das Facebook-Netzwerk
-  keine zufällige Verknüpfungsstruktur hat, sondern echte inhaltliche Gemeinschaften besitzt.
-  Louvain und FA2 entdecken diese Struktur unabhängig voneinander — und kommen zum selben Ergebnis.
-</p>
+```{=html}
+<details class="acc">
+<summary><span class="acc-toggle"></span><span class="acc-title">Hover, Toggle und das Focus+Context-Prinzip</span><span class="acc-tag tag-ux">Interaktionsdesign</span></summary>
+<div class="acc-body">
+
+<p>Die Interaktionsstruktur folgt Shneidermans Mantra: „Overview first, zoom and filter, then details on demand." Die Grundansicht ist die Übersicht. Hover liefert das Detail. Toggle wechselt den Kontext.</p>
+
+<p><strong>Hover:</strong> Der hoverReducer in Sigma.js setzt alle nicht betroffenen Kanten auf niedrige Opazität und hebt nur die direkten Nachbarn hervor, ohne die Gesamtpositionierung zu verändern. Bei 171.000 Kanten ist ein einzelner Knoten mit seinen direkten Verbindungen die kleinstmögliche Einheit, die noch Sinn ergibt.</p>
+
+<p><strong>Toggle:</strong> Kategorie gegen Community, beide Male dieselben Positionen, andere Einfärbung. Der Kontextwechsel passiert ohne Neuberechnung, weil Layout und Attribut konsequent getrennt gehalten wurden. Wo beide Färbungen räumlich übereinstimmen, spiegeln Facebook-Kategorien echte Verbindungsgemeinschaften. Wo sie auseinanderfallen, etwa ein Louvain-Cluster, der Politiker und Regierungsseiten gemeinsam enthält, entstehen kategorieübergreifende Muster, die Labels allein nicht abbilden.</p>
 
 </div>
 </details>
@@ -384,50 +437,55 @@ und algorithmisch entdeckten Gemeinschaften wird direkt sichtbar.
 
 ---
 
-### Vom Datensatz zur Visualisierung: Die Pipeline
-
-Alle drei Graphen folgen demselben Prinzip: das Rechenintensive passiert einmal in Python,
-das Ergebnis wird als JSON exportiert und im Browser nur noch gerendert.
+## Pipeline: vom Datensatz zur interaktiven Visualisierung
 
 ```{=html}
-<div style="display: flex; align-items: center; gap: 0; margin: 1.5rem 0; flex-wrap: wrap;">
+<div style="margin: 1.5rem 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: #e5e4e0; font-size: 0.875rem;">
 
-  <div style="flex: 1; min-width: 120px; padding: 0.875rem 1rem; border: 0.5px solid #d3d1c7; border-radius: 8px; text-align: center;">
-    <p style="font-size: 11px; color: #888780; margin: 0 0 4px; text-transform: uppercase; letter-spacing: 0.05em;">Schritt 1</p>
-    <p style="font-size: 14px; font-weight: 500; margin: 0; color: #2C2C2A;">Python</p>
-    <p style="font-size: 12px; color: #888780; margin: 4px 0 0;">NetworkX · FA2 · Louvain</p>
+  <div style="background: white; padding: 1.25rem 1rem;">
+    <p style="font-size: 11px; color: #aaa; margin: 0 0 8px; text-transform: uppercase; letter-spacing: 0.07em;">01 · Rohdaten</p>
+    <p style="font-weight: 500; margin: 0 0 6px; color: #2C2C2A;">CSV-Dateien</p>
+    <p style="font-size: 12px; color: #888; margin: 0;">edges.csv<br>target.csv</p>
   </div>
 
-  <div style="padding: 0 8px; color: #b4b2a9; font-size: 18px;">→</div>
-
-  <div style="flex: 1; min-width: 120px; padding: 0.875rem 1rem; border: 0.5px solid #d3d1c7; border-radius: 8px; text-align: center;">
-    <p style="font-size: 11px; color: #888780; margin: 0 0 4px; text-transform: uppercase; letter-spacing: 0.05em;">Schritt 2</p>
-    <p style="font-size: 14px; font-weight: 500; margin: 0; color: #2C2C2A;">graph.json</p>
-    <p style="font-size: 12px; color: #888780; margin: 4px 0 0;">id · x · y · community · category</p>
+  <div style="background: white; padding: 1.25rem 1rem;">
+    <p style="font-size: 11px; color: #aaa; margin: 0 0 8px; text-transform: uppercase; letter-spacing: 0.07em;">02 · Preprocessing</p>
+    <p style="font-weight: 500; margin: 0 0 6px; color: #2C2C2A;">Python</p>
+    <p style="font-size: 12px; color: #888; margin: 0;">NetworkX · FA2 · Louvain</p>
   </div>
 
-  <div style="padding: 0 8px; color: #b4b2a9; font-size: 18px;">→</div>
+  <div style="background: white; padding: 1.25rem 1rem;">
+    <p style="font-size: 11px; color: #aaa; margin: 0 0 8px; text-transform: uppercase; letter-spacing: 0.07em;">03 · Export</p>
+    <p style="font-weight: 500; margin: 0 0 6px; color: #2C2C2A;">graph.json</p>
+    <p style="font-size: 12px; color: #888; margin: 0;">id · x · y · community<br>category · name</p>
+  </div>
 
-  <div style="flex: 1; min-width: 120px; padding: 0.875rem 1rem; border: 0.5px solid #d3d1c7; border-radius: 8px; text-align: center;">
-    <p style="font-size: 11px; color: #888780; margin: 0 0 4px; text-transform: uppercase; letter-spacing: 0.05em;">Schritt 3</p>
-    <p style="font-size: 14px; font-weight: 500; margin: 0; color: #2C2C2A;">Sigma.js</p>
-    <p style="font-size: 12px; color: #888780; margin: 4px 0 0;">Render · Zoom · Hover · Toggle</p>
+  <div style="background: white; padding: 1.25rem 1rem;">
+    <p style="font-size: 11px; color: #aaa; margin: 0 0 8px; text-transform: uppercase; letter-spacing: 0.07em;">04 · Rendering</p>
+    <p style="font-weight: 500; margin: 0 0 6px; color: #2C2C2A;">Sigma.js</p>
+    <p style="font-size: 12px; color: #888; margin: 0;">WebGL · Zoom<br>Hover · Toggle</p>
   </div>
 
 </div>
 ```
+
+```{=html}
+<details class="acc" style="margin-bottom: 1.5rem;">
+<summary><span class="acc-toggle"></span><span class="acc-title">Warum die Berechnung nicht im Browser stattfindet</span><span class="acc-tag tag-arch">Architekturentscheidung</span></summary>
+<div class="acc-body">
+
+<p>FA2 im Browser zu berechnen wäre möglich, es gibt JavaScript-Implementierungen. Bei 22.470 Knoten und 800 Iterationen würde die Berechnung mehrere Minuten dauern und den Browser-Hauptthread blockieren.</p>
+
+<p>Die Entscheidung war deshalb: Berechnung offline in Python, Ergebnis als statische JSON-Datei. Sigma.js bekommt fertige Koordinaten und rendert sofort per WebGL, was auch 171.000 Kanten flüssig darstellt.</p>
+
+<p>Der Nachteil ist real: Parameter wie Iterationszahl oder Barnes-Hut-Theta können nicht interaktiv angepasst werden. Für ein didaktisches Tool, das ein bestimmtes Ergebnis zeigen soll, ist das akzeptabel.</p>
+
+</div>
+</details>
+```
 ### Warum FA2 -> State of the art?
 
-### Warum gut?
-Dieses Netzwerk zeigt sehr deutlich, wie sich Maßstab und Bedeutung gleichzeitig verändern. Ihr könnt hier nicht nur Größe thematisieren, sondern auch den Unterschied zwischen Freundschaft und Follow-Beziehung.
 
-### Was ist das Problem?
-Einzelne Knoten sind kaum noch direkt lesbar, Pfeile oder Richtungen lassen sich nicht mehr für jede Kante sinnvoll zeigen, und klassische Browser-Darstellung kommt an Performance-Grenzen. Die Herausforderung ist jetzt nicht mehr nur Zeichnen, sondern sinnvolle Reduktion.
-
-### Layout + GraphAlg
-Hier passt die Argumentation für WebGL/GPU sehr gut. Inhaltlich könnt ihr zusätzlich auf In-Degree/Out-Degree, Hubs, Communities, Filterung und Abstraktion eingehen, weil bei dieser Größenordnung nicht mehr jede Einzelkante der eigentliche Erkenntnisträger ist.
-
-[Hier folgt weiterer Inhalt]
 
 ## 4. How to handle (Rezeptbuch)
 Wenn der Graph klein und explorativ ist, sind Detail, Labels und SVG sinnvoll. Wenn er mittelgroß und dicht ist, braucht man effizienteres Rendering und stärkere visuelle Reduktion. Wenn er sehr groß oder gerichtet ist, werden WebGL, Filterung und Abstraktion zentral.
