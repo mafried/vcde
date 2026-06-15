@@ -253,14 +253,6 @@ window.Quarto = {
 <h2 class="anchored" data-anchor-id="großer-datensatz">3. Großer Datensatz</h2>
 <p>Stell dir vor, du öffnest Facebook im November 2017 und siehst nicht einzelne Nutzer, sondern nur offizielle, verifizierte Seiten. Regierungen, Politiker, TV-Sender, Konzerne. Wer ist mit wem vernetzt?</p>
 <p>Das ist das <strong>Facebook Large Page-Page Network</strong>, ein sozialer Graph aus gegenseitigen Likes zwischen verifizierten Seiten, organisiert in vier klar getrennten Kategorien.</p>
-<details class="acc">
-<summary><span class="acc-toggle"></span><span class="acc-title">Was bedeutet eine Kante in diesem Graphen</span><span class="acc-tag tag-konzept">Konzept</span></summary>
-<div class="acc-body">
-
-<p>Eine Kante entsteht nur, wenn beide Seiten sich gegenseitig liken. Kein einseitiges Folgen, sondern ein wechselseitiges Signal. Das macht das Netzwerk semantisch dichter als einen einfachen Follow-Graphen. Jede Kante steht für eine bewusste, beidseitige Verbindung.</p>
-
-</div>
-</details>
 <div style="margin: 2rem 0;">
 
   <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; border-top: 1px solid #e5e4e0; border-bottom: 1px solid #e5e4e0; padding: 1.5rem 0; margin-bottom: 2rem;">
@@ -343,39 +335,15 @@ window.Quarto = {
 })();
 </script>
 <details class="acc">
-<summary><span class="acc-toggle"></span><span class="acc-title">Warum eignet sich dieser Datensatz für diese Größenordnung</span><span class="acc-tag tag-konzept">Konzept</span></summary>
+<summary>
+<span class="acc-toggle"></span><span class="acc-title">Was die Zahlen bedeuten</span><span class="acc-tag tag-konzept">Konzept</span>
+</summary>
 <div class="acc-body">
-
-<p>22.470 Knoten und 171.002 Kanten erzeugen reale Skalierungsprobleme wie Overplotting, Performance und Lesbarkeit. Gleichzeitig sind die vier Kategorien klar definiert und überschneidungsfrei. Jede Visualisierung lässt sich damit an derselben Frage messen. Erkennt man im Layout, was inhaltlich zusammengehört?</p>
-
-</div>
-</details>
-<section id="was-sagen-diese-zahlen" class="level3">
-<h3 class="anchored" data-anchor-id="was-sagen-diese-zahlen">Was sagen diese Zahlen?</h3>
-<p>Eine Dichte von 0,001 zeigt, dass von allen möglichen Verbindungen nur 0,1 % existieren. Das ist typisch für reale soziale Netzwerke, die nicht gleichmäßig, sondern in Clustern wachsen. Der Clustering-Koeffizient von 0,232 bestätigt das. Das Netzwerk ist nicht zufällig strukturiert, sondern enthält echte Gemeinschaften, die sich sichtbar machen lassen.</p>
-<details class="acc">
-<summary><span class="acc-toggle"></span><span class="acc-title">Was bedeutet der Clustering-Koeffizient konkret</span><span class="acc-tag tag-konzept">Konzept</span></summary>
-<div class="acc-body">
-
-<p>23 % aller möglichen Dreiecke sind tatsächlich geschlossen. Wenn A und B beide C liken, liken sich A und B mit 23 % Wahrscheinlichkeit auch gegenseitig. Ein Zufallsgraph gleicher Größe läge nahe null. Das ist ein erster Hinweis auf Community-Struktur, schon vor der eigentlichen Visualisierung.</p>
-
-</div>
-</details>
-</section>
-</section>
-<section id="das-problem-wenn-größe-zur-grenze-wird" class="level2">
-<h2 class="anchored" data-anchor-id="das-problem-wenn-größe-zur-grenze-wird">Das Problem: Wenn Größe zur Grenze wird</h2>
-<p>Bei hundert Knoten reicht ein einfaches Layout. Bei tausend braucht es einen guten Algorithmus. Bei 22.000 Knoten und 171.000 Kanten sieht es ohne einen so aus.</p>
-<iframe src="graph_big/visuals/hairball.html" width="100%" height="400px" style="border: none; border-radius: 8px;">
-</iframe>
-
-<p style="text-align:center; font-size:12px; color:#888; margin:8px 0 0;">
-  22.470 Knoten · 171.002 Kanten · 0 erkennbare Struktur
+<p>
+Eine Kante entsteht nur bei gegenseitigem Like, also ein bewusstes, wechselseitiges Signal. Die Dichte von 0,001 zeigt, dass nur 0,1 % aller möglichen Verbindungen existieren, typisch für reale soziale Netzwerke, die in Clustern statt gleichmäßig wachsen. Der Clustering-Koeffizient von 0,232 bestätigt das: 23 % aller möglichen Dreiecke sind geschlossen, ein Zufallsgraph gleicher Größe läge nahe null. Das Netzwerk enthält also schon vor der Visualisierung erkennbare Community-Struktur.
 </p>
-<section id="was-hier-schiefläuft" class="level3">
-<h3 class="anchored" data-anchor-id="was-hier-schiefläuft">Was hier schiefläuft</h3>
-<p>Dieses Bild hat einen Namen, Hairball. Die Knoten sind ohne jede Ordnung platziert, die Kanten überlagern sich zu einem unlesbaren Geflecht.</p>
-<p>Das Problem heißt <strong>Overplotting</strong>. Knoten und Kanten überlagern sich so dicht, dass keine Struktur mehr erkennbar ist. Gruppen verschwinden im Rauschen, Zusammenhänge werden unsichtbar.</p>
+</div>
+</details>
 <p style="text-align:center; font-size:1.3rem; font-weight:600; margin:3rem 0 1rem; color:#2C2C2A;">
   Wie macht man Struktur in einem 22.000-Knoten-Graphen sichtbar?
 </p>
@@ -383,7 +351,6 @@ window.Quarto = {
 <p style="text-align:center; font-size:0.95rem; color:#888; margin:0 0 2rem;">
   Die Antwort liegt in einer Kombination aus Layout, Clustering und Datenvereinfachung.
 </p>
-</section>
 </section>
 <section id="mit-forceatlas2-und-louvain" class="level1">
 <h1>Mit ForceAtlas2 und Louvain</h1>
