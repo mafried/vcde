@@ -218,17 +218,20 @@ ul.task-list li input[type="checkbox"] {
 <section id="layout-graphalg-1" class="level3">
 <h3 class="anchored" data-anchor-id="layout-graphalg-1">Layout + GraphAlg</h3>
 <p>Hier könnt ihr erklären, warum man stärker aggregieren, filtern oder Communities hervorheben muss. Technisch könnt ihr den Übergang zu Canvas motivieren, weil Rendering und Interaktion bei mehreren tausend Knoten anders gelöst werden müssen als im kleinen Ego-Netz.</p>
-<p>[Hier folgt weiterer Inhalt]</p>
 </section>
 </section>
 <section id="großer-datensatz" class="level2">
 <h2 class="anchored" data-anchor-id="großer-datensatz">3. Großer Datensatz</h2>
-<p>Stell dir vor, du öffnest Facebook im November 2017 und kannst nicht einzelne Nutzer sehen. Nur offizielle, verifizierte Seiten: Regierungen, Politiker, TV-Sender, Konzerne. Welche Seiten mögen sich gegenseitig? Wer ist mit wem vernetzt?</p>
-<p>Genau das ist dieser Datensatz. Das <strong>Facebook Large Page-Page Network</strong> ist ein Schnappschuss eines sozialen Graphen, der nicht aus Freundschaften besteht, sondern aus gegenseitigen Likes zwischen verifizierten Facebook-Seiten.</p>
-<section id="was-bedeutet-eine-kante-hier" class="level3">
-<h3 class="anchored" data-anchor-id="was-bedeutet-eine-kante-hier">Was bedeutet eine Kante hier?</h3>
-<p>Wenn Seite A Seite B liked und Seite B Seite A liked, entsteht eine ungerichtete Kante. Kein einseitiges Folgen, sondern ein echtes wechselseitiges Signal: “Wir kennen uns, wir stehen füreinander.” Das ist semantisch dichter als ein einfacher Follow-Graph. Und genau deshalb lohnt es sich, dieses Netzwerk zu visualisieren: Hinter jeder Kante steckt eine bewusste, beidseitige Entscheidung.</p>
-<p>Das Netzwerk umfasst vier Kategorien, die Facebook selbst definiert hat: Politiker, Regierungsorganisationen, TV-Sender und Unternehmen. Keine Überschneidungen, klare Zuordnung. Das macht den Datensatz besonders nützlich für Visualisierung, denn wir können jederzeit fragen: Verbinden sich Seiten eher innerhalb ihrer Kategorie oder quer durch alle Bereiche?</p>
+<p>Stell dir vor, du öffnest Facebook im November 2017 und siehst nicht einzelne Nutzer, sondern nur offizielle, verifizierte Seiten: Regierungen, Politiker, TV-Sender, Konzerne. Wer ist mit wem vernetzt?</p>
+<p>Das ist das <strong>Facebook Large Page-Page Network</strong>: ein sozialer Graph aus gegenseitigen Likes zwischen verifizierten Seiten, organisiert in vier klar getrennten Kategorien.</p>
+<details class="acc">
+<summary><span class="acc-toggle"></span><span class="acc-title">Was bedeutet eine Kante in diesem Graphen</span><span class="acc-tag tag-konzept">Konzept</span></summary>
+<div class="acc-body">
+
+<p>Eine Kante entsteht nur, wenn beide Seiten sich gegenseitig liken. Das ist kein einseitiges Folgen, sondern ein wechselseitiges Signal und macht das Netzwerk semantisch dichter als einen einfachen Follow-Graphen: Jede Kante steht für eine bewusste, beidseitige Verbindung.</p>
+
+</div>
+</details>
 <div style="margin: 2rem 0;">
 
   <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; border-top: 1px solid #e5e4e0; border-bottom: 1px solid #e5e4e0; padding: 1.5rem 0; margin-bottom: 2rem;">
@@ -310,30 +313,30 @@ ul.task-list li input[type="checkbox"] {
   });
 })();
 </script>
-</section>
+<details class="acc">
+<summary><span class="acc-toggle"></span><span class="acc-title">Warum eignet sich dieser Datensatz für diese Größenordnung</span><span class="acc-tag tag-konzept">Konzept</span></summary>
+<div class="acc-body">
+
+<p>22.470 Knoten und 171.002 Kanten erzeugen reale Skalierungsprobleme wie Overplotting, Performance und Lesbarkeit. Gleichzeitig sind die vier Kategorien klar definiert und überschneidungsfrei. Jede Visualisierung lässt sich damit an derselben Frage messen: Erkennt man im Layout, was inhaltlich zusammengehört?</p>
+
+</div>
+</details>
 <section id="was-sagen-diese-zahlen" class="level3">
 <h3 class="anchored" data-anchor-id="was-sagen-diese-zahlen">Was sagen diese Zahlen?</h3>
-<p>Eine Dichte von 0,001 bedeutet: Von allen theoretisch möglichen Verbindungen zwischen 22.470 Seiten existieren nur 0,1 %. Das ist kein Mangel, sondern das typische Verhalten realer sozialer Netzwerke. Verbindungen entstehen nicht gleichmäßig verteilt, sie ballen sich zusammen. Wo viele Kanten zusammenlaufen, entstehen Cluster.</p>
-<p>Der Clustering-Koeffizient von 0,232 zeigt: In 23 % aller möglichen Dreiecke ist die dritte Kante tatsächlich vorhanden. Wenn Seite A und Seite B beide Seite C liken, liken sich A und B mit 23 % Wahrscheinlichkeit auch gegenseitig. Ein Zufallsgraph gleicher Größe hätte hier einen Wert nahe null. Das Netzwerk ist also nicht zufällig strukturiert. Es gibt echte Gemeinschaften. Und die wollen wir sichtbar machen.</p>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
+<p>Eine Dichte von 0,001 zeigt: Von allen möglichen Verbindungen existieren nur 0,1 %. Das ist typisch für reale soziale Netzwerke, die nicht gleichmäßig, sondern in Clustern wachsen. Der Clustering-Koeffizient von 0,232 bestätigt das: Das Netzwerk ist nicht zufällig strukturiert, sondern enthält echte Gemeinschaften, die sich sichtbar machen lassen.</p>
+<details class="acc">
+<summary><span class="acc-toggle"></span><span class="acc-title">Was bedeutet der Clustering-Koeffizient konkret</span><span class="acc-tag tag-konzept">Konzept</span></summary>
+<div class="acc-body">
+
+<p>23 % aller möglichen Dreiecke sind tatsächlich geschlossen: Wenn A und B beide C liken, liken sich A und B mit 23 % Wahrscheinlichkeit auch gegenseitig. Ein Zufallsgraph gleicher Größe läge nahe null. Das ist ein erster Hinweis auf Community-Struktur, schon vor der eigentlichen Visualisierung.</p>
+
 </div>
-<div class="callout-title-container flex-fill">
-Note
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><strong>Warum ist dieser Datensatz gut für diese Skala?</strong></p>
-<p>Mit 22.470 Knoten und 171.002 Kanten ist er groß genug, um echte Skalierungsprobleme zu erzeugen: Overplotting, Performance, Lesbarkeit. Gleichzeitig sind die vier Kategorien klar definiert und semantisch verständlich. Das erlaubt eine direkte Frage an jede Visualisierung: Kann man im Layout erkennen, was inhaltlich zusammengehört?</p>
-</div>
-</div>
+</details>
 </section>
 </section>
 <section id="das-problem-wenn-größe-zur-grenze-wird" class="level2">
 <h2 class="anchored" data-anchor-id="das-problem-wenn-größe-zur-grenze-wird">Das Problem: Wenn Größe zur Grenze wird</h2>
-<p>Bei hundert Knoten reicht ein einfaches Layout. Bei tausend braucht man einen guten Algorithmus. Bei 22.000 Knoten und 171.000 Kanten sieht es ohne einen so aus:</p>
+<p>Bei hundert Knoten reicht ein einfaches Layout. Bei tausend braucht es einen guten Algorithmus. Bei 22.000 Knoten und 171.000 Kanten sieht es ohne einen so aus:</p>
 <iframe src="graph_big/visuals/hairball.html" width="100%" height="400px" style="border: none; border-radius: 8px;">
 </iframe>
 
@@ -343,33 +346,32 @@ Note
 <section id="was-hier-schiefläuft" class="level3">
 <h3 class="anchored" data-anchor-id="was-hier-schiefläuft">Was hier schiefläuft</h3>
 <p>Dieses Bild hat einen Namen: <strong>Hairball</strong>. Die Knoten sind ohne jede Ordnung platziert, die Kanten überlagern sich zu einem unlesbaren Geflecht.</p>
-<p>Das Problem heißt <strong>Overplotting</strong>: Knoten und Kanten überlagern sich so dicht, dass keine Struktur mehr erkennbar ist. Gruppen verschwinden im Rauschen. Zusammenhänge werden unsichtbar.</p>
+<p>Das Problem heißt <strong>Overplotting</strong>: Knoten und Kanten überlagern sich so dicht, dass keine Struktur mehr erkennbar ist. Gruppen verschwinden im Rauschen, Zusammenhänge werden unsichtbar.</p>
 <p style="text-align:center; font-size:1.3rem; font-weight:600; margin:3rem 0 1rem; color:#2C2C2A;">
   Wie macht man Struktur in einem 22.000-Knoten-Graphen sichtbar?
 </p>
 
 <p style="text-align:center; font-size:0.95rem; color:#888; margin:0 0 2rem;">
-  Die Antwort liegt nicht in einem einzelnen Algorithmus
-  sondern in einer Kombination aus Layout, Clustering und Datenvereinfachung.
+  Die Antwort liegt in einer Kombination aus Layout, Clustering und Datenvereinfachung.
 </p>
 </section>
 </section>
 <section id="mit-forceatlas2-louvain-und-sampling" class="level1">
 <h1>Mit ForceAtlas2, Louvain und Sampling</h1>
-<p>22.470 Knoten und 171.002 Kanten. Das sind die Zahlen, an denen jede naive Visualisierungsstrategie scheitert.</p>
-<p>Der erste Instinkt, alle Knoten gleichmäßig verteilen und alle Kanten zeichnen, führt zu einem Hairball: ein dichter schwarzer Klumpen, aus dem keine Struktur ablesbar ist. Das ist kein Darstellungsproblem, sondern ein Informationsproblem. Die Frage lautet nicht „wie zeichne ich das?“, sondern „welche Struktur ist überhaupt da, und wie mache ich sie sichtbar?”</p>
-<p>Die Antwort ist kein einzelner Schritt, sondern drei aufeinander aufbauende Entscheidungen.</p>
+<p>22.470 Knoten und 171.002 Kanten: Das sind die Größenordnungen, an denen jede naive Visualisierungsstrategie scheitert.</p>
+<p>Verteilt man alle Knoten gleichmäßig und zeichnet alle Kanten, entsteht ein Hairball: ein dichter schwarzer Klumpen, aus dem keine Struktur ablesbar ist. Das ist kein Darstellungsproblem, sondern ein Informationsproblem. Die relevante Frage lautet nicht, wie sich das zeichnen lässt, sondern welche Struktur überhaupt vorhanden ist und wie sie sichtbar wird.</p>
+<p>Drei aufeinander aufbauende Entscheidungen führen zur Lösung.</p>
 <hr>
 <section id="forceatlas2-struktur-sichtbar-machen" class="level3">
 <h3 class="anchored" data-anchor-id="forceatlas2-struktur-sichtbar-machen">ForceAtlas2: Struktur sichtbar machen</h3>
-<p>Knoten haben keine natürlichen Koordinaten. Eine Facebook-Seite ist kein Punkt im Raum. ForceAtlas2 löst das, indem es Positionen aus der Struktur des Graphen ableitet: verbundene Knoten ziehen sich an, alle anderen stoßen sich ab, das System konvergiert iterativ in ein Gleichgewicht. Es gehört zur Familie der kräftebasierten Layouts, ist aber speziell für große, skalenfreie Netzwerke entwickelt worden, also Graphen, in denen wenige Knoten sehr viele Verbindungen haben und die meisten sehr wenige.</p>
+<p>Knoten haben keine natürlichen Koordinaten, eine Facebook-Seite ist kein Punkt im Raum. ForceAtlas2 leitet Positionen aus der Struktur des Graphen ab: Verbundene Knoten ziehen sich an, alle anderen stoßen sich ab, das System konvergiert iterativ in ein Gleichgewicht. Der Algorithmus gehört zur Familie der kräftebasierten Layouts, wurde aber speziell für große, skalenfreie Netzwerke entwickelt, also für Graphen, in denen wenige Knoten sehr viele Verbindungen haben und die meisten sehr wenige.</p>
 <p>Nach 800 Iterationen hat sich dieses Gleichgewicht eingestellt.</p>
 <iframe src="graph_big/visuals/fa2_greygraph.html" width="100%" height="600px" style="border: 1px solid #e5e4e0;" loading="lazy">
 </iframe>
 <p style="text-align:center; font-size:12px; color:#888; margin:8px 0 16px;">
   22.470 Knoten · ForceAtlas2 · 800 Iterationen · Knotengröße = Degree (Anzahl direkter Verbindungen)
 </p>
-<p>Ein dichter Kern stark vernetzter Seiten, dünn verbundene Knoten am Rand, weit außen liegende Ausreißer. Diese Ausreißer sind kein Layoutfehler. ForceAtlas2 trennt Seiten mit sehr wenigen Likes konsequent vom Hauptcluster. Das ist ein Befund über den Datensatz.</p>
+<p>Ein dichter Kern stark vernetzter Seiten, dünn verbundene Knoten am Rand, weit außen liegende Ausreißer. Diese Ausreißer sind kein Layoutfehler. ForceAtlas2 trennt Seiten mit sehr wenigen Likes konsequent vom Hauptcluster, das ist ein Befund über den Datensatz selbst.</p>
 <style>
 .acc{margin:.5rem 0;border:1px solid #e2e0da;border-radius:10px;overflow:hidden;background:#fff}
 .acc summary{cursor:pointer;padding:.8rem 1rem .8rem .875rem;display:flex;align-items:center;gap:.6rem;list-style:none;font-size:.875rem;font-weight:500;color:#2a2a28;user-select:none}
@@ -394,7 +396,7 @@ Note
 
 <p>Kräftebasierte Layouts haben eine lange Geschichte. Fruchterman und Reingold beschrieben 1991 das Grundprinzip: Federn zwischen verbundenen Knoten, Abstoßung zwischen allen anderen, iterative Simulation bis zum Gleichgewicht. Das Ergebnis ist ein Layout, das die Topologie des Graphen in räumliche Nähe übersetzt, ohne dass Koordinaten manuell vergeben werden müssen.</p>
 
-<p>FA2 ist keine Neuerfindung dieses Prinzips, sondern eine Spezialisierung. Fruchterman-Reingold behandelt alle Knoten gleich. Das funktioniert für kleine, gleichmäßige Graphen gut, aber nicht für skalenfreie Netzwerke, in denen Gradverteilungen stark ungleich sind. Das Facebook-Netzwerk ist genau so ein Fall: wenige Seiten mit tausenden Verbindungen, die meisten mit einer Handvoll. Ein generisches Layout würde diese Asymmetrie ignorieren oder verzerren. FA2 wurde dafür gebaut.</p>
+<p>FA2 ist eine Spezialisierung dieses Prinzips. Fruchterman-Reingold behandelt alle Knoten gleich, was für kleine, gleichmäßige Graphen gut funktioniert, aber nicht für skalenfreie Netzwerke mit stark ungleichen Gradverteilungen. Das Facebook-Netzwerk ist genau so ein Fall: wenige Seiten mit tausenden Verbindungen, die meisten mit einer Handvoll. Ein generisches Layout würde diese Asymmetrie ignorieren oder verzerren. FA2 wurde dafür gebaut.</p>
 
 </div>
 </details>
@@ -404,7 +406,7 @@ Note
 
 <p><strong>Hub-Repulsion (Hub2):</strong> In einem skalenfreien Netzwerk würden Hochgrad-Knoten ohne Gegenkraft das gesamte Layout gravitativ dominieren und alle anderen Knoten an sich ziehen. Hub2 gibt Hubs quadratisch stärkere Abstoßungskräfte, proportional zu ihrem Degree. Das hält sie sichtbar zentriert, ohne dass sie den gesamten Layoutraum beanspruchen. Die Knotengröße in dieser Visualisierung kodiert genau diesen Degree, was die Abstoßungslogik direkt widerspiegelt: große Knoten stoßen stärker ab.</p>
 
-<p><strong>LinLog-Modus:</strong> Er verändert, wie Anziehung mit Kantenanzahl skaliert. Im Standard-Modus wächst Anziehung linear mit der Kantenzahl, was dazu führt, dass Cluster verschmieren. LinLog skaliert logarithmisch, was Cluster intern dichter und Abstände zwischen ihnen größer macht. Das Ergebnis sind schärfere Gruppenstrukturen ohne manuelle Parameterjustierung.</p>
+<p><strong>LinLog-Modus:</strong> Er verändert, wie Anziehung mit Kantenanzahl skaliert. Im Standard-Modus wächst Anziehung linear mit der Kantenzahl, wodurch Cluster verschmieren. LinLog skaliert logarithmisch, was Cluster intern dichter und Abstände zwischen ihnen größer macht. Das Ergebnis sind schärfere Gruppenstrukturen ohne manuelle Parameterjustierung.</p>
 
 </div>
 </details>
@@ -414,9 +416,9 @@ Note
 
 <p>Abstoßung wirkt bei FA2 zwischen allen Knotenpaaren, also O(n²) Berechnungen pro Iteration. Bei 22.470 Knoten sind das über 252 Millionen Paare, bei 800 Iterationen praktisch nicht durchführbar.</p>
 
-<p>Die Lösung ist Barnes-Hut-Approximation: Der Layoutraum wird in einen Quadtree unterteilt. Weit entfernte Knotengruppen werden als einzelner Schwerpunkt behandelt, was die Komplexität von O(n²) auf O(n log n) reduziert. Der Parameter θ steuert diese Granularität. Bei θ = 1.2 gilt eine Gruppe als ausreichend weit entfernt, wenn ihr Durchmesser kleiner ist als 1,2× ihre Entfernung zum aktuellen Knoten. Kleinere θ-Werte nähern sich dem exakten O(n²) an, größere beschleunigen auf Kosten der Präzision.</p>
+<p>Die Lösung ist Barnes-Hut-Approximation: Der Layoutraum wird in einen Quadtree unterteilt. Weit entfernte Knotengruppen werden als einzelner Schwerpunkt behandelt, was die Komplexität von O(n²) auf O(n log n) reduziert. Der Parameter θ steuert diese Granularität. Bei θ = 1.2 gilt eine Gruppe als ausreichend weit entfernt, wenn ihr Durchmesser kleiner ist als 1,2-mal ihre Entfernung zum aktuellen Knoten. Kleinere θ-Werte nähern sich dem exakten O(n²) an, größere beschleunigen auf Kosten der Präzision.</p>
 
-<p>500 Iterationen (getestet) führen zu schlechterer Clustertrennung, die Simulation ist noch nicht konvergiert. Bei 800 ist der Zugewinn den Rechenaufwand wert.</p>
+<p>500 Iterationen (getestet) führen zu schlechterer Clustertrennung, die Simulation ist zu diesem Zeitpunkt noch nicht konvergiert. Bei 800 Iterationen rechtfertigt der Zugewinn den zusätzlichen Rechenaufwand.</p>
 
 <div class="acc-note">
   FA2 ist nicht-deterministisch. <code>np.random.seed(42)</code> sorgt dafür, dass jeder Durchlauf dasselbe Layout erzeugt.
@@ -442,7 +444,6 @@ Note
 
 positions = forceatlas2.forceatlas2_networkx_layout(G, pos=None, iterations=800)</code></pre>
 
-<p>Barnes-Hut reduziert die Komplexität von O(n²) auf O(n log n), indem weit entfernte Knotengruppen als einzelner Schwerpunkt behandelt werden. Bei 22.470 Knoten macht das den Unterschied zwischen Minuten und Stunden. <code>outboundAttractionDistribution</code> verteilt die Anziehungskraft proportional zum Knotengrad, was verhindert, dass Hubs das gesamte Layout dominieren.</p>
 
 </div>
 </details>
@@ -450,21 +451,21 @@ positions = forceatlas2.forceatlas2_networkx_layout(G, pos=None, iterations=800)
 </section>
 <section id="kategorien-was-facebook-sagt" class="level3">
 <h3 class="anchored" data-anchor-id="kategorien-was-facebook-sagt">Kategorien: was Facebook sagt</h3>
-<p>Das Layout kodiert Verbindungsstruktur, aber keine Inhalte. Die vier Kategorien, Politiker, Regierung, TV-Sender und Unternehmen, hat Facebook selbst vergeben. ForceAtlas2 hat sie nie gesehen. Der Algorithmus kennt nur Kanten.</p>
+<p>Das Layout kodiert Verbindungsstruktur, aber keine Inhalte. Die vier Kategorien, Politiker, Regierung, TV-Sender und Unternehmen, hat Facebook selbst vergeben. ForceAtlas2 hat sie nie gesehen, der Algorithmus kennt nur Kanten.</p>
 <iframe src="graph_big/visuals/fa2_categorygraph.html" width="100%" height="600px" style="border: 1px solid #e5e4e0;" loading="lazy">
 </iframe>
 <p style="text-align:center; font-size:12px; color:#888; margin:8px 0 16px;">
   Gleiche Positionen · Färbung nach Facebook-Kategorie
 </p>
 <p>Gleichfarbige Knoten stehen häufig beisammen, obwohl die Farbe das Layout nicht beeinflusst hat. Seiten derselben Kategorie verlinken sich offenbar häufiger gegenseitig, und FA2 hat diese Struktur allein aus den Kanten rekonstruiert.</p>
-<p>Die Farbgrenzen bleiben aber unscharf. Ein Politiker, der viele TV-Sender liked, landet näher an diesen Sendern als an anderen Politikern. Scharfe Grenzen würden bedeuten, dass Kategorie und Verbindungsstruktur perfekt übereinstimmen. Sie tun es nicht, und das ist interessant.</p>
+<p>Die Farbgrenzen bleiben dabei unscharf. Ein Politiker, der viele TV-Sender liked, landet näher an diesen Sendern als an anderen Politikern. Kategorie und Verbindungsstruktur stimmen also nicht perfekt überein, und genau diese Abweichung trägt Information.</p>
 <details class="acc">
 <summary><span class="acc-toggle"></span><span class="acc-title">Warum FA2 keine Kategorien erzwingen kann</span><span class="acc-tag tag-konzept">Konzept</span></summary>
 <div class="acc-body">
 
-<p>ForceAtlas2 ist blind für Attribute. Kategorieähnlichkeit als Kraft ins Layout einzuspeisen würde bedeuten, die Kantenstruktur zu manipulieren, was die Visualisierung verfälschen würde. FA2 kann Kategoriecluster zeigen, wenn sie in der Verbindungsstruktur vorhanden sind. Es kann sie nicht erzwingen.</p>
+<p>ForceAtlas2 ist blind für Attribute. Kategorieähnlichkeit als Kraft ins Layout einzuspeisen würde bedeuten, die Kantenstruktur zu manipulieren, was die Visualisierung verfälschen würde. FA2 kann Kategoriecluster zeigen, wenn sie in der Verbindungsstruktur vorhanden sind, kann sie aber nicht erzwingen.</p>
 
-<p>Die Trennung von Layout und Attribut ist eine bewusste Entscheidung: erst die rohe Struktur sichtbar machen, dann Bedeutung einblenden. Beides gleichzeitig würde bedeuten, das Ergebnis vorwegzunehmen.</p>
+<p>Die Trennung von Layout und Attribut ist eine bewusste Entscheidung: erst die rohe Struktur sichtbar machen, dann Bedeutung einblenden. Beides gleichzeitig würde das Ergebnis vorwegnehmen.</p>
 
 </div>
 </details>
@@ -472,9 +473,8 @@ positions = forceatlas2.forceatlas2_networkx_layout(G, pos=None, iterations=800)
 </section>
 <section id="louvain-was-die-daten-sagen" class="level3">
 <h3 class="anchored" data-anchor-id="louvain-was-die-daten-sagen">Louvain: was die Daten sagen</h3>
-<p>Kategorien beantworten die Frage: <em>Was ist eine Seite?</em> Louvain Community Detection stellt eine andere Frage: <em>Mit wem ist sie verbunden, und was entsteht dabei?</em></p>
-<p>Der Algorithmus sieht nur Kanten und maximiert Modularität Q: den Anteil der Kanten, der innerhalb gefundener Communities liegt, abzüglich des Anteils, den man in einem Zufallsgraphen mit denselben Gradverteilungen erwarten würde. Ein Q nahe 0 bedeutet keine erkennbare Struktur. Q ≈ 0.8 auf diesem Datensatz bedeutet das Gegenteil.</p>
-<p>Die Visualisierung unten kombiniert beide Perspektiven. Hover und Toggle folgen dabei dem Focus+Context-Prinzip: Übersicht zuerst, Detail auf Abruf, Kontextwechsel ohne Neuberechnung.</p>
+<p>Kategorien beantworten die Frage, was eine Seite ist. Louvain Community Detection stellt eine andere Frage: Mit wem ist sie verbunden, und was entsteht dabei?</p>
+<p>Der Algorithmus sieht nur Kanten und maximiert Modularität Q: den Anteil der Kanten, der innerhalb gefundener Communities liegt, abzüglich des Anteils, den ein Zufallsgraph mit denselben Gradverteilungen erwarten ließe. Ein Q nahe 0 bedeutet keine erkennbare Struktur, Q ≈ 0,8 auf diesem Datensatz bedeutet ausgeprägte Communities.</p>
 <iframe src="graph_big/visuals/fa2_graphbig.html" width="100%" height="600px" style="border: 1px solid #e5e4e0;" loading="lazy">
 </iframe>
 
@@ -492,12 +492,12 @@ positions = forceatlas2.forceatlas2_networkx_layout(G, pos=None, iterations=800)
   <div>Toggle schaltet zwischen Kategorie- und Community-Färbung</div>
   <div>54 Communities · Q ≈ 0.8</div>
 </div>
-<p>FA2 und Louvain haben völlig unabhängig voneinander gearbeitet: FA2 kennt keine Communities, Louvain kennt keine Koordinaten. Dass sie räumlich zu ähnlichen Clustern kommen, ist der stärkste Hinweis darauf, dass diese Struktur tatsächlich im Datensatz steckt.</p>
+<p>FA2 und Louvain haben unabhängig voneinander gearbeitet: FA2 kennt keine Communities, Louvain kennt keine Koordinaten. Dass beide räumlich zu ähnlichen Clustern kommen, ist ein starker Hinweis darauf, dass diese Struktur tatsächlich im Datensatz vorhanden ist.</p>
 <details class="acc">
 <summary><span class="acc-toggle"></span><span class="acc-title">Wie Louvain Communities findet</span><span class="acc-tag tag-algo">Algorithmus</span></summary>
 <div class="acc-body">
 
-<p><strong>Phase 1.</strong> Jeder Knoten startet als eigene Community. Er prüft für jeden Nachbarn: Steigt Q, wenn ich in dessen Community wechsle? Falls ja, wechselt er. Das wiederholt sich, bis kein Wechsel Q weiter erhöht.</p>
+<p><strong>Phase 1.</strong> Jeder Knoten startet als eigene Community. Für jeden Nachbarn wird geprüft, ob Q steigt, wenn der Knoten in dessen Community wechselt. Falls ja, erfolgt der Wechsel. Das wiederholt sich, bis kein Wechsel Q weiter erhöht.</p>
 
 <p><strong>Phase 2.</strong> Die gefundenen Communities werden zu Superknoten komprimiert, Verbindungen zwischen ihnen zu gewichteten Kanten. Auf diesem komprimierten Graphen beginnt Phase 1 erneut. Der Algorithmus arbeitet sich hierarchisch von fein nach grob vor, was ihn schnell genug für 22.470 Knoten macht.</p>
 
@@ -511,11 +511,11 @@ positions = forceatlas2.forceatlas2_networkx_layout(G, pos=None, iterations=800)
 <summary><span class="acc-toggle"></span><span class="acc-title">Hover, Toggle und das Focus+Context-Prinzip</span><span class="acc-tag tag-ux">Interaktionsdesign</span></summary>
 <div class="acc-body">
 
-<p>Die Interaktionsstruktur folgt Shneidermans Mantra: „Overview first, zoom and filter, then details on demand." Die Grundansicht ist die Übersicht. Hover liefert das Detail. Toggle wechselt den Kontext.</p>
+<p>Die Interaktionsstruktur folgt Shneidermans Mantra: Overview first, zoom and filter, then details on demand. Die Grundansicht ist die Übersicht, Hover liefert das Detail, Toggle wechselt den Kontext.</p>
 
 <p><strong>Hover:</strong> Der hoverReducer in Sigma.js setzt alle nicht betroffenen Kanten auf niedrige Opazität und hebt nur die direkten Nachbarn hervor, ohne die Gesamtpositionierung zu verändern. Bei 171.000 Kanten ist ein einzelner Knoten mit seinen direkten Verbindungen die kleinstmögliche Einheit, die noch Sinn ergibt.</p>
 
-<p><strong>Toggle:</strong> Kategorie gegen Community, beide Male dieselben Positionen, andere Einfärbung. Der Kontextwechsel passiert ohne Neuberechnung, weil Layout und Attribut konsequent getrennt gehalten wurden. Wo beide Färbungen räumlich übereinstimmen, spiegeln Facebook-Kategorien echte Verbindungsgemeinschaften. Wo sie auseinanderfallen, etwa ein Louvain-Cluster, der Politiker und Regierungsseiten gemeinsam enthält, entstehen kategorieübergreifende Muster, die Labels allein nicht abbilden.</p>
+<p><strong>Toggle:</strong> Kategorie gegen Community, beide Male dieselben Positionen, andere Einfärbung. Der Kontextwechsel passiert ohne Neuberechnung, weil Layout und Attribut konsequent getrennt gehalten wurden. Wo beide Färbungen räumlich übereinstimmen, spiegeln Facebook-Kategorien echte Verbindungsgemeinschaften. Wo sie auseinanderfallen, etwa bei einem Louvain-Cluster, der Politiker und Regierungsseiten gemeinsam enthält, entstehen kategorieübergreifende Muster, die Labels allein nicht abbilden.</p>
 
 </div>
 </details>
@@ -554,37 +554,37 @@ positions = forceatlas2.forceatlas2_networkx_layout(G, pos=None, iterations=800)
 <summary><span class="acc-toggle"></span><span class="acc-title">Warum die Berechnung nicht im Browser stattfindet</span><span class="acc-tag tag-arch">Architekturentscheidung</span></summary>
 <div class="acc-body">
 
-<p>FA2 im Browser zu berechnen wäre möglich, es gibt JavaScript-Implementierungen. Bei 22.470 Knoten und 800 Iterationen würde die Berechnung mehrere Minuten dauern und den Browser-Hauptthread blockieren.</p>
+<p>FA2 im Browser zu berechnen wäre möglich, es gibt JavaScript-Implementierungen dafür. Bei 22.470 Knoten und 800 Iterationen würde die Berechnung mehrere Minuten dauern und den Browser-Hauptthread blockieren.</p>
 
 <p>Die Entscheidung war deshalb: Berechnung offline in Python, Ergebnis als statische JSON-Datei. Sigma.js bekommt fertige Koordinaten und rendert sofort per WebGL, was auch 171.000 Kanten flüssig darstellt.</p>
 
-<p>Der Nachteil ist real: Parameter wie Iterationszahl oder Barnes-Hut-Theta können nicht interaktiv angepasst werden. Für ein didaktisches Tool, das ein bestimmtes Ergebnis zeigen soll, ist das akzeptabel.</p>
+<p>Der Nachteil ist real: Parameter wie Iterationszahl oder Barnes-Hut-Theta lassen sich nicht interaktiv anpassen. Für ein didaktisches Tool, das ein bestimmtes Ergebnis zeigen soll, ist das vertretbar.</p>
 
 </div>
 </details>
 </section>
-<section id="was-wäre-wenn-man-es-anders-gemacht-hätte" class="level2">
-<h2 class="anchored" data-anchor-id="was-wäre-wenn-man-es-anders-gemacht-hätte">Was wäre, wenn man es anders gemacht hätte?</h2>
-<p>FA2 und Louvain sind nicht die einzigen Antworten auf dieses Problem. Zwei andere Algorithmen werden für große Graphen regelmäßig vorgeschlagen. Beide haben echte Stärken. Beide scheitern auf ihre eigene Art.</p>
+<section id="alternative-ansätze-im-vergleich" class="level2">
+<h2 class="anchored" data-anchor-id="alternative-ansätze-im-vergleich">Alternative Ansätze im Vergleich</h2>
+<p>FA2 und Louvain sind nicht die einzigen Antworten auf dieses Problem. Zwei weitere Algorithmen werden für große Graphen regelmäßig vorgeschlagen, beide mit eigenen Stärken und eigenen Grenzen für diesen Anwendungsfall.</p>
 <hr>
 <section id="sfdp-scalable-force-directed-placement" class="level3">
 <h3 class="anchored" data-anchor-id="sfdp-scalable-force-directed-placement">SFDP: Scalable Force-Directed Placement</h3>
 <iframe src="graph_big/visuals/sfdp_graph.html" width="100%" height="600px" style="border: 1px solid #e5e4e0;" loading="lazy">
 </iframe>
-<p>Gleichmäßig verteilt. Rund. Lesbar. Und trotzdem nutzlos für unsere Frage.</p>
+<p>Das Layout ist gleichmäßig verteilt, rund und gut lesbar, beantwortet aber nicht die Frage, die hier interessiert.</p>
 <details class="acc">
 <summary><span class="acc-toggle"></span><span class="acc-title">Was SFDP technisch macht</span><span class="acc-tag tag-algo">Algorithmus</span></summary>
 <div class="acc-body">
-<p>SFDP steht für Scalable Force-Directed Placement. Klassische kräftebasierte Layouts berechnen pro Iteration alle Knotenpaare: O(n²). Bei 22.470 Knoten nicht praktikabel.</p>
-<p>SFDP löst das mit Multilevel Coarsening: Der Graph wird schrittweise vergröbert, ähnliche Knoten zu Superknoten zusammengefasst. Das Layout wird auf dem kleinen Graphen berechnet und dann schrittweise auf den Originalgraphen zurückübertragen. Schnell, stabil, günstig.</p>
+<p>SFDP steht für Scalable Force-Directed Placement. Klassische kräftebasierte Layouts berechnen pro Iteration alle Knotenpaare, also O(n²). Bei 22.470 Knoten ist das nicht praktikabel.</p>
+<p>SFDP löst das mit Multilevel Coarsening: Der Graph wird schrittweise vergröbert, ähnliche Knoten werden zu Superknoten zusammengefasst. Das Layout wird auf dem kleinen Graphen berechnet und dann schrittweise auf den Originalgraphen zurückübertragen.</p>
 </div>
 </details>
 
 <details class="acc">
 <summary><span class="acc-toggle"></span><span class="acc-title">Warum das hier nicht funktioniert</span><span class="acc-tag tag-konzept">Konzept</span></summary>
 <div class="acc-body">
-<p>SFDP optimiert auf globale Übersichtlichkeit, nicht auf Community-Auflösung. Dichteunterschiede werden geglättet, Cluster verschmieren. Ein Graph mit Q ≈ 0,8, also ausgeprägten Communities, sieht im SFDP-Layout aus wie ein Zufallsgraph.</p>
-<p>Das Layout ist nicht falsch. Es beantwortet nur eine andere Frage: Wie verteile ich Knoten gleichmäßig im Raum? Nicht: Welche Knoten gehören zusammen?</p>
+<p>SFDP optimiert auf globale Übersichtlichkeit, nicht auf Community-Auflösung. Dichteunterschiede werden geglättet, Cluster verschmieren. Ein Graph mit Q ≈ 0,8, also mit ausgeprägten Communities, sieht im SFDP-Layout aus wie ein Zufallsgraph.</p>
+<p>Das Layout ist als solches korrekt, beantwortet aber eine andere Fragestellung: gleichmäßige Verteilung im Raum statt Zugehörigkeit der Knoten zueinander.</p>
 </div>
 </details>
 <hr>
@@ -593,22 +593,20 @@ positions = forceatlas2.forceatlas2_networkx_layout(G, pos=None, iterations=800)
 <h3 class="anchored" data-anchor-id="umap-uniform-manifold-approximation-and-projection">UMAP: Uniform Manifold Approximation and Projection</h3>
 <iframe src="graph_big/visuals/umap_graph.html" width="100%" height="600px" style="border: 1px solid #e5e4e0;" loading="lazy">
 </iframe>
-<p>Scharfe Cluster. Klare Trennung. Auf den ersten Blick das überzeugendste Bild. Aber UMAP beantwortet eine andere Frage als die, die wir stellen.</p>
+<p>Scharfe Cluster, klare Trennung, auf den ersten Blick ein überzeugendes Bild. UMAP beantwortet hier jedoch eine andere Frage als FA2 und Louvain.</p>
 <details class="acc">
 <summary><span class="acc-toggle"></span><span class="acc-title">Was UMAP technisch macht</span><span class="acc-tag tag-algo">Algorithmus</span></summary>
 <div class="acc-body">
-<p>UMAP (Uniform Manifold Approximation and Projection) ist kein Graphlayout-Algorithmus. Es ist ein Dimensionsreduktionsverfahren aus dem maschinellen Lernen. Es baut einen gewichteten k-nächste-Nachbarn-Graphen im hochdimensionalen Raum und optimiert dann eine 2D-Einbettung, die lokale Nachbarschaftsstruktur erhält.</p>
-<p>Für Graphdaten heißt das: UMAP projiziert entweder die Adjazenzmatrix oder Knotenfeatures als Zahlenvektoren. Die 171.002 Kanten des Facebook-Datensatzes werden nicht als Verbindungen behandelt, sondern als Merkmalsdaten umgerechnet.</p>
+<p>UMAP (Uniform Manifold Approximation and Projection) ist kein Graphlayout-Algorithmus, sondern ein Dimensionsreduktionsverfahren aus dem maschinellen Lernen. Es baut einen gewichteten k-nächste-Nachbarn-Graphen im hochdimensionalen Raum und optimiert dann eine 2D-Einbettung, die lokale Nachbarschaftsstruktur erhält.</p>
+<p>Für Graphdaten heißt das: UMAP projiziert entweder die Adjazenzmatrix oder Knotenfeatures als Zahlenvektoren. Die 171.002 Kanten des Facebook-Datensatzes werden dabei nicht als Verbindungen behandelt, sondern als Merkmalsdaten umgerechnet.</p>
 </div>
 </details>
-
-
 
 <details class="acc">
 <summary><span class="acc-toggle"></span><span class="acc-title">Wo die Grenze liegt</span><span class="acc-tag tag-konzept">Konzept</span></summary>
 <div class="acc-body">
-<p>Was UMAP als "Cluster" zeigt, ist Ähnlichkeit in den Seitenbeschreibungen oder der Adjazenzstruktur als Feature-Vektor, kein Verbindungsmuster. Die Frage "welche Seiten liken sich gegenseitig, und was entsteht dabei?" wird nicht beantwortet.</p>
-<p>UMAP hat sinnvolle Anwendungsfälle: wenn Knotenähnlichkeit die relevante Dimension ist, etwa für Klassifikationsaufgaben. Als Graphlayout, das Netzwerktopologie sichtbar macht, ist es das falsche Werkzeug.</p>
+<p>Was UMAP als Cluster zeigt, ist Ähnlichkeit in den Seitenbeschreibungen oder der Adjazenzstruktur als Feature-Vektor, kein Verbindungsmuster. Die Frage, welche Seiten sich gegenseitig liken und was dabei entsteht, bleibt unbeantwortet.</p>
+<p>UMAP hat sinnvolle Anwendungsfälle, etwa wenn Knotenähnlichkeit die relevante Dimension ist, beispielsweise für Klassifikationsaufgaben. Als Graphlayout zur Darstellung von Netzwerktopologie ist es hier nicht geeignet.</p>
 </div>
 </details>
 
@@ -616,24 +614,24 @@ positions = forceatlas2.forceatlas2_networkx_layout(G, pos=None, iterations=800)
 <summary><span class="acc-toggle"></span><span class="acc-title">Wann UMAP sinnvoll wäre</span><span class="acc-tag tag-konzept">Konzept</span></summary>
 <div class="acc-body">
 
-<p>UMAP hat klare Stärken, wenn die relevante Frage Ähnlichkeit ist, nicht Verbindung. Für den Facebook-Datensatz wäre das: Welche Seiten haben ähnliche Beschreibungstexte? Die <code>musae_facebook_features.json</code> enthält genau diese Knotenfeatures als hochdimensionale Vektoren. Eine UMAP-Projektion würde inhaltlich ähnliche Seiten zusammenführen, unabhängig davon ob sie sich gegenseitig liken.</p>
+<p>UMAP hat klare Stärken, wenn die relevante Frage Ähnlichkeit betrifft, nicht Verbindung. Für den Facebook-Datensatz wäre das: Welche Seiten haben ähnliche Beschreibungstexte? Die <code>musae_facebook_features.json</code> enthält genau diese Knotenfeatures als hochdimensionale Vektoren. Eine UMAP-Projektion würde inhaltlich ähnliche Seiten zusammenführen, unabhängig davon, ob sie sich gegenseitig liken.</p>
 
-<p>Für die primäre Task des Datensatzes, Multi-Class Node Classification, ist das ein legitimer Ansatz. Als Graphlayout, das Netzwerktopologie sichtbar macht, ist es das falsche Werkzeug: Die 171.002 Kanten werden nicht als Verbindungen behandelt, sondern als Merkmalsdaten umgerechnet. Was UMAP als Cluster zeigt, ist Feature-Ähnlichkeit, kein Verbindungsmuster.</p>
+<p>Für die primäre Task des Datensatzes, Multi-Class Node Classification, ist das ein legitimer Ansatz. Als Graphlayout zur Darstellung von Netzwerktopologie ist UMAP dagegen ungeeignet: Die 171.002 Kanten werden nicht als Verbindungen behandelt, sondern als Merkmalsdaten umgerechnet. Was UMAP als Cluster zeigt, ist Feature-Ähnlichkeit, kein Verbindungsmuster.</p>
 
 </div>
 </details>
 <hr>
 </section>
 </section>
-<section id="fa2-state-of-the-art-für-diesen-use-case" class="level2">
-<h2 class="anchored" data-anchor-id="fa2-state-of-the-art-für-diesen-use-case">FA2: State of the Art für diesen Use Case</h2>
+<section id="fa2-als-standard-für-diesen-anwendungsfall" class="level2">
+<h2 class="anchored" data-anchor-id="fa2-als-standard-für-diesen-anwendungsfall">FA2 als Standard für diesen Anwendungsfall</h2>
 <iframe src="graph_big/visuals/fa2_graphbig.html" width="100%" height="600px" style="border: 1px solid #e5e4e0;" loading="lazy">
 </iframe>
 <p style="text-align:center; font-size:12px; color:#888; margin:8px 0 20px;">
   FA2 + Louvain · 22.470 Knoten · 171.002 Kanten · interaktiv
 </p>
-<p>Nicht der schnellste. Nicht die schärfsten Cluster. Aber der einzige Algorithmus, der gleichzeitig Verbindungsstruktur respektiert, Community-Muster sichtbar macht und in einem Browser interaktiv bleibt.</p>
-<p>Für Graphen, bei denen die Kanten die eigentliche Information sind, ist ForceAtlas2 der pragmatische Standard für interaktive Web-Visualisierungen.</p>
+<p>FA2 ist nicht der schnellste Algorithmus und liefert nicht die schärfsten Cluster. Er ist aber der einzige Algorithmus in diesem Vergleich, der Verbindungsstruktur respektiert, Community-Muster sichtbar macht und dabei im Browser interaktiv bleibt.</p>
+<p>Für Graphen, bei denen die Kanten die eigentliche Information tragen, ist ForceAtlas2 der pragmatische Standard für interaktive Web-Visualisierungen.</p>
 </section>
 <section id="how-to-handle-rezeptbuch" class="level2">
 <h2 class="anchored" data-anchor-id="how-to-handle-rezeptbuch">4. How to handle (Rezeptbuch)</h2>
