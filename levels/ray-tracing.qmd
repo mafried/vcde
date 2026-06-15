@@ -163,8 +163,8 @@ direktes Licht und ersetzt das Integral durch einen konstanten **Ambient-Term**
 fügt **Sichtbarkeit (Schatten)** und **Sekundärstrahlen** hinzu und nähert sich
 so der globalen Beleuchtung an.
 
-*Quelle: Vorlesung „Rendering-Pipeline: Beleuchtung“ (Prof. Dr. Markus Friedrich,
-HM) sowie Nischwitz et al., „Computergrafik – Band I“, Kap. 12.*
+*Quelle: Nischwitz et al., „Bildverarbeitung und Computergrafik“, Kap. 12
+[@nischwitz2020].*
 :::
 
 ## Reflexion, Brechung & der Fresnel-Effekt {#fresnel}

@@ -21,9 +21,11 @@ website:
         href: levels/ray-tracing.qmd
       - text: "Path Tracing"
         href: levels/path-tracing.qmd
+      - text: "Radiosity & Vergleich"
+        href: levels/radiosity-vergleich.qmd
     right:
       - icon: github
-        href: https://github.com/
+        href: https://github.com/nermine10/vcde
         aria-label: GitHub
 
 format:

@@ -1,7 +1,6 @@
 ---
 title: "Level 1 – Lokal vs. Global"
 subtitle: "Die Rendering-Gleichung als roter Faden"
-jupyter: python3
 bibliography: ../references.bib
 ---
 
@@ -96,7 +95,7 @@ schalte ich das nächste Level für dich frei!
 
 Eine Szene sieht erst dann „echt“ aus, wenn das Licht physikalisch plausibel
 verteilt wird. In der Vorlesung haben wir zwei Sichtweisen unterschieden
-[@quarto2024]:
+[@nischwitz2020]:
 
 - **Lokale Beleuchtung** (z. B. Phong-Blinn): Jeder Punkt wird nur aus der
   direkten Lichtquelle und seinem eigenen Material beleuchtet. Schnell, aber
@@ -960,34 +959,84 @@ in alle Richtungen (matte Wand), eine **glänzende** Fläche bündelt das Licht
 eng um die Spiegelrichtung. Die folgenden „Reflexionskeulen“ zeigen das in
 Polarkoordinaten:
 
-```{python}
-#| label: fig-brdf
-#| fig-cap: "Reflexionskeulen der BRDF: eine diffuse Fläche (breit) streut Licht gleichmäßig, eine glänzende Fläche (schmal) bündelt es um die Spiegelrichtung."
-#| fig-align: center
+```{=html}
+<style>
+	.brdf-fig { margin: 1rem auto 1.6rem; max-width: 560px; padding: 0.9rem; border-radius: 14px; border: 1px solid #d1d5db; background: #fff; }
+	.brdf-fig canvas { width: 100%; height: auto; display: block; }
+	.brdf-fig figcaption { margin-top: 0.6rem; font-size: 0.85rem; color: #4b5563; line-height: 1.45; text-align: center; }
+	.brdf-fig .legend { display: flex; gap: 1.1rem; justify-content: center; flex-wrap: wrap; margin-top: 0.5rem; font-size: 0.84rem; }
+	.brdf-fig .legend span { display: inline-flex; align-items: center; gap: 0.4rem; }
+	.brdf-fig .swatch { width: 1.1rem; height: 0.22rem; border-radius: 2px; display: inline-block; }
+</style>
 
-import numpy as np
-import matplotlib.pyplot as plt
+<figure class="brdf-fig" id="fig-brdf">
+	<canvas id="brdfLobeCanvas" width="560" height="420" role="img"
+		aria-label="Polardiagramm der BRDF-Reflexionskeulen: eine breite diffuse Keule und eine schmale glänzende Keule um die Normale."></canvas>
+	<div class="legend">
+		<span><i class="swatch" style="background:#4f46e5"></i> diffus (Lambert)</span>
+		<span><i class="swatch" style="background:#f59e0b"></i> glänzend (spekular)</span>
+	</div>
+	<figcaption>
+		<strong>BRDF-Reflexionskeulen.</strong> Eine diffuse Fläche (breit) streut Licht
+		gleichmäßig, eine glänzende Fläche (schmal) bündelt es um die Spiegelrichtung.
+		0° zeigt entlang der Oberflächennormalen.
+	</figcaption>
+</figure>
 
-theta = np.linspace(-np.pi / 2, np.pi / 2, 400)
-diffuse = np.cos(theta)          # breite Lambert-Keule
-glossy = np.cos(theta) ** 40     # schmale spekulare Keule
+<script>
+window.addEventListener('DOMContentLoaded', function () {
+	var canvas = document.getElementById('brdfLobeCanvas');
+	if (!canvas || !canvas.getContext) return;
+	var ctx = canvas.getContext('2d');
+	var W = canvas.width, H = canvas.height;
+	var cx = W / 2, cy = H * 0.86;
+	var R = cy - 36; // Skalierung für r = 1
 
-fig, ax = plt.subplots(subplot_kw={'projection': 'polar'}, figsize=(5.2, 4.2))
-ax.plot(theta, diffuse, color='#4f46e5', linewidth=2, label='diffus (Lambert)')
-ax.plot(theta, glossy, color='#f59e0b', linewidth=2, label='glänzend (spekular)')
-ax.fill(theta, diffuse, color='#4f46e5', alpha=0.10)
-ax.fill(theta, glossy, color='#f59e0b', alpha=0.15)
+	function lobe(power, stroke, fill) {
+		var pts = [];
+		for (var d = -90; d <= 90; d += 1) {
+			var th = d * Math.PI / 180;
+			var r = Math.pow(Math.max(0, Math.cos(th)), power);
+			pts.push({ x: cx + r * R * Math.sin(th), y: cy - r * R * Math.cos(th) });
+		}
+		ctx.beginPath();
+		ctx.moveTo(cx, cy);
+		for (var i = 0; i < pts.length; i++) ctx.lineTo(pts[i].x, pts[i].y);
+		ctx.closePath();
+		ctx.fillStyle = fill; ctx.fill();
+		ctx.strokeStyle = stroke; ctx.lineWidth = 2;
+		ctx.beginPath();
+		for (var j = 0; j < pts.length; j++) { if (j === 0) ctx.moveTo(pts[j].x, pts[j].y); else ctx.lineTo(pts[j].x, pts[j].y); }
+		ctx.stroke();
+	}
 
-ax.set_theta_zero_location('N')      # 0° = Oberflächennormale
-ax.set_theta_direction(-1)
-ax.set_thetamin(-90)
-ax.set_thetamax(90)
-ax.set_rticks([0.5, 1.0])
-ax.set_rlabel_position(0)
-ax.set_title('BRDF-Reflexionskeulen', pad=18)
-ax.legend(loc='lower center', bbox_to_anchor=(0.5, -0.22), ncol=2, frameon=False)
-plt.tight_layout()
-plt.show()
+	function draw() {
+		ctx.clearRect(0, 0, W, H);
+		ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, W, H);
+
+		// Polar-Gitter (Halbkreise r = 0.5 und r = 1.0)
+		ctx.strokeStyle = '#e5e7eb'; ctx.lineWidth = 1;
+		[0.5, 1.0].forEach(function (rr) {
+			ctx.beginPath(); ctx.arc(cx, cy, rr * R, Math.PI, 2 * Math.PI); ctx.stroke();
+		});
+		// Oberfläche + Normale
+		ctx.strokeStyle = '#9ca3af'; ctx.lineWidth = 2;
+		ctx.beginPath(); ctx.moveTo(cx - R - 10, cy); ctx.lineTo(cx + R + 10, cy); ctx.stroke();
+		ctx.setLineDash([5, 5]); ctx.strokeStyle = '#cbd5e1';
+		ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(cx, cy - R - 12); ctx.stroke();
+		ctx.setLineDash([]);
+		ctx.fillStyle = '#6b7280'; ctx.font = '12px sans-serif'; ctx.textAlign = 'center';
+		ctx.fillText('Normale (0°)', cx, cy - R - 18);
+
+		lobe(1, '#4f46e5', 'rgba(79,70,229,0.12)');   // diffus
+		lobe(40, '#f59e0b', 'rgba(245,158,11,0.18)');  // glänzend
+
+		ctx.fillStyle = '#111827';
+		ctx.beginPath(); ctx.arc(cx, cy, 3.5, 0, Math.PI * 2); ctx.fill();
+	}
+	draw();
+});
+</script>
 ```
 
 ::: {data-vcde-mascot="true" data-name="Lumi"}

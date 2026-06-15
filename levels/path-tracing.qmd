@@ -13,14 +13,42 @@ Letztes Level! 🌌 Path Tracing löst das Integral der Rendering-Gleichung
 und beobachte, wie das Rauschen abnimmt.
 :::
 
-## Path Tracing (Erklaerung auf Deutsch)
+## Die Grundidee {#idee}
 
-1. Ein Pfad startet an der Kamera und wird zufaellig durch die Szene verfolgt.
-2. Jeder Treffer erzeugt einen neuen Bounce (diffus oder spiegelnd).
-3. Trifft der Pfad eine Lichtquelle, wird Energie eingesammelt.
-4. Viele zufaellige Pfade werden gemittelt (Monte Carlo Integration).
+Ray Tracing (Level 2) verfolgt Strahlen und wertet an jedem Treffer eine *direkte*
+Beleuchtung aus. Path Tracing geht einen Schritt weiter und löst das **Integral der
+Rendering-Gleichung** – also die indirekte Beleuchtung über die ganze Hemisphäre
+[@kajiya1986]:
+
+1. Ein Pfad startet an der Kamera und wird **zufällig** durch die Szene verfolgt.
+2. Jeder Treffer erzeugt einen neuen Bounce (diffus oder spiegelnd) – die nächste
+   Richtung wird **zufällig gezogen**.
+3. Trifft der Pfad eine Lichtquelle, wird die Energie entlang des Pfads eingesammelt.
+4. Sehr viele zufällige Pfade pro Pixel werden **gemittelt** (Monte-Carlo-Integration).
 5. Mehr Samples pro Pixel reduzieren das Rauschen, brauchen aber mehr Rechenzeit.
-6. Russian Roulette beendet unwichtige lange Pfade effizient.
+6. Russian Roulette beendet unwichtige lange Pfade effizient – **ohne Bias**.
+
+## Warum Zufall? Monte-Carlo in einer Formel {#montecarlo}
+
+Das Integral über die Hemisphäre lässt sich nicht exakt lösen. Monte-Carlo schätzt
+es, indem wir $N$ zufällige Richtungen $\omega_i$ ziehen und mitteln:
+
+$$
+L_o(x,\omega_o) \;\approx\; L_e(x,\omega_o) \;+\; \frac{1}{N} \sum_{k=1}^{N}
+\frac{f_r(x,\omega_k\!\to\!\omega_o)\; L_i(x,\omega_k)\; (\omega_k \cdot n)}{p(\omega_k)}
+$$
+
+- $f_r$ ist die **BRDF** (Materialverhalten), $(\omega_k \cdot n)$ der **Cosinus-Term**.
+- $p(\omega_k)$ ist die **Wahrscheinlichkeitsdichte**, mit der wir die Richtung gezogen
+  haben. Zieht man Richtungen *cosinus-gewichtet* (mehr Strahlen dort, wo viel beiträgt),
+  kürzt sich der Cosinus heraus und das Rauschen sinkt – das nennt man
+  **Importance Sampling**.
+
+::: {data-vcde-mascot="true" data-name="Lumi"}
+Merke dir die wichtigste Faustregel 📏: Der Fehler (das Rauschen) sinkt nur mit
+$\mathcal{O}(1/\sqrt{N})$. Das heißt: **viermal so viele Samples** halbieren das Rauschen
+nur. Genau deshalb ist Path Tracing offline schön, aber in Echtzeit teuer!
+:::
 
 ```{=html}
 <style>
@@ -156,7 +184,7 @@ und beobachte, wie das Rauschen abnimmt.
 		</article>
 
 		<section class="ptx-card">
-			<h3 class="ptx-head">Erklaerung</h3>
+			<h3 class="ptx-head">Erklärung</h3>
 			<div class="ptx-panel">
 				<p class="ptx-stage" id="ptxStageTitle">Stage</p>
 				<p id="ptxStageText"></p>
@@ -558,13 +586,140 @@ window.addEventListener('DOMContentLoaded', function () {
 </script>
 ```
 
+## Vertiefung: Rauschen, Konvergenz & Russian Roulette {#vertiefung}
+
+In der Demo oben siehst du im unteren Diagramm, wie sich der geschätzte
+Helligkeitswert mit mehr Samples **einpendelt**. Das ist Konvergenz in Aktion.
+
+- **Varianz = Rauschen.** Jeder einzelne Pfad ist eine grobe, zufällige Schätzung.
+  Erst der Mittelwert vieler Pfade nähert sich dem wahren Wert. Sichtbar wird die
+  Varianz als körniges Bildrauschen.
+- **Konvergenzrate $1/\sqrt{N}$.** Um das Rauschen zu halbieren, braucht man die
+  *vierfache* Sample-Zahl. Deshalb lohnt sich **Varianzreduktion** statt nur „mehr
+  Samples": Importance Sampling, Next-Event-Estimation (direkt zur Lichtquelle
+  sampeln) und gute Zufallszahlen.
+- **Russian Roulette.** Lange Pfade tragen oft kaum noch Energie bei (die
+  Throughput-Werte werden klein). Statt sie hart abzuschneiden (das würde das
+  Ergebnis verfälschen, also *Bias* erzeugen), beendet man sie mit
+  Wahrscheinlichkeit $1-p$ und skaliert die überlebenden Pfade mit $1/p$ hoch. So
+  bleibt der Schätzer **erwartungstreu** (unbiased) und wird trotzdem schneller.
+
+::: {data-vcde-mascot="true" data-name="Lumi"}
+Kurz zur Einordnung 🧭: **Ray Tracing** (Level 2) glänzt bei scharfen
+Spiegelungen und harten Schatten, tut sich aber schwer mit diffusem indirektem
+Licht. **Path Tracing** löst genau dieses Integral statistisch und liefert
+Farbbleeding, weiche Schatten und Kaustiken – die volle globale Beleuchtung. Der
+Preis ist die Rechenzeit. Im nächsten Level siehst du mit **Radiosity** eine ganz
+andere Herangehensweise an dasselbe Ziel.
+:::
+
+## Boss-Quiz: Pfad-Pilot {#quiz}
+
+::: {data-vcde-mascot="true" data-name="Lumi"}
+Letzte Prüfung der Lernreise! 🌌 Beantworte mindestens **6 von 8 Fragen** richtig,
+dann markiere ich Path Tracing als abgeschlossen. Schau bei Bedarf in die
+Erklärungen und versuch es einfach nochmal.
+:::
+
+```{=html}
+<div data-vcde-quiz="path-tracing">
+  <script type="application/json">
+  {
+    "levelId": "path-tracing",
+    "title": "Abschluss-Quiz: Path Tracing 🌌",
+    "intro": "8 Fragen zu Monte-Carlo, Konvergenz und Russian Roulette. Du brauchst mindestens 6 richtige Antworten.",
+    "passRatio": 0.7,
+    "questions": [
+      {
+        "q": "Was schätzt Path Tracing im Kern?",
+        "options": [
+          "Das Integral der Rendering-Gleichung über die Hemisphäre per Monte-Carlo",
+          "Nur die direkte Beleuchtung von einer Punktlichtquelle",
+          "Die Bildauflösung in Pixeln"
+        ],
+        "answer": 0,
+        "explain": "Path Tracing nähert das Hemisphären-Integral der Rendering-Gleichung mit vielen zufälligen Pfaden an – das ist Monte-Carlo-Integration."
+      },
+      {
+        "q": "Wie verändert sich das Bild, wenn du die Samples pro Pixel erhöhst?",
+        "options": [
+          "Das Rauschen nimmt ab, die Rechenzeit steigt",
+          "Das Bild wird automatisch heller",
+          "Die Kamera bewegt sich"
+        ],
+        "answer": 0,
+        "explain": "Mehr gemittelte Pfade reduzieren die Varianz (Rauschen), kosten aber proportional mehr Rechenzeit."
+      },
+      {
+        "q": "Mit welcher Rate sinkt der Monte-Carlo-Fehler bei N Samples?",
+        "options": [
+          "Mit etwa 1/√N – vierfache Samples halbieren das Rauschen",
+          "Linear mit 1/N – doppelte Samples halbieren das Rauschen",
+          "Exponentiell – wenige Samples genügen"
+        ],
+        "answer": 0,
+        "explain": "Der Standardfehler einer Monte-Carlo-Schätzung fällt mit 1/√N. Um das Rauschen zu halbieren, braucht man die vierfache Sample-Zahl."
+      },
+      {
+        "q": "Warum entsteht in einem Path-Tracing-Bild überhaupt Rauschen?",
+        "options": [
+          "Weil jeder Pfad eine zufällige Stichprobe ist und erst der Mittelwert konvergiert",
+          "Weil der Monitor zu wenige Pixel hat",
+          "Weil die Lichtquelle flackert"
+        ],
+        "answer": 0,
+        "explain": "Die Richtungen werden zufällig gezogen. Einzelne Schätzungen streuen stark; das Bildrauschen ist die sichtbare Varianz."
+      },
+      {
+        "q": "Wozu dient Russian Roulette?",
+        "options": [
+          "Unwichtige lange Pfade unverfälscht (unbiased) zu beenden und Zeit zu sparen",
+          "Die Lichtquelle zufällig auszuschalten",
+          "Die Auflösung dynamisch zu erhöhen"
+        ],
+        "answer": 0,
+        "explain": "Pfade werden mit Wahrscheinlichkeit 1−p beendet; Überlebende werden mit 1/p hochskaliert. Im Erwartungswert bleibt das Ergebnis korrekt."
+      },
+      {
+        "q": "Was bewirkt cosinus-gewichtetes Sampling (Importance Sampling)?",
+        "options": [
+          "Es zieht mehr Strahlen dort, wo viel zum Integral beiträgt, und senkt so die Varianz",
+          "Es macht das Bild dunkler",
+          "Es ersetzt die BRDF durch einen festen Wert"
+        ],
+        "answer": 0,
+        "explain": "Wenn die Sampling-Dichte p der zu integrierenden Funktion ähnelt, sinkt die Varianz bei gleicher Sample-Zahl deutlich."
+      },
+      {
+        "q": "Worin unterscheidet sich Path Tracing von klassischem (Whitted-)Ray Tracing?",
+        "options": [
+          "Path Tracing erfasst auch diffuses indirektes Licht (Farbbleeding, weiche Schatten)",
+          "Path Tracing kann keine Spiegelungen darstellen",
+          "Path Tracing benötigt keine Strahlen"
+        ],
+        "answer": 0,
+        "explain": "Whitted-Ray-Tracing verfolgt v.a. Spiegel-/Brechungsstrahlen. Path Tracing löst das volle Integral und liefert diffuse globale Beleuchtung."
+      },
+      {
+        "q": "Was passiert mit der 'Energie' (Throughput) entlang eines diffusen Pfads?",
+        "options": [
+          "Sie wird an jedem Bounce mit dem Albedo gewichtet und nimmt tendenziell ab",
+          "Sie bleibt entlang des Pfads immer konstant",
+          "Sie steigt mit jedem Bounce an"
+        ],
+        "answer": 0,
+        "explain": "Jeder diffuse Treffer multipliziert den Throughput mit dem Albedo (< 1). Lange Pfade tragen daher meist nur noch wenig bei – siehe Russian Roulette."
+      }
+    ]
+  }
+  </script>
+</div>
+```
+
 ## Geschafft? {#abschluss}
 
 ::: {data-vcde-mascot="true" data-name="Lumi"}
 Wow, du hast die ganze Lernreise durchgespielt – von der Rendering-Gleichung bis
-zum Path Tracing! 🎉 Markiere das letzte Level als abgeschlossen und sieh dir
-deinen vollständigen Fortschritt auf der Landkarte an.
-:::
-
-::: {data-vcde-complete="path-tracing"}
+zum Path Tracing! 🎉 Mit bestandenem Quiz ist dein Fortschritt gespeichert. Schau
+dir deinen vollständigen Stand auf der Landkarte an.
 :::
