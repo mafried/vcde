@@ -1221,7 +1221,7 @@ den nächsten Leveln.
 
 ::: {data-vcde-mascot="true" data-name="Lumi"}
 Zeit für die Abschlussprüfung! 🚀 Es warten **8 Fragen** rund um lokale vs.
-globale Beleuchtung und die Rendering-Gleichung. Schaffst du **mindestens 11
+globale Beleuchtung und die Rendering-Gleichung. Schaffst du **mindestens 6
 richtig**, markiere ich Level 1 als abgeschlossen und schalte das nächste frei.
 Keine Angst vor Fehlern – du darfst beliebig oft neu starten!
 :::
@@ -1400,7 +1400,7 @@ Keine Angst vor Fehlern – du darfst beliebig oft neu starten!
 <script>
 (function () {
   var LEVEL_ID = "local-vs-global";
-  var PASS = 11;
+  var PASS = 6;
 
   var QUESTIONS = [
     {
