@@ -95,7 +95,7 @@ Stell dir vor, du öffnest Facebook im November 2017 und kannst nicht einzelne N
 
 Genau das ist dieser Datensatz. Das **Facebook Large Page-Page Network** ist ein Schnappschuss eines sozialen Graphen, der nicht aus Freundschaften besteht, sondern aus gegenseitigen Likes zwischen verifizierten Facebook-Seiten.
 
-### Was bedeutet eine Kante hier konkret?
+### Was bedeutet eine Kante hier ?
 
 Wenn Seite A Seite B liked und Seite B Seite A liked, entsteht eine ungerichtete Kante. Kein einseitiges Folgen, sondern ein echtes wechselseitiges Signal: "Wir kennen uns, wir stehen füreinander." Das ist semantisch dichter als ein einfacher Follow-Graph. Und genau deshalb lohnt es sich, dieses Netzwerk zu visualisieren: Hinter jeder Kante steckt eine bewusste, beidseitige Entscheidung.
 
