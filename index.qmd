@@ -2,7 +2,6 @@
 title: "Global Illumination: Die Physik des Lichts"
 subtitle: "Eine spielerische Lernwelt rund um die Rendering-Gleichung"
 author: "Laura Barrionuevo, Nermine Bouchaala, Nikolai Straßmair"
-bibliography: references.bib
 toc: false
 ---
 

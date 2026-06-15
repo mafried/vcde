@@ -1,7 +1,6 @@
 ---
 title: "Level 4 – Radiosity & Vergleich"
 subtitle: "Diffuse Energiebilanz und der große Methodenvergleich"
-bibliography: ../references.bib
 ---
 
 ::: {data-vcde-levelbar="radiosity-vergleich"}
@@ -17,7 +16,7 @@ Verfahren der Lernreise.
 ## Worum geht es? {#worum}
 
 Radiosity stammt aus der Wärmeübertragung und wurde 1984 in die Computergrafik
-gebracht [@goral1984]. Die Idee: Man zerlegt die Szene in viele kleine Flächen
+gebracht. Die Idee: Man zerlegt die Szene in viele kleine Flächen
 (**Patches**) und berechnet, wie viel Lichtenergie jede Fläche abgibt und von den
 anderen empfängt – bis sich ein **Gleichgewicht** einstellt.
 
@@ -54,7 +53,7 @@ mehr ändert.
 
 ## Welcher Teil der BRDF? Nur der diffuse! {#brdf}
 
-Jede BRDF lässt sich gedanklich in drei Anteile zerlegen [@nischwitz2020]: einen
+Jede BRDF lässt sich gedanklich in drei Anteile zerlegen: einen
 **diffusen** (Licht streut gleichmäßig in alle Richtungen), einen **spiegelnden**
 (Mirror, ein scharfer Reflexionsstrahl) und einen **glänzenden** (Glossy, ein
 gerichteter Lichtkegel um die Spiegelrichtung).
@@ -682,8 +681,7 @@ zwischen beiden Zuständen um:
 ## Der große Vergleich {#vergleich}
 
 Damit hast du vier Wege gesehen, ein Bild zu berechnen. Sie unterscheiden sich vor
-allem darin, **wie gut sie globale Beleuchtung erfassen** und **wie teuer** das ist
-[@nischwitz2020; @pharr2023].
+allem darin, **wie gut sie globale Beleuchtung erfassen** und **wie teuer** das ist.
 
 | Verfahren | Prinzip | Globale Beleuchtung | Stärke | Schwäche |
 |---|---|---|---|---|

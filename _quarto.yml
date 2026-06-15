@@ -42,5 +42,3 @@ format:
           <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
     include-after-body:
       - assets/after-body.html
-
-bibliography: references.bib

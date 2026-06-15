@@ -1,7 +1,6 @@
 ---
 title: "Level 3 – Path Tracing"
 subtitle: "Monte-Carlo-Pfade und Konvergenz"
-bibliography: ../references.bib
 ---
 
 ::: {data-vcde-levelbar="path-tracing"}
@@ -17,8 +16,7 @@ und beobachte, wie das Rauschen abnimmt.
 
 Ray Tracing (Level 2) verfolgt Strahlen und wertet an jedem Treffer eine *direkte*
 Beleuchtung aus. Path Tracing geht einen Schritt weiter und löst das **Integral der
-Rendering-Gleichung** – also die indirekte Beleuchtung über die ganze Hemisphäre
-[@kajiya1986]:
+Rendering-Gleichung** – also die indirekte Beleuchtung über die ganze Hemisphäre:
 
 1. Ein Pfad startet an der Kamera und wird **zufällig** durch die Szene verfolgt.
 2. Jeder Treffer erzeugt einen neuen Bounce (diffus oder spiegelnd) – die nächste
@@ -616,8 +614,8 @@ andere Herangehensweise an dasselbe Ziel.
 ## Boss-Quiz: Pfad-Pilot {#quiz}
 
 ::: {data-vcde-mascot="true" data-name="Lumi"}
-Letzte Prüfung der Lernreise! 🌌 Beantworte mindestens **6 von 8 Fragen** richtig,
-dann markiere ich Path Tracing als abgeschlossen. Schau bei Bedarf in die
+Quiz zu **Level 3 – Path Tracing**! 🌌 Beantworte mindestens **6 von 8 Fragen** richtig,
+dann schalte ich **Radiosity & Vergleich** frei. Schau bei Bedarf in die
 Erklärungen und versuch es einfach nochmal.
 :::
 
@@ -626,8 +624,8 @@ Erklärungen und versuch es einfach nochmal.
   <script type="application/json">
   {
     "levelId": "path-tracing",
-    "title": "Abschluss-Quiz: Path Tracing 🌌",
-    "intro": "8 Fragen zu Monte-Carlo, Konvergenz und Russian Roulette. Du brauchst mindestens 6 richtige Antworten.",
+    "title": "Quiz: Path Tracing 🌌",
+    "intro": "8 Fragen zu Monte-Carlo, Konvergenz und Russian Roulette. Mindestens 6 richtig – dann geht es weiter zu Radiosity & Vergleich.",
     "passRatio": 0.7,
     "questions": [
       {
@@ -716,10 +714,11 @@ Erklärungen und versuch es einfach nochmal.
 </div>
 ```
 
-## Geschafft? {#abschluss}
+## Level geschafft? {#abschluss}
 
 ::: {data-vcde-mascot="true" data-name="Lumi"}
-Wow, du hast die ganze Lernreise durchgespielt – von der Rendering-Gleichung bis
-zum Path Tracing! 🎉 Mit bestandenem Quiz ist dein Fortschritt gespeichert. Schau
-dir deinen vollständigen Stand auf der Landkarte an.
+Stark – **Level 3** ist geschafft! 🎉 Du kennst jetzt Monte-Carlo-Pfade,
+Konvergenz und Russian Roulette. Auf der Landkarte wartet als Nächstes
+**Radiosity & Vergleich** – dort siehst du eine ganz andere Herangehensweise
+an globale Beleuchtung und den großen Methodenvergleich.
 :::

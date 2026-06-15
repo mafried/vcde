@@ -1,7 +1,6 @@
 ---
 title: "Level 1 – Lokal vs. Global"
 subtitle: "Die Rendering-Gleichung als roter Faden"
-bibliography: ../references.bib
 ---
 
 ::: {data-vcde-levelbar="local-vs-global"}
@@ -94,8 +93,7 @@ schalte ich das nächste Level für dich frei!
 ## Worum geht es? {#worum}
 
 Eine Szene sieht erst dann „echt“ aus, wenn das Licht physikalisch plausibel
-verteilt wird. In der Vorlesung haben wir zwei Sichtweisen unterschieden
-[@nischwitz2020]:
+verteilt wird. In der Vorlesung haben wir zwei Sichtweisen unterschieden:
 
 - **Lokale Beleuchtung** (z. B. Phong-Blinn): Jeder Punkt wird nur aus der
   direkten Lichtquelle und seinem eigenen Material beleuchtet. Schnell, aber

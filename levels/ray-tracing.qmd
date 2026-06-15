@@ -1,7 +1,6 @@
 ---
 title: "Level 2 – Ray Tracing"
 subtitle: "Von Primärstrahlen zur Rendering-Gleichung"
-bibliography: ../references.bib
 ---
 
 ::: {data-vcde-levelbar="ray-tracing"}
@@ -162,9 +161,6 @@ direktes Licht und ersetzt das Integral durch einen konstanten **Ambient-Term**
 (und kennt ohne Zusatz keine Schatten – eine Vereinfachung von $g$). Ray Tracing
 fügt **Sichtbarkeit (Schatten)** und **Sekundärstrahlen** hinzu und nähert sich
 so der globalen Beleuchtung an.
-
-*Quelle: Nischwitz et al., „Bildverarbeitung und Computergrafik“, Kap. 12
-[@nischwitz2020].*
 :::
 
 ## Reflexion, Brechung & der Fresnel-Effekt {#fresnel}
