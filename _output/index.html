@@ -407,35 +407,19 @@ Eine Kante entsteht nur bei gegenseitigem Like, also ein bewusstes, wechselseiti
 </div>
 </details>
 <details class="acc">
-<summary><span class="acc-toggle"></span><span class="acc-title">LinLog-Modus: logarithmische Anziehung</span><span class="acc-tag tag-algo">Algorithmus</span></summary>
-<div class="acc-body">
-
-<p>Auch die Anziehungskraft lässt sich anpassen. Im Standardmodus wächst Anziehung linear mit dem Abstand, wie in der Formel oben. Cluster mit vielen internen Kanten ziehen sich dadurch immer stärker zusammen, je größer sie werden, was die Grenzen zwischen Clustern verschmiert.</p>
-
-<p>Der LinLog-Modus ersetzt die Anziehungskraft durch eine logarithmische Variante.</p>
-
-<p>$$F_{attraction}^{LinLog}(i, j) = \log(1 + d(i,j))$$</p>
-
-<p>Anziehung wächst dadurch viel langsamer mit der Distanz. Cluster ziehen sich intern weiterhin zusammen, aber der Effekt sättigt, sobald die Knoten nah beieinander liegen. Der Abstand zwischen unterschiedlichen Clustern bleibt erhalten, statt im Lauf der Iterationen zu kollabieren. Das Ergebnis sind schärfer abgegrenzte Gruppen, ohne dass an den Kantengewichten selbst etwas verändert wird.</p>
-
-</div>
-</details>
-<details class="acc">
 <summary><span class="acc-toggle"></span><span class="acc-title">Barnes-Hut, Iterationen und Reproduzierbarkeit</span><span class="acc-tag tag-impl">Implementierung</span></summary>
 <div class="acc-body">
 
-<p>Die Abstoßungsformel oben gilt für jedes Knotenpaar, also $O(n^2)$ Berechnungen pro Iteration. Bei 22.470 Knoten sind das über 252 Millionen Paare pro Iteration, bei 800 Iterationen nicht durchführbar.</p>
+<p>Die Abstoßungsformel oben gilt für jedes Knotenpaar einzeln, also quadratisch mit der Anzahl der Knoten. Bei 22.470 Knoten sind das über 252 Millionen Paare pro Iteration, bei 800 Iterationen schlicht nicht durchführbar.</p>
 
-<p>Barnes-Hut-Approximation löst das, indem der Layoutraum in einen Quadtree unterteilt wird. Eine ganze Gruppe weit entfernter Knoten wird dann als ein einzelner Schwerpunkt mit Gesamtmasse behandelt, statt jeden Knoten einzeln zu berücksichtigen. Das reduziert die Komplexität von $O(n^2)$ auf $O(n \log n)$.</p>
+<p>Barnes-Hut löst dieses Problem, indem der Layoutraum in einen Quadtree unterteilt wird. Eine ganze Gruppe weit entfernter Knoten wird dann als ein einzelner Schwerpunkt mit Gesamtmasse behandelt, statt jeden Knoten einzeln zu berücksichtigen. Das senkt die Komplexität von quadratisch auf annähernd linear.</p>
 
-<p>Der Parameter $\theta$ steuert, wie grob diese Approximation ist. Eine Knotengruppe mit Durchmesser $s$ in Entfernung $d$ vom betrachteten Knoten wird als ein Punkt behandelt, wenn $\frac{s}{d} &lt; \theta$ gilt.</p>
+<p>Wie grob diese Annäherung ausfällt, steuert ein Parameter namens Theta: Eine entfernte Knotengruppe wird zusammengefasst, sobald ihr Durchmesser im Verhältnis zur Distanz klein genug ist. Hier wurde Theta auf 1.2 gesetzt, ein eher hoher Wert, der Gruppen früh zusammenfasst und damit Geschwindigkeit auf Kosten von Präzision bringt. Kleinere Werte nähern sich der exakten Berechnung an.</p>
 
-<p>Bei $\theta = 1.2$, dem hier verwendeten Wert, werden Gruppen relativ früh zusammengefasst, was Geschwindigkeit auf Kosten von Präzision bringt. Kleinere $\theta$-Werte nähern sich der exakten $O(n^2)$-Rechnung an.</p>
-
-<p>500 Iterationen wurden getestet und führten zu schlechterer Clustertrennung, die Simulation war zu diesem Zeitpunkt noch nicht konvergiert. Bei 800 Iterationen rechtfertigt der Zugewinn den zusätzlichen Rechenaufwand.</p>
+<p>Auch die Anzahl der Iterationen wurde getestet: Bei 500 Durchläufen war die Simulation noch nicht konvergiert, die Cluster blieben schlechter getrennt. Bei 800 Iterationen rechtfertigt der Zugewinn an Trennschärfe den zusätzlichen Rechenaufwand.</p>
 
 <div class="acc-note">
-  FA2 ist nicht-deterministisch. <code>np.random.seed(42)</code> sorgt dafür, dass jeder Durchlauf dasselbe Layout erzeugt.
+  ForceAtlas2 arbeitet nicht deterministisch. <code>np.random.seed(42)</code> sorgt dafür, dass jeder Durchlauf dasselbe Layout erzeugt.
 </div>
 
 </div>
