@@ -382,7 +382,7 @@ $$Q = \frac{1}{2m} \sum_{i,j} \left[ A_{ij} - \frac{deg(i) \cdot deg(j)}{2m} \ri
 
 FA2 und Louvain sind nicht die einzigen Antworten auf dieses Problem. Zwei weitere Algorithmen werden für große Graphen regelmäßig vorgeschlagen, beide mit eigenen Stärken und eigenen Grenzen für diesen Anwendungsfall.
 
----
+
 
 ### SFDP: Scalable Force-Directed Placement
 
@@ -461,21 +461,41 @@ Scharfe Cluster, klare Trennung, auf den ersten Blick ein überzeugendes Bild. U
 </details>
 ```
 ---
+## Layout-Algorithmen im Vergleich
+
+<table style="width:100%; border-collapse:collapse; margin:1.5rem 0; font-size:0.9rem;">
+  <thead>
+    <tr style="border-bottom:2px solid #2C2C2A;">
+      <th style="text-align:left; padding:10px 12px; color:#888; font-size:0.75rem; text-transform:uppercase; letter-spacing:0.05em;">Kriterium</th>
+      <th style="text-align:left; padding:10px 12px; color:#534AB7; font-weight:600;">ForceAtlas2</th>
+      <th style="text-align:left; padding:10px 12px; color:#444; font-weight:600;">SFDP</th>
+      <th style="text-align:left; padding:10px 12px; color:#444; font-weight:600;">UMAP</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr style="border-bottom:1px solid #e5e4e0;">
+      <td style="padding:10px 12px; color:#888;">Komplexität</td>
+      <td style="padding:10px 12px;">O(n log n) mit Barnes-Hut</td>
+      <td style="padding:10px 12px;">O(n log n) durch Multilevel Coarsening</td>
+      <td style="padding:10px 12px;">O(n log n) approximiert über k-NN</td>
+    </tr>
+    <tr style="border-bottom:1px solid #e5e4e0;">
+      <td style="padding:10px 12px; color:#888;">Cluster-Trennschärfe</td>
+      <td style="padding:10px 12px;">Hoch, deckt sich mit Louvain</td>
+      <td style="padding:10px 12px;">Niedrig, Communities verschmieren</td>
+      <td style="padding:10px 12px;">Hoch, aber andere Bedeutung</td>
+    </tr>
+    <tr>
+      <td style="padding:10px 12px; color:#888;">Eignung</td>
+      <td style="padding:10px 12px;">Verbindungsstruktur sichtbar machen</td>
+      <td style="padding:10px 12px;">Globale Übersichtlichkeit großer Graphen</td>
+      <td style="padding:10px 12px;">Feature-Ähnlichkeit, Klassifikation</td>
+    </tr>
+  </tbody>
+</table>
+
 
 ## FA2 als Standard für diesen Anwendungsfall
-
-```{=html}
-<iframe
-  src="graph_big/visuals/fa2_graphbig.html"
-  width="100%"
-  height="600px"
-  style="border: 1px solid #e5e4e0;"
-  loading="lazy">
-</iframe>
-<p style="text-align:center; font-size:12px; color:#888; margin:8px 0 20px;">
-  FA2 + Louvain · 22.470 Knoten · 171.002 Kanten · interaktiv
-</p>
-```
 
 FA2 ist nicht der schnellste Algorithmus und liefert nicht die schärfsten Cluster. Er ist aber der einzige Algorithmus in diesem Vergleich, der Verbindungsstruktur respektiert, Community-Muster sichtbar macht und dabei im Browser interaktiv bleibt.
 

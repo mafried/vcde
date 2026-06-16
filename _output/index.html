@@ -246,7 +246,7 @@ window.Quarto = {
 </section>
 <section id="layout-graphalg-1" class="level3">
 <h3 class="anchored" data-anchor-id="layout-graphalg-1">Layout + GraphAlg</h3>
-<p>Hier könnt ihr erklären, warum man stärker aggregieren, filtern oder Communities hervorheben muss. Technisch könnt ihr den Übergang zu Canvas motivieren, weil Rendering und Interaktion bei mehreren tausend Knoten anders gelöst werden müssen als im kleinen Ego-Netz.</p>
+<p>Hier könnt ihr erklären, warum man stärker aggregieren, filtern oder Communities hervorheben muss. Technisch könnt ihr den Übergang zu Canvas motivieren, weil Rendering und Interaktion bei mehreren tausend Knoten anders gelöst werden müssen als im kleinen Ego-Net</p>
 </section>
 </section>
 <section id="großer-datensatz" class="level2">
@@ -578,7 +578,6 @@ Die Interaktionsstruktur folgt Shneidermans Mantra. Overview first, zoom and fil
 <section id="alternative-ansätze-im-vergleich" class="level2">
 <h2 class="anchored" data-anchor-id="alternative-ansätze-im-vergleich">Alternative Ansätze im Vergleich</h2>
 <p>FA2 und Louvain sind nicht die einzigen Antworten auf dieses Problem. Zwei weitere Algorithmen werden für große Graphen regelmäßig vorgeschlagen, beide mit eigenen Stärken und eigenen Grenzen für diesen Anwendungsfall.</p>
-<hr>
 <section id="sfdp-scalable-force-directed-placement" class="level3">
 <h3 class="anchored" data-anchor-id="sfdp-scalable-force-directed-placement">SFDP: Scalable Force-Directed Placement</h3>
 <iframe src="graph_big/visuals/sfdp_graph.html" width="100%" height="600px" style="border: 1px solid #e5e4e0;" loading="lazy">
@@ -635,13 +634,73 @@ Die Interaktionsstruktur folgt Shneidermans Mantra. Overview first, zoom and fil
 <hr>
 </section>
 </section>
+<section id="layout-algorithmen-im-vergleich" class="level2">
+<h2 class="anchored" data-anchor-id="layout-algorithmen-im-vergleich">Layout-Algorithmen im Vergleich</h2>
+<table style="width:100%; border-collapse:collapse; margin:1.5rem 0; font-size:0.9rem;">
+<thead>
+<tr style="border-bottom:2px solid #2C2C2A;">
+<th style="text-align:left; padding:10px 12px; color:#888; font-size:0.75rem; text-transform:uppercase; letter-spacing:0.05em;">
+Kriterium
+</th>
+<th style="text-align:left; padding:10px 12px; color:#534AB7; font-weight:600;">
+ForceAtlas2
+</th>
+<th style="text-align:left; padding:10px 12px; color:#444; font-weight:600;">
+SFDP
+</th>
+<th style="text-align:left; padding:10px 12px; color:#444; font-weight:600;">
+UMAP
+</th>
+</tr>
+</thead>
+<tbody>
+<tr style="border-bottom:1px solid #e5e4e0;">
+<td style="padding:10px 12px; color:#888;">
+Komplexität
+</td>
+<td style="padding:10px 12px;">
+O(n log n) mit Barnes-Hut
+</td>
+<td style="padding:10px 12px;">
+O(n log n) durch Multilevel Coarsening
+</td>
+<td style="padding:10px 12px;">
+O(n log n) approximiert über k-NN
+</td>
+</tr>
+<tr style="border-bottom:1px solid #e5e4e0;">
+<td style="padding:10px 12px; color:#888;">
+Cluster-Trennschärfe
+</td>
+<td style="padding:10px 12px;">
+Hoch, deckt sich mit Louvain
+</td>
+<td style="padding:10px 12px;">
+Niedrig, Communities verschmieren
+</td>
+<td style="padding:10px 12px;">
+Hoch, aber andere Bedeutung
+</td>
+</tr>
+<tr>
+<td style="padding:10px 12px; color:#888;">
+Eignung
+</td>
+<td style="padding:10px 12px;">
+Verbindungsstruktur sichtbar machen
+</td>
+<td style="padding:10px 12px;">
+Globale Übersichtlichkeit großer Graphen
+</td>
+<td style="padding:10px 12px;">
+Feature-Ähnlichkeit, Klassifikation
+</td>
+</tr>
+</tbody>
+</table>
+</section>
 <section id="fa2-als-standard-für-diesen-anwendungsfall" class="level2">
 <h2 class="anchored" data-anchor-id="fa2-als-standard-für-diesen-anwendungsfall">FA2 als Standard für diesen Anwendungsfall</h2>
-<iframe src="graph_big/visuals/fa2_graphbig.html" width="100%" height="600px" style="border: 1px solid #e5e4e0;" loading="lazy">
-</iframe>
-<p style="text-align:center; font-size:12px; color:#888; margin:8px 0 20px;">
-  FA2 + Louvain · 22.470 Knoten · 171.002 Kanten · interaktiv
-</p>
 <p>FA2 ist nicht der schnellste Algorithmus und liefert nicht die schärfsten Cluster. Er ist aber der einzige Algorithmus in diesem Vergleich, der Verbindungsstruktur respektiert, Community-Muster sichtbar macht und dabei im Browser interaktiv bleibt.</p>
 <p>Für Graphen, bei denen die Kanten die eigentliche Information tragen, ist ForceAtlas2 der pragmatische Standard für interaktive Web-Visualisierungen.</p>
 </section>
