@@ -2,20 +2,131 @@
 title: "Web & AR Integration"
 ---
 
-<!-- OWNER: Person C -->
-<!-- TODO Person C: Inhalte folgen in späteren Schritten (eigene Aufgabenliste). -->
+<!-- OWNER: Friedrich Commichau -->
+
+3D Gaussian Splats lassen sich direkt im Browser darstellen — ohne Plugin, ohne App.
+Wir nutzen dafür [Babylon.js](https://www.babylonjs.com/), eine WebGL-/WebGPU-Engine, die
+seit Version 7 Gaussian Splatting **nativ** unterstützt.
 
 ## Babylon.js
 
-<!-- TODO: Szene aufsetzen, Splat laden, Code-Beispiele (.spz importieren). -->
+Babylon.js ist eine quelloffene 3D-Engine, die im Browser über WebGL2 (bzw. WebGPU)
+rendert. Für unseren Anwendungsfall sind drei Eigenschaften entscheidend:
+
+- **Nativer Gaussian-Splatting-Support** — `.splat`, `.ply` und das komprimierte `.spz`
+  werden direkt über den Scene-Loader geladen; kein eigener Shader nötig.
+- **WebXR integriert** — derselbe Code läuft später als immersive AR-Session (siehe unten).
+- **Läuft überall** — Desktop, Android-Chrome, iOS-Safari teilen sich eine Codebasis.
+
+### Szene aufsetzen
+
+Eine minimale Babylon-Szene braucht eine `Engine` (gebunden an ein `<canvas>`), eine
+`Scene` und eine Kamera. Für einen Splat-Viewer eignet sich die `ArcRotateCamera`
+(Orbit-Steuerung per Maus/Touch):
+
+```js
+const canvas = document.getElementById("renderCanvas");
+const engine = new BABYLON.Engine(canvas, true);
+
+const scene = new BABYLON.Scene(engine);
+const camera = new BABYLON.ArcRotateCamera(
+  "camera", -Math.PI / 2, Math.PI / 2.2, 6, BABYLON.Vector3.Zero(), scene
+);
+camera.attachControl(canvas, true);   // Maus-/Touch-Steuerung aktivieren
+
+engine.runRenderLoop(() => scene.render());
+window.addEventListener("resize", () => engine.resize());
+```
+
+### Splat laden (`.spz` importieren)
+
+Das von Person B exportierte Modell wird über `SceneLoader.ImportMeshAsync` geladen. Der
+passende Loader wird automatisch an der Dateiendung erkannt (`.splat`, `.ply`, `.spz`):
+
+```js
+// Voraussetzung: babylonjs.loaders eingebunden (registriert den Splat-Loader)
+const result = await BABYLON.SceneLoader.ImportMeshAsync(
+  null,                 // alle Meshes
+  "models/",            // Wurzelpfad
+  "szene.spz",          // Datei (von Person B)
+  scene
+);
+
+const splat = result.meshes[0];       // GaussianSplattingMesh
+splat.position.y = 0;
+```
+
+> `.spz` ist das komprimierte Splat-Format fürs Web (deutlich kleiner als `.ply`). Es wird
+> ab Babylon.js 7 unterstützt und benötigt das `babylonjs.loaders`-Paket.
+
+## Interaktiver Splat-Viewer
+
+Der folgende Viewer läuft live auf dieser Seite. Mit der Maus (bzw. per Touch) rotieren,
+zoomen und verschieben; oben rechts lässt sich das Modell wechseln. Aktuell sind
+öffentliche Beispiel-Splats eingebunden — sie werden später durch unser eigenes Modell
+ersetzt.
+
+```{=html}
+<div id="splat-viewer" style="position:relative;width:100%;aspect-ratio:16/9;min-height:320px;border-radius:8px;overflow:hidden;background:#0d0d14;border:1px solid #2a2a35;">
+  <canvas id="renderCanvas" style="width:100%;height:100%;display:block;outline:none;touch-action:none;"></canvas>
+  <select id="splat-select" style="position:absolute;top:10px;right:10px;padding:4px 8px;border-radius:6px;border:1px solid #444;background:rgba(20,20,28,.85);color:#eee;font-size:13px;">
+    <option value="https://assets.babylonjs.com/splats/gs_Sqwakers_trimed.splat">Sqwakers</option>
+    <option value="https://assets.babylonjs.com/splats/gs_Plants.splat">Plants</option>
+    <option value="https://assets.babylonjs.com/splats/gs_Skull.splat">Skull</option>
+    <option value="https://assets.babylonjs.com/splats/Halo_Believe.splat">Halo</option>
+  </select>
+  <div id="splat-status" style="position:absolute;bottom:10px;left:10px;color:#cfcfe0;font-size:13px;background:rgba(20,20,28,.7);padding:3px 8px;border-radius:6px;">Initialisiere …</div>
+</div>
+
+<script src="https://cdn.babylonjs.com/babylon.js"></script>
+<script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
+<script>
+(function () {
+  if (window.__splatViewerInit) return;
+  window.__splatViewerInit = true;
+
+  const canvas = document.getElementById("renderCanvas");
+  const select = document.getElementById("splat-select");
+  const statusEl = document.getElementById("splat-status");
+  const setStatus = (t) => { statusEl.style.display = t ? "block" : "none"; statusEl.textContent = t; };
+
+  const engine = new BABYLON.Engine(canvas, true, { preserveDrawingBuffer: true, stencil: true });
+  const scene = new BABYLON.Scene(engine);
+  scene.clearColor = new BABYLON.Color4(0.05, 0.05, 0.08, 1);
+
+  const camera = new BABYLON.ArcRotateCamera("camera", -Math.PI / 2, Math.PI / 2.2, 6, BABYLON.Vector3.Zero(), scene);
+  camera.attachControl(canvas, true);
+  camera.wheelPrecision = 50;
+  camera.lowerRadiusLimit = 1.5;
+  camera.upperRadiusLimit = 25;
+  camera.minZ = 0.1;
+
+  let current = null;
+
+  async function loadSplat(url) {
+    if (current) { current.dispose(); current = null; }
+    setStatus("Lade Modell …");
+    try {
+      const result = await BABYLON.SceneLoader.ImportMeshAsync(null, "", url, scene);
+      current = result.meshes[0];
+      setStatus("");
+    } catch (e) {
+      setStatus("Fehler beim Laden: " + (e && e.message ? e.message : e));
+    }
+  }
+
+  engine.runRenderLoop(() => scene.render());
+  window.addEventListener("resize", () => engine.resize());
+  select.addEventListener("change", () => loadSplat(select.value));
+
+  loadSplat(select.value);
+})();
+</script>
+```
 
 ## WebXR
 
 <!-- TODO: immersive-ar Session starten, Hit-Test, Objekt platzieren. -->
-
-## Splat-Viewer
-
-<!-- TODO: Babylon.js-Canvas mit .spz-Modell von Person B einbetten (nach Übergabe). -->
 
 ## AR-Demo
 
