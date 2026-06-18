@@ -40,7 +40,7 @@ window.addEventListener("resize", () => engine.resize());
 
 ### Splat laden (`.spz` importieren)
 
-Das von Person B exportierte Modell wird über `SceneLoader.ImportMeshAsync` geladen. Der
+Das von exportierte Modell wird über `SceneLoader.ImportMeshAsync` geladen. Der
 passende Loader wird automatisch an der Dateiendung erkannt (`.splat`, `.ply`, `.spz`):
 
 ```js
@@ -48,7 +48,7 @@ passende Loader wird automatisch an der Dateiendung erkannt (`.splat`, `.ply`, `
 const result = await BABYLON.SceneLoader.ImportMeshAsync(
   null,                 // alle Meshes
   "models/",            // Wurzelpfad
-  "szene.spz",          // Datei (von Person B)
+  "szene.spz",          // Datei (unser Modell)
   scene
 );
 
@@ -268,7 +268,7 @@ WebXR-AR läuft derzeit zuverlässig auf **Android-Chrome**. Auf iOS-Safari und 
 </div>
 ```
 
-## "X": Begehung der Szene (First-Person-Blick)
+## "X": Begehung einer Szene (First-Person-Blick)
 
 Als eigene Ergänzung zeigen wir die Szene zusätzlich aus der **Ich-Perspektive**. Die
 Kamera steht an einem festen Punkt *in* der Szene; durch Ziehen mit der Maus (bzw. Wischen
@@ -280,10 +280,6 @@ Per **Klick in die Szene** wechselt die Kamera reihum zwischen mehreren festen
 **Standpunkten** und schwenkt dabei sanft hinüber — eine kleine geführte Tour durch die
 Szene. Zwischen den Stationen kann man sich weiterhin frei umsehen.
 
-Bewusst halten wir die Interaktion minimal: Es gibt keine freie Laufbewegung (kein WASD,
-keine Kollision), nur das Drehen der Blickrichtung und den Sprung zwischen vordefinierten
-Standpunkten. Das macht die Begehung **robust und auf jedem Gerät** lauffähig — ohne
-AR-Hardware — und damit ideal für die Präsentation am Laptop.
 
 ```{=html}
 <div id="walk-viewer" style="position:relative;width:100%;aspect-ratio:16/9;min-height:320px;border-radius:8px;overflow:hidden;background:#0d0d14;border:1px solid #2a2a35;cursor:grab;">
@@ -311,13 +307,31 @@ AR-Hardware — und damit ideal für die Präsentation am Laptop.
     const scene = new BABYLON.Scene(engine);
     scene.clearColor = new BABYLON.Color4(0.05, 0.05, 0.08, 1);
 
-    // Feste Standpunkte: Klick schaltet reihum durch. Zielpunkt = Modellzentrum.
-    // (Werte später für Person B's Raum-.spz anpassen.)
+    // --- Szenen-eigenes Koordinatensystem (auf diese Szene "normalisiert") ---
+    // Ursprung = FACE_TARGET (das Gesicht). FACE_VIEW ist der gefundene Standpunkt, von dem
+    // aus man frontal ins Gesicht blickt. Wir richten die Achsen daran aus:
+    //   z = Tiefe (Richtung gefundener Standpunkt) — wp(0,0,1) == FACE_VIEW (frontal)
+    //   x = seitlich (links/rechts), y = hoch/runter — jeweils senkrecht zur Blickrichtung.
+    // Alle drei Achsen sind gleich lang (= Abstand Gesicht→Standpunkt), das System ist also
+    // nur gedreht & gleichmäßig skaliert. wp(x,y,z) rechnet Szenen-Koordinaten in Welt um.
+    const FACE_TARGET = new BABYLON.Vector3(0, 0.1, 0);
+    const FACE_VIEW   = new BABYLON.Vector3(-2.0, 0.0, 1.5);
+    const AX_Z = FACE_VIEW.subtract(FACE_TARGET);                                // Tiefe ("1.0")
+    const _n   = AX_Z.clone().normalize();
+    const _len = AX_Z.length();
+    const AX_X = BABYLON.Vector3.Cross(BABYLON.Axis.Y, _n).normalize().scale(_len);   // seitlich
+    const AX_Y = BABYLON.Vector3.Cross(_n, AX_X.clone().normalize()).scale(_len);     // hoch/runter
+    const wp = (x, y, z) => FACE_TARGET.add(AX_X.scale(x)).add(AX_Y.scale(y)).add(AX_Z.scale(z));
+
+    // Vier frei wählbare Standpunkte – jetzt in Szenen-Koordinaten (x=seitlich, y=hoch, z=Tiefe).
+    // wp(0,0,1) gefundener Frontal-Blick; einfach die Zahlen anpassen.
+    // (Werte später für eigenen Raum-.spz anpassen.)
     const WAYPOINTS = [
-      { pos: new BABYLON.Vector3( 0.0, 0.10, -3.5), target: new BABYLON.Vector3(0, 0.1, 0) }, // Front
-      { pos: new BABYLON.Vector3(-2.8, 0.60, -1.6), target: new BABYLON.Vector3(0, 0.1, 0) }, // schräg links
-      { pos: new BABYLON.Vector3( 0.3, 0.30, -2.0), target: new BABYLON.Vector3(0, 0.1, 0) }, // näher dran
-      { pos: new BABYLON.Vector3( 2.8, 0.50, -1.6), target: new BABYLON.Vector3(0, 0.1, 0) }, // andere Seite
+      { pos: wp( 0.0, 0.0, 1.0), target: FACE_TARGET }, // frontal
+      { pos: wp( 1.0, 0.0, 0.0), target: FACE_TARGET }, // von links
+      { pos: wp( 0.0, 0.0, -1.0), target: FACE_TARGET }, // von hinten
+      { pos: wp( -1.0, 0.0, 0.0), target: FACE_TARGET }, // von rechts
+      // { pos: wp( 0.0, 1.5, 1.0), target: FACE_TARGET }, // von oben
     ];
 
     // Feste Position, nur Blickrichtung drehbar (Look-around); Position wechselt per Klick.
@@ -396,6 +410,4 @@ AR-Hardware — und damit ideal für die Präsentation am Laptop.
 </script>
 ```
 
-> Sobald Person B das eigene `.spz`-Modell liefert, ersetzt es auch hier das Beispiel-Splat.
-> Bei einem raumfüllenden Scan steht man dann mitten im realen Raum und kann sich frei
-> umsehen — die Idee der „begehbaren" Szene aus dem Thema, ganz ohne AR-Gerät.
+> Wir ersetzen die szene durch unser .spz.
