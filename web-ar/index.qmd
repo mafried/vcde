@@ -81,7 +81,7 @@ ersetzt.
 <script src="https://cdn.babylonjs.com/babylon.js"></script>
 <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
 <script>
-(function () {
+function initSplatViewer() {
   if (window.__splatViewerInit) return;
   window.__splatViewerInit = true;
 
@@ -109,6 +109,7 @@ ersetzt.
     try {
       const result = await BABYLON.SceneLoader.ImportMeshAsync(null, "", url, scene);
       current = result.meshes[0];
+      if (!current.rotationQuaternion) current.rotationQuaternion = new BABYLON.Quaternion();
       setStatus("");
     } catch (e) {
       setStatus("Fehler beim Laden: " + (e && e.message ? e.message : e));
@@ -120,17 +121,152 @@ ersetzt.
   select.addEventListener("change", () => loadSplat(select.value));
 
   loadSplat(select.value);
-})();
+
+  // ---- WebXR / AR (Elemente im Abschnitt "AR-Demo") ----
+  const arBtn = document.getElementById("ar-start");
+  const arStatus = document.getElementById("ar-status");
+  const setArStatus = (t) => { if (arStatus) arStatus.textContent = t; };
+
+  // Reticle (liegt flach, markiert die erkannte Fläche)
+  const reticle = BABYLON.MeshBuilder.CreateTorus("reticle", { diameter: 0.15, thickness: 0.02, tessellation: 48 }, scene);
+  reticle.rotationQuaternion = new BABYLON.Quaternion();
+  reticle.isVisible = false;
+  const reticleMat = new BABYLON.StandardMaterial("reticleMat", scene);
+  reticleMat.emissiveColor = new BABYLON.Color3(0.2, 0.8, 1);
+  reticleMat.disableLighting = true;
+  reticle.material = reticleMat;
+
+  let hitTest = null;   // aktueller Hit-Test-Treffer
+
+  async function initXR() {
+    if (!arBtn) return;
+    if (!navigator.xr) {
+      setArStatus("WebXR wird von diesem Browser nicht unterstützt. Nutze den Orbit-Viewer oben.");
+      return;
+    }
+    const supported = await BABYLON.WebXRSessionManager.IsSessionSupportedAsync("immersive-ar");
+    if (!supported) {
+      setArStatus("immersive-ar wird auf diesem Gerät nicht unterstützt (funktioniert auf Android-Chrome). Nutze den Orbit-Viewer oben.");
+      return;
+    }
+
+    const xrHelper = await scene.createDefaultXRExperienceAsync({ disableDefaultUI: true, optionalFeatures: true });
+    const fm = xrHelper.baseExperience.featuresManager;
+    const xrHitTest = fm.enableFeature(BABYLON.WebXRHitTest, "latest");
+
+    xrHitTest.onHitTestResultObservable.add((results) => {
+      if (results.length) {
+        hitTest = results[0];
+        reticle.isVisible = true;
+        hitTest.transformationMatrix.decompose(undefined, reticle.rotationQuaternion, reticle.position);
+      } else {
+        hitTest = undefined;
+        reticle.isVisible = false;
+      }
+    });
+
+    xrHelper.baseExperience.onStateChangedObservable.add((state) => {
+      if (state === BABYLON.WebXRState.IN_XR) {
+        if (current) current.setEnabled(false);        // bis zur Platzierung verstecken
+      } else if (state === BABYLON.WebXRState.NOT_IN_XR) {
+        reticle.isVisible = false;
+        if (current) { current.setEnabled(true); current.position.set(0, 0, 0); current.scaling.setAll(1); }
+      }
+    });
+
+    scene.onPointerDown = () => {
+      if (xrHelper.baseExperience.state === BABYLON.WebXRState.IN_XR && hitTest && current) {
+        current.setEnabled(true);
+        hitTest.transformationMatrix.decompose(undefined, current.rotationQuaternion, current.position);
+        current.scaling.setAll(0.5);
+      }
+    };
+
+    arBtn.disabled = false;
+    setArStatus("Bereit. Tippe auf den AR-Button.");
+    arBtn.addEventListener("click", async () => {
+      try {
+        await xrHelper.baseExperience.enterXRAsync("immersive-ar", "local-floor");
+      } catch (e) {
+        setArStatus("AR konnte nicht gestartet werden: " + (e && e.message ? e.message : e));
+      }
+    });
+  }
+
+  initXR();
+}
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", initSplatViewer);
+} else {
+  initSplatViewer();
+}
 </script>
 ```
 
 ## WebXR
 
-<!-- TODO: immersive-ar Session starten, Hit-Test, Objekt platzieren. -->
+[WebXR](https://immersiveweb.dev/) ist die Browser-API für VR und AR. Babylon.js kapselt
+sie in einem Helper, sodass dieselbe Szene wie oben in eine **immersive AR-Session**
+übergehen kann. Drei Bausteine sind nötig:
+
+**1. Session starten** — wir prüfen erst die Geräteunterstützung und starten dann eine
+`immersive-ar`-Session (eigene UI statt Babylon-Default-Button):
+
+```js
+const supported = await BABYLON.WebXRSessionManager.IsSessionSupportedAsync("immersive-ar");
+const xr = await scene.createDefaultXRExperienceAsync({ disableDefaultUI: true, optionalFeatures: true });
+// per Button-Klick:
+await xr.baseExperience.enterXRAsync("immersive-ar", "local-floor");
+```
+
+**2. Hit-Test** — die AR-Session sucht reale Flächen (Boden, Tisch). Ein „Reticle" folgt
+dem Treffer und zeigt, wo platziert würde:
+
+```js
+const hitTest = xr.baseExperience.featuresManager.enableFeature(BABYLON.WebXRHitTest, "latest");
+hitTest.onHitTestResultObservable.add((results) => {
+  if (results.length) {
+    reticle.isVisible = true;
+    results[0].transformationMatrix.decompose(undefined, reticle.rotationQuaternion, reticle.position);
+  } else {
+    reticle.isVisible = false;
+  }
+});
+```
+
+**3. Objekt platzieren** — ein Tap setzt das Splat an die aktuelle Reticle-Pose:
+
+```js
+scene.onPointerDown = () => {
+  if (xr.baseExperience.state === BABYLON.WebXRState.IN_XR && hitTest && splat) {
+    splat.setEnabled(true);
+    lastHit.transformationMatrix.decompose(undefined, splat.rotationQuaternion, splat.position);
+  }
+};
+```
+
+> **Wichtig:** WebXR braucht einen sicheren Kontext (HTTPS). Die Live-Seite über GitHub Pages
+> erfüllt das.
 
 ## AR-Demo
 
-<!-- TODO: Start-Button für Mobile (Android Chrome) + QR-Code für die Präsentation. -->
+WebXR-AR läuft derzeit zuverlässig auf **Android-Chrome**. Auf iOS-Safari und Desktop ist
+`immersive-ar` nicht verfügbar — dort den Orbit-Viewer oben nutzen.
+
+```{=html}
+<style>#ar-start:disabled{background:#6b7280 !important;cursor:not-allowed !important;opacity:.6;}</style>
+<div style="display:flex;flex-wrap:wrap;gap:24px;align-items:center;margin-top:1rem;">
+  <div>
+    <button id="ar-start" disabled style="padding:12px 22px;font-size:16px;font-weight:600;border:none;border-radius:8px;background:#1f8feb;color:#fff;cursor:pointer;">In AR ansehen</button>
+    <div id="ar-status" style="margin-top:8px;font-size:13px;color:#888;max-width:340px;">Prüfe Geräteunterstützung …</div>
+  </div>
+  <figure style="margin:0;text-align:center;">
+    <img src="qr-ar-demo.svg" alt="QR-Code zur AR-Demo" width="150" height="150" style="background:#fff;padding:8px;border-radius:8px;">
+    <figcaption style="font-size:12px;color:#888;margin-top:4px;">Scannen für die Live-Seite</figcaption>
+  </figure>
+</div>
+```
 
 ## "X"-Erweiterung
 
