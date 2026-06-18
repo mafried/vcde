@@ -268,6 +268,77 @@ WebXR-AR läuft derzeit zuverlässig auf **Android-Chrome**. Auf iOS-Safari und 
 </div>
 ```
 
-## "X"-Erweiterung
+## "X": Begehung der Szene (First-Person-Blick)
 
-<!-- TODO: Eigene Idee (z. B. Performance-Vergleich, Splat-Editor-Mini-Tool, Device-Kompatibilitätsmatrix). -->
+Als eigene Ergänzung zeigen wir die Szene zusätzlich aus der **Ich-Perspektive**. Die
+Kamera steht an einem festen Punkt *in* der Szene; durch Ziehen mit der Maus (bzw. Wischen
+am Touchscreen) ändert sich nur der **Blickwinkel** — wie bei einem 360°-Panorama. Anders
+als beim Orbit-Viewer oben dreht man also nicht *um* das Objekt herum, sondern schaut sich
+**von innen um**.
+
+Bewusst halten wir die Interaktion minimal: Es gibt keine Laufbewegung (kein WASD, keine
+Kollision), nur das Drehen der Blickrichtung. Das macht die Begehung **robust und auf jedem
+Gerät** lauffähig — ohne AR-Hardware — und damit ideal für die Präsentation am Laptop.
+
+```{=html}
+<div id="walk-viewer" style="position:relative;width:100%;aspect-ratio:16/9;min-height:320px;border-radius:8px;overflow:hidden;background:#0d0d14;border:1px solid #2a2a35;cursor:grab;">
+  <canvas id="walkCanvas" style="width:100%;height:100%;display:block;outline:none;touch-action:none;"></canvas>
+  <div id="walk-status" style="position:absolute;bottom:10px;left:10px;color:#cfcfe0;font-size:13px;background:rgba(20,20,28,.7);padding:3px 8px;border-radius:6px;">Initialisiere …</div>
+  <div style="position:absolute;top:10px;left:10px;color:#cfcfe0;font-size:12px;background:rgba(20,20,28,.7);padding:3px 8px;border-radius:6px;pointer-events:none;">Ziehen zum Umsehen</div>
+</div>
+
+<script>
+(function () {
+  function initWalkViewer() {
+    if (window.__walkViewerInit) return;
+    // BABYLON wird vom Viewer oben per CDN geladen; ggf. kurz warten.
+    if (!window.BABYLON || !BABYLON.SceneLoader) { setTimeout(initWalkViewer, 200); return; }
+    window.__walkViewerInit = true;
+
+    const canvas = document.getElementById("walkCanvas");
+    const wrap = document.getElementById("walk-viewer");
+    const statusEl = document.getElementById("walk-status");
+    const setStatus = (t) => { statusEl.style.display = t ? "block" : "none"; statusEl.textContent = t; };
+
+    const engine = new BABYLON.Engine(canvas, true, { preserveDrawingBuffer: true, stencil: true });
+    const scene = new BABYLON.Scene(engine);
+    scene.clearColor = new BABYLON.Color4(0.05, 0.05, 0.08, 1);
+
+    // Feste Position, nur Blickrichtung drehbar (Look-around).
+    const camera = new BABYLON.UniversalCamera("fp", new BABYLON.Vector3(0, 0, -3.5), scene);
+    camera.setTarget(BABYLON.Vector3.Zero());
+    camera.attachControl(canvas, true);
+    camera.keysUp = []; camera.keysDown = []; camera.keysLeft = []; camera.keysRight = [];
+    camera.keysUpward = []; camera.keysDownward = [];   // keine Laufbewegung
+    camera.speed = 0;
+    camera.inertia = 0.6;
+    camera.angularSensibility = 2500;
+    camera.minZ = 0.05;
+
+    // Cursor-Feedback beim Ziehen.
+    canvas.addEventListener("pointerdown", () => { wrap.style.cursor = "grabbing"; });
+    window.addEventListener("pointerup", () => { wrap.style.cursor = "grab"; });
+
+    // Beispiel-Splat; wird später durch das eigene .spz-Modell ersetzt.
+    const url = "https://assets.babylonjs.com/splats/gs_Skull.splat";
+    setStatus("Lade Modell …");
+    BABYLON.SceneLoader.ImportMeshAsync(null, "", url, scene)
+      .then(() => setStatus(""))
+      .catch((e) => setStatus("Fehler beim Laden: " + (e && e.message ? e.message : e)));
+
+    engine.runRenderLoop(() => scene.render());
+    window.addEventListener("resize", () => engine.resize());
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initWalkViewer);
+  } else {
+    initWalkViewer();
+  }
+})();
+</script>
+```
+
+> Sobald Person B das eigene `.spz`-Modell liefert, ersetzt es auch hier das Beispiel-Splat.
+> Bei einem raumfüllenden Scan steht man dann mitten im realen Raum und kann sich frei
+> umsehen — die Idee der „begehbaren" Szene aus dem Thema, ganz ohne AR-Gerät.
