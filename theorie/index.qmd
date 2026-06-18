@@ -125,7 +125,7 @@ NeRF basiert auf neuronalen Netzen, die eine Szene als kontinuierliche Funktion 
 :::
 :::
 
-### 2.4 3D Gaussian Splatting
+### 2.4 Gaussian Splatting
 
 3D Gaussian Splatting (3DGS) ist eine relativ neue Methode zur Darstellung von 3D-Szenen, die auf einer Menge von anisotropen Gaussians im Raum basiert. Statt Meshes oder NeRF-Funktionen wird die Szene durch viele kleine „Gauss-Kerne" beschrieben:
 
@@ -197,7 +197,7 @@ Die größte technische Herausforderung liegt im effizienten Rendering der viele
 Die Integration von 3DGS in WebXR bringt mehrere Herausforderungen mit sich:
 
 ::: {.columns}
-::: {.column width="50%"}
+::: {.column width="100%"}
 ::: {.callout-warning}
 ## Performance
 
@@ -213,7 +213,7 @@ Die Integration von 3DGS in WebXR bringt mehrere Herausforderungen mit sich:
 - Streaming und Kompression sind notwendig
 :::
 :::
-::: {.column width="50%"}
+::: {.column width="100%"}
 ::: {.callout-warning}
 ## Web-Kompatibilität
 
