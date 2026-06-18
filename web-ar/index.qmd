@@ -1,0 +1,26 @@
+---
+title: "Web & AR Integration"
+---
+
+<!-- OWNER: Person C -->
+<!-- TODO Person C: Inhalte folgen in späteren Schritten (eigene Aufgabenliste). -->
+
+## Babylon.js
+
+<!-- TODO: Szene aufsetzen, Splat laden, Code-Beispiele (.spz importieren). -->
+
+## WebXR
+
+<!-- TODO: immersive-ar Session starten, Hit-Test, Objekt platzieren. -->
+
+## Splat-Viewer
+
+<!-- TODO: Babylon.js-Canvas mit .spz-Modell von Person B einbetten (nach Übergabe). -->
+
+## AR-Demo
+
+<!-- TODO: Start-Button für Mobile (Android Chrome) + QR-Code für die Präsentation. -->
+
+## "X"-Erweiterung
+
+<!-- TODO: Eigene Idee (z. B. Performance-Vergleich, Splat-Editor-Mini-Tool, Device-Kompatibilitätsmatrix). -->

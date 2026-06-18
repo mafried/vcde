@@ -1,0 +1,10 @@
+---
+title: "Quiz — Lernzielabfrage"
+---
+
+<!-- OWNER: Person C -->
+<!-- TODO Person C: Mind. 5 Fragen zu 3DGS + WebXR (Quarto-Live-Poll oder eigene HTML-Komponente). -->
+
+## Lernzielabfrage
+
+<!-- TODO: Quiz-Komponente folgt in einem späteren Schritt. -->

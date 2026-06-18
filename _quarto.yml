@@ -1,2 +1,30 @@
 project:
   type: website
+  output-dir: _site
+  render:
+    - "*.qmd"
+    - "*/index.qmd"
+
+website:
+  title: "3D Gaussian Splatting im Web"
+  navbar:
+    left:
+      - { href: index.qmd,           text: "Home" }
+      - { href: theorie/index.qmd,   text: "Theorie & Methode" }
+      - { href: pipeline/index.qmd,  text: "Capture & Pipeline" }
+      - { href: web-ar/index.qmd,    text: "Web & AR" }
+      - { href: quiz/index.qmd,      text: "Quiz" }
+      - { href: credits/index.qmd,   text: "Credits" }
+    right:
+      - { icon: github, href: "https://github.com/VC8-AR-Gaussian-Splatting-in-web/website" }
+
+format:
+  html:
+    theme: cosmo
+    toc: true
+    css: styles.css
+
+bibliography: references.bib
+
+execute:
+  freeze: auto

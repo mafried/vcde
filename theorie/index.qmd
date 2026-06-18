@@ -1,0 +1,38 @@
+---
+title: "Theorie & Methode"
+---
+
+<!-- OWNER: Person A -->
+<!-- TODO Person A: Inhalte in die untenstehenden Abschnitte schreiben. Überschriften gern anpassen. -->
+
+## Geschichte: von NeRF zu 3DGS
+
+<!-- TODO: Von NeRF (2020) zu 3DGS (2023) — Schlüsselpapiere & Zeitlinie. -->
+
+## 3DGS-Repräsentation
+
+<!-- TODO: Gaussians als Primitive (Position, Skalierung, Rotation, Farbe via Spherical Harmonics, Opacity). -->
+
+## Rendering
+
+<!-- TODO: Differenzierbares Rasterisieren & Tile-Based Sorting. -->
+
+## Optimierung
+
+<!-- TODO: Wie das Training funktioniert — Densification & Pruning. -->
+
+## Vergleichstabelle
+
+<!-- TODO: 3DGS vs. NeRF vs. Meshes vs. Punktwolken (Qualität, Geschwindigkeit, Dateigröße, Editierbarkeit). -->
+
+## Ausblick
+
+<!-- TODO: 4DGS, Mobile/VR, Kompression, GS-SLAM, Khronos KHR_3DGS-Standard. -->
+
+## Grenzen
+
+<!-- TODO: Beleuchtung, Bewegung, transparente Oberflächen, iOS-AR-Limit, Dateigröße. -->
+
+## Interaktive Demo
+
+<!-- TODO: Gauß-Primitiv visualisieren (z. B. Observable JS — Slider für σ, Rotation, Farbe). -->
