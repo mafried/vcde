@@ -1,2 +1,6 @@
 venv/
 claude/
+/.quarto/
+**/*.quarto_ipynb
+_site/
+plan.md

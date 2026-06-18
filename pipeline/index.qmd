@@ -1,0 +1,38 @@
+---
+title: "Capture & Pipeline"
+---
+
+<!-- OWNER: Person B -->
+<!-- TODO Person B: Inhalte in die untenstehenden Abschnitte schreiben. Überschriften gern anpassen. -->
+
+## Einführung
+
+<!-- TODO: Was ist 3DGS, warum jetzt, warum im Browser/AR? -->
+
+## Use-Cases
+
+<!-- TODO: Immobilien, Kulturerbe, Retail, Gaming, Robotik, Digitale Zwillinge. -->
+
+## Aufnahme-Guidelines
+
+<!-- TODO: Beleuchtung, Overlap, Objektwahl, häufige Fehler. -->
+
+## COLMAP / Structure from Motion
+
+<!-- TODO: Was ist SfM, was ist Input/Output. -->
+
+## LichtFeld Studio — Setup
+
+<!-- TODO: Installation, GPU-Voraussetzungen, Konfiguration. -->
+
+## Training
+
+<!-- TODO: Training in LichtFeld Studio durchführen, Qualität beurteilen (z. B. in SuperSplat). -->
+
+## Export
+
+<!-- TODO: .ply als Master sichern + .spz für Web konvertieren (3dgsconverter). .spz an Person C übergeben. -->
+
+## Modell-Galerie
+
+<!-- TODO: Eigenes trainiertes Modell eingebettet auf der Webseite. -->
