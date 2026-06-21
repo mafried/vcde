@@ -14,8 +14,6 @@ interaktiven Darstellung im Browser und in Augmented Reality.
 - **[Theorie & Methode](theorie/index.qmd)** — Geschichte, Repräsentation, Rendering und Optimierung von 3DGS.
 - **[Capture & Pipeline](pipeline/index.qmd)** — Use-Cases, Aufnahme und der Weg vom Foto zum trainierten Modell.
 - **[Web & AR](web-ar/index.qmd)** — Darstellung mit Babylon.js und WebXR/AR im Browser.
-- **[Quiz](quiz/index.qmd)** — Lernzielabfrage zu 3DGS und WebXR.
-- **[Credits](credits/index.qmd)** — Wer hat was gemacht.
 
 ## Team
 
@@ -24,6 +22,3 @@ interaktiven Darstellung im Browser und in Augmented Reality.
 | Friedrich Commichau | Web & AR Integration |
 | Sven Fydrich | Capture & Pipeline / Theorie & Methode |
 | Dominik Pleimes | Capture & Pipeline / Theorie & Methode |
-
-<!-- TODO Person A/B: Zuordnung Theorie vs. Pipeline in der Tabelle bestätigen. -->
-
