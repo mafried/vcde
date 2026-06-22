@@ -31,7 +31,7 @@ Zentrale Dateien:
 - **`styles.css`** — projektweite CSS-Ergänzungen.
 - **`.github/workflows/publish.yml`** — CI: rendert & deployt nach gh-pages.
 
-> Wer macht was: **A** = Theorie & Methode, **B** = Capture & Pipeline (eigenes 3DGS-Modell),
+> Wer macht was: **A** = Theorie & Methodik, **B** = Capture & Pipeline (eigenes 3DGS-Modell),
 > **C** = Web & AR Integration.
 
 ---

@@ -10,7 +10,7 @@ website:
   navbar:
     left:
       - { href: index.qmd, text: "Home" }
-      - { href: theorie/index.qmd, text: "Theorie & Methode" }
+      - { href: theorie/index.qmd, text: "Theorie & Methodik" }
       - { href: pipeline/index.qmd, text: "Capture & Pipeline" }
       - { href: web-ar/index.qmd, text: "Web & AR" }
     right:
