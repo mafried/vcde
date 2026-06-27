@@ -5,14 +5,14 @@ title: "Demo"
 <!-- OWNER: Friedrich Commichau -->
 
 So einfach baust du einen 3D Gaussian Splat in deine eigene Webseite ein. Bearbeite den
-HTML-Code links — die Vorschau rechts rendert ihn live. Mit einem Klick auf
+HTML-Code und die Vorschau rendert ihn live. Mit einem Klick auf
 **🚀 Splat-Snippet einfügen** wird aus dem schlichten „Hello World" eine interaktive
 3D-Szene.
 
 ```{=html}
 <style>
-  .demo-editor { display:flex; flex-wrap:wrap; gap:12px; margin:1rem 0; }
-  .demo-pane { flex:1 1 360px; min-width:300px; display:flex; flex-direction:column; }
+  .demo-editor { display:flex; flex-direction:column; gap:12px; margin:1rem 0; }
+  .demo-pane { display:flex; flex-direction:column; }
   .demo-toolbar { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:8px; }
   .demo-btn {
     padding:6px 12px; border-radius:6px; border:1px solid #2a2a35;
@@ -57,9 +57,9 @@ HTML-Code links — die Vorschau rechts rendert ihn live. Mit einem Klick auf
     "<!DOCTYPE html>",
     "<html>",
     "<head><meta charset=\"utf-8\"></head>",
-    "<body style=\"font-family:sans-serif;padding:24px;color:#222;\">",
+    "<body style=\"font-family:sans-serif;padding:24px;color:#fff;\">",
     "  <h1>Hello World</h1>",
-    "  <p>Bearbeite den Code links - die Vorschau aktualisiert sich automatisch.</p>",
+    "  <p>Bearbeite den Code und die Vorschau aktualisiert sich automatisch.</p>",
     "</body>",
     "</html>"
   ].join("\n");
