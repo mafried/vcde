@@ -1,0 +1,142 @@
+---
+title: "Demo"
+---
+
+<!-- OWNER: Friedrich Commichau -->
+
+So einfach baust du einen 3D Gaussian Splat in deine eigene Webseite ein. Bearbeite den
+HTML-Code links — die Vorschau rechts rendert ihn live. Mit einem Klick auf
+**🚀 Splat-Snippet einfügen** wird aus dem schlichten „Hello World" eine interaktive
+3D-Szene.
+
+```{=html}
+<style>
+  .demo-editor { display:flex; flex-wrap:wrap; gap:12px; margin:1rem 0; }
+  .demo-pane { flex:1 1 360px; min-width:300px; display:flex; flex-direction:column; }
+  .demo-toolbar { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:8px; }
+  .demo-btn {
+    padding:6px 12px; border-radius:6px; border:1px solid #2a2a35;
+    background:#1a1a24; color:#eee; font-size:13px; cursor:pointer;
+  }
+  .demo-btn:hover { background:#26263340; border-color:#444; }
+  .demo-btn-primary { background:#2d6cdf; border-color:#2d6cdf; }
+  .demo-btn-primary:hover { background:#3a78ea; }
+  .demo-label { color:#8a8a9a; font-size:12px; margin-bottom:6px; }
+  #demo-code {
+    width:100%; flex:1; min-height:360px; resize:vertical;
+    font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-size:13px;
+    line-height:1.5; tab-size:2; padding:12px; box-sizing:border-box;
+    color:#e6e6f0; background:#0d0d14; border:1px solid #2a2a35; border-radius:8px;
+    outline:none;
+  }
+  #demo-preview {
+    width:100%; flex:1; min-height:360px;
+    background:#0d0d14; border:1px solid #2a2a35; border-radius:8px;
+  }
+</style>
+
+<div class="demo-editor">
+  <div class="demo-pane">
+    <div class="demo-toolbar">
+      <button class="demo-btn demo-btn-primary" id="demo-run">▶ Ausführen</button>
+      <button class="demo-btn" id="demo-insert">🚀 Splat-Snippet einfügen</button>
+      <button class="demo-btn" id="demo-reset">↺ Zurücksetzen</button>
+    </div>
+    <div class="demo-label">HTML-Code</div>
+    <textarea id="demo-code" spellcheck="false"></textarea>
+  </div>
+  <div class="demo-pane">
+    <div class="demo-label">Vorschau</div>
+    <iframe id="demo-preview" sandbox="allow-scripts" title="Live-Vorschau"></iframe>
+  </div>
+</div>
+
+<script>
+(function () {
+  var HELLO_WORLD = [
+    "<!DOCTYPE html>",
+    "<html>",
+    "<head><meta charset=\"utf-8\"></head>",
+    "<body style=\"font-family:sans-serif;padding:24px;color:#222;\">",
+    "  <h1>Hello World</h1>",
+    "  <p>Bearbeite den Code links - die Vorschau aktualisiert sich automatisch.</p>",
+    "</body>",
+    "</html>"
+  ].join("\n");
+
+  var SPLAT_SNIPPET = [
+    "<!DOCTYPE html>",
+    "<html>",
+    "<head>",
+    "  <meta charset=\"utf-8\">",
+    "  <style>",
+    "    html,body{margin:0;height:100%;overflow:hidden;background:#0d0d14;}",
+    "    #c{width:100%;height:100%;display:block;touch-action:none;}",
+    "  </style>",
+    "</head>",
+    "<body>",
+    "  <canvas id=\"c\"></canvas>",
+    "  <script src=\"https://cdn.babylonjs.com/babylon.js\"><\/script>",
+    "  <script src=\"https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js\"><\/script>",
+    "  <script>",
+    "    const canvas = document.getElementById('c');",
+    "    const engine = new BABYLON.Engine(canvas, true);",
+    "    const scene = new BABYLON.Scene(engine);",
+    "    scene.clearColor = new BABYLON.Color4(0.05, 0.05, 0.08, 1);",
+    "",
+    "    const camera = new BABYLON.ArcRotateCamera(",
+    "      'cam', -Math.PI / 2, Math.PI / 2.2, 6, BABYLON.Vector3.Zero(), scene",
+    "    );",
+    "    camera.attachControl(canvas, true);",
+    "    camera.wheelPrecision = 50;",
+    "",
+    "    // Splat laden - der Loader wird an der Dateiendung erkannt",
+    "    BABYLON.SceneLoader.ImportMeshAsync(",
+    "      null, '', 'https://assets.babylonjs.com/splats/gs_Skull.splat', scene",
+    "    );",
+    "",
+    "    engine.runRenderLoop(function () { scene.render(); });",
+    "    window.addEventListener('resize', function () { engine.resize(); });",
+    "  <\/script>",
+    "</body>",
+    "</html>"
+  ].join("\n");
+
+  function init() {
+    var code = document.getElementById("demo-code");
+    var preview = document.getElementById("demo-preview");
+    var timer = null;
+
+    function render() { preview.srcdoc = code.value; }
+
+    code.value = HELLO_WORLD;
+    render();
+
+    code.addEventListener("input", function () {
+      if (timer) clearTimeout(timer);
+      timer = setTimeout(render, 600);
+    });
+
+    document.getElementById("demo-run").addEventListener("click", render);
+    document.getElementById("demo-insert").addEventListener("click", function () {
+      code.value = SPLAT_SNIPPET;
+      render();
+    });
+    document.getElementById("demo-reset").addEventListener("click", function () {
+      code.value = HELLO_WORLD;
+      render();
+    });
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init);
+  } else {
+    init();
+  }
+})();
+</script>
+```
+
+## Teil 2
+
+*(folgt)*
