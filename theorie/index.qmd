@@ -1,5 +1,5 @@
 ---
-title: "Theorie & Methode"
+title: "Theorie & Methodik"
 ---
 
 <!-- OWNER: Person A -->
