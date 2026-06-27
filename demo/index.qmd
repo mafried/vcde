@@ -5,9 +5,8 @@ title: "Demo"
 <!-- OWNER: Friedrich Commichau -->
 
 So einfach baust du einen 3D Gaussian Splat in deine eigene Webseite ein. Bearbeite den
-HTML-Code und die Vorschau rendert ihn live. Mit einem Klick auf
-**🚀 Splat-Snippet einfügen** wird aus dem schlichten „Hello World" eine interaktive
-3D-Szene.
+HTML-Code und die Vorschau rendert ihn live. 
+In wenigen schritten kannst du auf jeder Webseite deine Gaussian Splatts rendern.
 
 ```{=html}
 <style>
