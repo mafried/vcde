@@ -41,7 +41,7 @@ In wenigen schritten kannst du auf jeder Webseite deine Gaussian Splatts rendern
   .demo-step-nav { display:flex; gap:8px; align-items:center; }
   .demo-btn:disabled { opacity:.4; cursor:not-allowed; }
   #demo-code {
-    width:100%; flex:1; min-height:360px; resize:vertical;
+    width:100%; min-height:120px; resize:none; overflow:hidden;
     font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-size:13px;
     line-height:1.5; tab-size:2; padding:12px; box-sizing:border-box;
     color:#e6e6f0; background:#0d0d14; border:1px solid #2a2a35; border-radius:8px;
@@ -221,6 +221,11 @@ In wenigen schritten kannst du auf jeder Webseite deine Gaussian Splatts rendern
 
     function render() { preview.srcdoc = code.value; }
 
+    function autoResize() {
+      code.style.height = "auto";
+      code.style.height = code.scrollHeight + "px";
+    }
+
     function syncPanel() {
       if (idx === 0) {
         numEl.textContent = "Ausgangspunkt";
@@ -242,11 +247,13 @@ In wenigen schritten kannst du auf jeder Webseite deine Gaussian Splatts rendern
       code.value = (idx === 0) ? HELLO_WORLD : buildDoc(idx);
       render();
       syncPanel();
+      autoResize();
     }
 
     loadCurrent();
 
     code.addEventListener("input", function () {
+      autoResize();
       if (timer) clearTimeout(timer);
       timer = setTimeout(render, 600);
     });
